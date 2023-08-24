@@ -1,0 +1,26 @@
+.banner {
+  background-color: black;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 50px;
+}
+
+.routes {
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.route {
+  margin: 0 5px;
+}
