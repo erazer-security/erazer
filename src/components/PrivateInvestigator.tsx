@@ -2,7 +2,6 @@ import "./PrivateInvestigator.css";
 import { useState } from "react";
 import { Input, Button } from "@chakra-ui/react";
 import { Comment } from "react-loader-spinner";
-// import GPT_API_KEY from "../apikey";
 
 const systemMessage = {
   role: "system",
@@ -17,7 +16,7 @@ function PrivateInvestigator() {
     {
       role: "assistant",
       content:
-        "Hey there, I'm ErazerBot, the internets finest private investigator. Want to wager how easily you'd fall prey to an online scammer? Let's play a fun game to check your online safety habits. Are you ready to test just how hackable you are?",
+        "Hey there, I'm ErazerBot, the internet's finest private investigator. Want to wager how easily you'd fall prey to an online scammer? Let's play a fun game to check your online safety habits. Are you ready to test just how hackable you are?",
     },
   ]);
 
