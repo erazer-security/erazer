@@ -8,17 +8,16 @@
 }
 
 .logo {
-  width: 50px;
+  width: 45px;
 }
 
 .routes {
   @media screen and (max-width: 768px) {
-    font-size: 14px;
     font-weight: 500;
   }
   color: white;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 14px;
+  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
 }
 
 .route {
