@@ -1,49 +1,9 @@
-.privateInvestigatorContainer {
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.privateInvestigatorHeading {
-  @media screen and (max-width: 768px) {
-    font-size: 22px;
-  }
-
-  font-size: 36px;
-  font-weight: 700;
-  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: white;
-  margin-top: 5%;
-}
-
 .messagesContainer {
   display: flex;
   flex-direction: column;
   width: 70%;
   height: auto;
   margin: 5% 0 2% 0;
-}
-
-.message {
-  color: white;
-  margin: 1% 0;
-}
-
-.loading {
-  color: white;
-  margin: 1% 0;
-}
-
-.inputContainer {
-  display: flex;
-  flex-direction: row;
-  width: 70%;
-  height: auto;
-  margin-bottom: 5%;
-  color: white;
 }
 
 .userMessage,
@@ -108,8 +68,4 @@
   left: 20px;
   transform: translate(-30px, -2px);
   width: 10px;
-}
-
-.sendMessage {
-  margin-left: 5px;
 }

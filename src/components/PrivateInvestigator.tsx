@@ -1,7 +1,7 @@
-import "./PrivateInvestigator.css";
+import styles from "./PrivateInvestigator.module.css";
+import MessageBox from "@components/MessageBox";
 import { useState } from "react";
 import { Input, Button } from "@chakra-ui/react";
-import { Comment } from "react-loader-spinner";
 
 const systemMessage = {
   role: "system",
@@ -65,33 +65,13 @@ function PrivateInvestigator() {
   }
 
   return (
-    <div className="privateInvestigatorContainer">
-      <div className="privateInvestigatorHeading">
+    <div className={styles.privateInvestigatorContainer}>
+      <h1 className={styles.privateInvestigatorHeading}>
         Think you can't get scammed? Check how easy it is to steal your
         information online.
-      </div>
-      <div className="messagesContainer">
-        {messages.map((message) => {
-          if (message.role === "assistant") {
-            return <p className="assistantMessage">{message.content}</p>;
-          } else {
-            return <p className="userMessage">{message.content}</p>;
-          }
-        })}
-        {loading && (
-          <Comment
-            visible={true}
-            height="50"
-            width="50"
-            ariaLabel="comment-loading"
-            wrapperStyle={{}}
-            wrapperClass="comment-wrapper"
-            color="#fff"
-            backgroundColor="#40414f"
-          />
-        )}
-      </div>
-      <div className="inputContainer">
+      </h1>
+      <MessageBox messages={messages} loading={loading}></MessageBox>
+      <div className={styles.inputContainer}>
         <Input
           type="text"
           id="user-input"
@@ -101,12 +81,11 @@ function PrivateInvestigator() {
           autoComplete="off"
           onChange={(event) => setChat(event.target.value)}
           onKeyDown={handleKeyDown}
-          className="userInput"
         />
         <Button
           colorScheme="blue"
           onClick={handleChatSent}
-          className="sendMessage"
+          className={styles.sendMessage}
         >
           Send
         </Button>
