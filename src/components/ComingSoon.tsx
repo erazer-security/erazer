@@ -1,7 +1,8 @@
 import styles from "./ComingSoon.module.css";
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { Input, Button } from "@chakra-ui/react";
+import emailjs from "@emailjs/browser";
+import MessageBox from "@components/MessageBox";
 
 interface Message {
   role: "user" | "assistant";
@@ -51,15 +52,7 @@ export default function ComingSoon() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.messagesContainer}>
-        {messages.map((message) => {
-          if (message.role === "assistant") {
-            return <p className={styles.assistantMessage}>{message.content}</p>;
-          } else {
-            return <p className={styles.userMessage}>{message.content}</p>;
-          }
-        })}
-      </div>
+      <MessageBox messages={messages} loading={false}></MessageBox>
       <div className={styles.inputContainer}>
         <form onSubmit={handleChatSent} className={styles.emailForm}>
           <Input

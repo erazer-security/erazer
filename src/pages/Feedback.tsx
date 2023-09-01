@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import MessageBox from "@components/MessageBox";
 
 export default function Feedback() {
   const [name, setName] = useState("");
@@ -65,27 +66,21 @@ export default function Feedback() {
   return (
     <div className={styles.container}>
       {notFilled && (
-        <Alert status="error" className={styles.feedbackNotFilled}>
-          <AlertIcon />
-          Please fill out all fields.
-          <CloseButton
-            alignSelf="flex-start"
-            position="relative"
-            right={-1}
-            top={-1}
-            onClick={onClose}
-          />
-        </Alert>
+        <div>
+          <Alert status="error">
+            <AlertIcon />
+            Please fill out all fields.
+            <CloseButton
+              alignSelf="flex-start"
+              position="relative"
+              right={-1}
+              top={-1}
+              onClick={onClose}
+            />
+          </Alert>
+        </div>
       )}
-      <div className={styles.messagesContainer}>
-        {messages.map((message) => {
-          if (message.role === "assistant") {
-            return <p className={styles.assistantMessage}>{message.content}</p>;
-          } else {
-            return <p className={styles.userMessage}>{message.content}</p>;
-          }
-        })}
-      </div>
+      <MessageBox messages={messages} loading={false}></MessageBox>
       {!sent && (
         <div className={styles.inputContainer}>
           <form onSubmit={sendFeedback} className={styles.feedbackForm}>
