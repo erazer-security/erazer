@@ -9,11 +9,19 @@ interface MessagesProps {
 export default function Message({ messages, loading }: MessagesProps) {
   return (
     <div className={styles.messagesContainer}>
-      {messages.map((message) => {
+      {messages.map((message, index) => {
         if (message.role === "assistant") {
-          return <p className={styles.assistantMessage}>{message.content}</p>;
+          return (
+            <p key={index} className={styles.assistantMessage}>
+              {message.content}
+            </p>
+          );
         } else {
-          return <p className={styles.userMessage}>{message.content}</p>;
+          return (
+            <p key={index} className={styles.userMessage}>
+              {message.content}
+            </p>
+          );
         }
       })}
       {loading && (
