@@ -31,3 +31,26 @@
 .sendMessage {
   margin-left: 5px;
 }
+
+.feedbackContainer {
+  width: 70%;
+  height: auto;
+  margin-bottom: 5%;
+}
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: white;
+}
+
+.input,
+.feedback {
+  margin-bottom: 20px;
+}
+
+.input::placeholder,
+.feedback::placeholder {
+  color: white;
+}
