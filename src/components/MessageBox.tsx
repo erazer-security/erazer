@@ -1,5 +1,6 @@
 import styles from "./MessageBox.module.css";
 import { Comment } from "react-loader-spinner";
+import parse from "html-react-parser";
 
 interface MessagesProps {
   messages: { role: string; content: string }[];
@@ -13,7 +14,7 @@ export default function Message({ messages, loading }: MessagesProps) {
         if (message.role === "assistant") {
           return (
             <p key={index} className={styles.assistantMessage}>
-              {message.content}
+              {parse(message.content)}
             </p>
           );
         } else {
