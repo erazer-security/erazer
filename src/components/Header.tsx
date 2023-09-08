@@ -14,8 +14,8 @@ function Header() {
           <Link to="/product" className="route">
             Product
           </Link>
-          <Link to="/resources" className="route">
-            Resources
+          <Link to="/wallofhorror" className="route">
+            Wall of Horror
           </Link>
           <Link to="/feedback" className="route">
             Feedback
