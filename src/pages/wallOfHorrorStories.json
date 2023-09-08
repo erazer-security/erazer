@@ -1,0 +1,64 @@
+{
+  "stories": [
+    {
+      "title": "The Legacy of a Hacker",
+      "author": "Alexandra Chen",
+      "story": "About six months after my dad passed away, someone in China hacked his account and started posting weird adverts. It really distressed my mum to see his account posting stuff. We had to get Facebook to memorialize his page because his email account had been closed."
+    },
+    {
+      "title": "Russian Roulette with Hackers",
+      "author": "David Reynolds",
+      "story": "My phone was hacked after a night out. I woke up the next morning and was connected to a different Wi-Fi and an unknown Bluetooth device. When I locked my phone, they couldn’t access anything, but once I turned my phone on, they tried to find my location and called a number that was in Russia. They also changed my Instagram password and started posting weird propaganda for some Russian political movement. Hell, I threw that phone away and have felt haunted ever since."
+    },
+    {
+      "title": "Tax Troubles Unveiled",
+      "author": "Sarah Mitchell",
+      "story": "I was the victim of identity theft last year. They somehow got access to my tax account and the way I access my government benefits. I found out when I checked my bank account on a day I should have been paid and realized that I hadn’t been"
+    },
+    {
+      "title": "The Snapchat Intrusion",
+      "author": "Emily Bennett",
+      "story": "I woke up at 5 a.m. after getting several phone calls from an unknown number and text messages asking for my Snapchat 'my eyes only' password. I tried to get on my Snapchat, but I was logged out and had to redo my password TWICE. When I finally got in, I saw that they saved several photos from the messages with my partner. I wish I had known to delete all the evidence sooner because knowing someone out there has provocative pictures of me makes me extremely uncomfortable. Make sure to delete what's in the chat!!!"
+    },
+    {
+      "title": "The Stolen Identity",
+      "author": "Michael Carter",
+      "story": "My cousin stole my social security card and stole thousands of dollars from my bank account. He and his girlfriend have used it to access my debit card and credit cards. FBI is involved but it’s taking so long."
+    },
+    {
+      "title": "Credit Score Nightmare",
+      "author": "Jennifer Parker",
+      "story": "My aunt lived in Rhode Island in the late 1980s to the early 2000s. Someone somehow got ahold of her social security number and then bought a car and put her as the co-signer. As luck has it, all the payments fell back on her. THOUSANDS of dollars. It ruined her credit score for years and she is still working on getting it higher up."
+    },
+    {
+      "title": "The CEO Scam",
+      "author": "Daniel Lee",
+      "story": "I received a text from my 'CEO' after a recent photo shoot, believing it genuine due to my number on the call sheet. The scammer, armed with our full names and workplace knowledge, asked for gift cards to reward employees for our success. Despite my awareness of gift card scams, everything else appeared legitimate. Calls to confirm were met with 'in a meeting' excuses. I spent $600 on gift cards but grew suspicious when I mentioned purchasing limits and 'she' demanded the codes. Panicked, I alerted my boss, narrowly avoiding job loss by canceling the charges. This unprecedented scam emphasizes the need for phone verification and caution with gift card requests."
+    },
+    {
+      "title": "Adobe's Identity Theft",
+      "author": "Olivia Turner",
+      "story": "My identity was stolen through Adobe. I signed up for Acrobat Pro for work and personal, so I used my own information. They hacked Adobe and somehow gained access to my social, DL, and other personal information. Loans, credit cards, and taxes were being filed under my social! It has been hell trying to fight all these fraudulent accounts, as well as applying for homes and loans that are legitimate. All Adobe could offer me was free Experian dark web monitoring."
+    },
+    {
+      "title": "Background Check Betrayal",
+      "author": "Jason Adams",
+      "story": "Someone hacked the company that did the background check I was required to do for my job, which I got laid off from after about a year. It wasn't until two months after that when I got the notice, and it was another six months after that until I found out three credit cards were taken out (and maxed out) in my name during that year."
+    },
+    {
+      "title": "The Magic Trick Virus",
+      "author": "Kevin Wright",
+      "story": "I used to pirate tutorials for magic tricks off there, and downloaded a shitty virus instead. It let someone basically use my IP as a vpn, as I learned later when a van from the FBI cyber crimes division fucking pulled me out of school. We went through my computers, and eventually found the infected file, and they took some info. Scared the crap out of me."
+    },
+    {
+      "title": "Banking System Chronicles",
+      "author": "Benjamin Foster",
+      "story": "I am honestly surprised our banking system works, period. I worked in multiple banks and frankly, I am surprised their systems work at all. Some servers are 20 years old, some do not have working DR solution, some are using software that is no longer on the market so if those servers break (and they are 20 years old) there is no working alternative in place. I've seen such servers breaking twice, once we had to buy identical server from ebay and ship it to London overnight to repair broken machine, other time I just happened to be at the end of long line of failures and I'm pretty sure I was responsible for at least 10 million in trading losses."
+    },
+    {
+      "title": "AWS Data Breach Drama",
+      "author": "Lily Zhang",
+      "story": "I forgot to remove sensitive information before uploading to public website, hackers creating shit ton of stuff resulting initially in $369, then $1700, then $2400, and may have to confront extremely frugal parents if AWS Customer Service doesn't compensate everything by the end of the month."
+    }
+  ]
+}

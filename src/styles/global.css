@@ -4,3 +4,8 @@ body {
   margin: 0;
   background-color: #000000;
 }
+
+@font-face {
+  font-family: "horror";
+  src: url("/fonts/horror.ttf");
+}
