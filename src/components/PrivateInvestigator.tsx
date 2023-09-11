@@ -1,6 +1,6 @@
 import styles from "./PrivateInvestigator.module.css";
 import MessageBox from "@components/MessageBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, Textarea, Button } from "@chakra-ui/react";
 import emailjs from "@emailjs/browser";
 
@@ -11,13 +11,17 @@ const systemMessage = {
 };
 
 function PrivateInvestigator() {
+  const mainHeading =
+    "Think you can't get scammed? Check how easy it is to steal your information online.";
+  const [typedHeading, setTypedHeading] = useState<string>("");
+  const [showTypeCursor, setShowTypeCursor] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [chat, setChat] = useState<string>("");
   const [userInfo, setUserInfo] = useState<string[]>([]); // [name, location, feedback]
   const [feedbackHit, setFeedbackHit] = useState<boolean>(false);
-  const [email, setEmail] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [feedback, setFeedback] = useState<string>("");
+  const [sent, setSent] = useState<boolean>(false);
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -25,6 +29,24 @@ function PrivateInvestigator() {
         "Hey there, I'm ErazerBot, the internet's finest private investigator. Want to wager how easily you'd fall prey to an online scammer? Let's play a fun game to check your online safety habits. Are you ready to test just how hackable you are?",
     },
   ]);
+
+  // effect to typewrite the main heading
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingSpeed = 75;
+
+    const typeNextLetter = () => {
+      if (currentIndex < mainHeading.length) {
+        setTypedHeading(mainHeading.substring(0, currentIndex + 1));
+        currentIndex++;
+        setTimeout(typeNextLetter, typingSpeed);
+      } else {
+        setShowTypeCursor(false); // hide the type cursor when the heading is done typing
+      }
+    };
+
+    typeNextLetter();
+  }, []);
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter") {
@@ -124,8 +146,8 @@ function PrivateInvestigator() {
   return (
     <div className={styles.privateInvestigatorContainer}>
       <h1 className={styles.privateInvestigatorHeading}>
-        Think you can't get scammed? Check how easy it is to steal your
-        information online.
+        {typedHeading}
+        {showTypeCursor && <span>|</span>}
       </h1>
       <MessageBox messages={messages} loading={loading}></MessageBox>
       {!feedbackHit && (
