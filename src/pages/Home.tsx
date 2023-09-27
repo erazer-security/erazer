@@ -1,6 +1,7 @@
 import styles from "./Home.module.css";
 import { Button } from "@chakra-ui/react";
 import OfferingsCard from "@components/OfferingsCard";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -20,7 +21,7 @@ function Home() {
           height="60px"
           className={styles.getStartedButton}
         >
-          <a href="privateInvestigator">Get Started</a>
+          <Link to="privateInvestigator">Get Started</Link>
         </Button>
       </div>
       <div className={styles.offeringsContainer}>
@@ -43,7 +44,7 @@ function Home() {
             height="60px"
             className={styles.learnMoreButton}
           >
-            <a href="privateInvestigator">Learn More</a>
+            <Link to="privateInvestigator">Learn More</Link>
           </Button>
         </div>
 
