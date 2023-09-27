@@ -1,4 +1,3 @@
-// import PrivateInvestigator from "@components/PrivateInvestigator";
 import styles from "./Home.module.css";
 import { Button } from "@chakra-ui/react";
 import OfferingsCard from "@components/OfferingsCard";
