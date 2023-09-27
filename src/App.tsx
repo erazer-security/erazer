@@ -2,6 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "@pages/Home";
+import PrivateInvestigator from "@components/PrivateInvestigator";
 import Product from "@pages/Product";
 import WallOfHorror from "@pages/WallOfHorror";
 import Feedback from "@pages/Feedback";
@@ -14,6 +15,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/privateInvestigator" element={<PrivateInvestigator />} />
         <Route path="/product" element={<Product />} />
         <Route path="/wallofhorror" element={<WallOfHorror />} />
         <Route path="/feedback" element={<Feedback />} />

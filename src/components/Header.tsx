@@ -6,7 +6,9 @@ function Header() {
   return (
     <>
       <div className="banner">
-        <img src={logo} className="logo"></img>
+        <a href="/">
+          <img src={logo} className="logo"></img>
+        </a>
         <div className="routes">
           <Link to="/" className="route">
             Home

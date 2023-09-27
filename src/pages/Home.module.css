@@ -1,0 +1,57 @@
+.mainContainer {
+  background-image: url(darkPurpleBG.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.mainHeading {
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.tagLine {
+  font-size: 25px;
+  margin: 20px 0 30px 0;
+  color: #e1e2e4;
+}
+
+.getStartedButton,
+.learnMoreButton {
+  background-color: #6836f5;
+}
+
+.offeringsContainer {
+  display: flex;
+  flex-direction: row;
+  /* background-color: #070026; */
+  background-color: #fdfdfd;
+  padding: 100px;
+}
+
+.leftContainer {
+  flex: 50;
+}
+
+.leftHeading {
+  font-size: 56px;
+  font-weight: 700;
+}
+
+.leftDescription {
+  font-size: 16px;
+  margin: 20px 0 30px 0;
+  color: #4a6782;
+}
+
+.rightContainer {
+  flex: 50;
+  display: flex;
+  flex-wrap: wrap;
+}
