@@ -2,7 +2,7 @@
   background-image: url(/darkPurpleBG.png);
   background-size: cover;
   background-repeat: no-repeat;
-  height: 80vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,7 +30,6 @@
 .offeringsContainer {
   display: flex;
   flex-direction: row;
-  /* background-color: #070026; */
   background-color: #fdfdfd;
   padding: 100px;
 }
