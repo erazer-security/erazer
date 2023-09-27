@@ -11,7 +11,7 @@ export default function OfferingsCard({
 }: OfferingsCardProps) {
   return (
     <>
-      <div className={`${styles.card}`}>
+      <div className={styles.card}>
         <p className={styles.product}>{product}</p>
         <p className={styles.description}>{description}</p>
       </div>

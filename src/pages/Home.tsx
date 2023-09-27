@@ -1,7 +1,7 @@
 import styles from "./Home.module.css";
+import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import OfferingsCard from "@components/OfferingsCard";
-import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -13,16 +13,18 @@ function Home() {
         <p className={styles.tagLine}>
           Because getting your data sold isn’t cute
         </p>
-        <Button
-          colorScheme="#6836f5"
-          fontSize="20px"
-          fontWeight="500"
-          width="194px"
-          height="60px"
-          className={styles.getStartedButton}
-        >
-          <Link to="privateInvestigator">Get Started</Link>
-        </Button>
+        <Link to="/privateInvestigator">
+          <Button
+            colorScheme="#6836f5"
+            fontSize="20px"
+            fontWeight="500"
+            width="194px"
+            height="60px"
+            className={styles.getStartedButton}
+          >
+            Get Started
+          </Button>
+        </Link>
       </div>
       <div className={styles.offeringsContainer}>
         <div className={styles.leftContainer}>
@@ -36,16 +38,18 @@ function Home() {
             <br />
             where we revolutionize cybersecurity for this generation.
           </p>
-          <Button
-            colorScheme="#6836f5"
-            fontSize="20px"
-            fontWeight="500"
-            width="194px"
-            height="60px"
-            className={styles.learnMoreButton}
-          >
-            <Link to="privateInvestigator">Learn More</Link>
-          </Button>
+          <Link to="/privateInvestigator">
+            <Button
+              colorScheme="#6836f5"
+              fontSize="20px"
+              fontWeight="500"
+              width="194px"
+              height="60px"
+              className={styles.learnMoreButton}
+            >
+              Learn More
+            </Button>
+          </Link>
         </div>
 
         <div className={styles.rightContainer}>
