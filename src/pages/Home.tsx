@@ -20,7 +20,7 @@ function Home() {
           height="60px"
           className={styles.getStartedButton}
         >
-          <a href="/privateInvestigator">Get Started</a>
+          <a href="privateInvestigator">Get Started</a>
         </Button>
       </div>
       <div className={styles.offeringsContainer}>
@@ -43,7 +43,7 @@ function Home() {
             height="60px"
             className={styles.learnMoreButton}
           >
-            <a href="/privateInvestigator">Learn More</a>
+            <a href="privateInvestigator">Learn More</a>
           </Button>
         </div>
 
