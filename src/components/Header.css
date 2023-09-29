@@ -3,6 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 20px;
   display: flex;
   flex-direction: row;
@@ -11,8 +12,7 @@
 }
 
 .logo {
-  width: 100px;
-  height: 60px;
+  width: 80px;
 }
 
 .routes {
