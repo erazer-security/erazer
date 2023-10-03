@@ -1,11 +1,14 @@
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
 import OfferingsCard from "@components/OfferingsCard";
 
 function Home() {
   return (
     <div>
+      <div className={styles.backgroundContainer}>
+        <div className={styles.noiseBg}></div>
+        <div className={styles.mainShape}></div>
+      </div>
       <div className={styles.mainContainer}>
         <h1 className={styles.mainHeading}>
           Cybersecurity Designed for <br /> This Generation's Problems
@@ -13,57 +16,26 @@ function Home() {
         <p className={styles.tagLine}>
           Because getting your data sold isn’t cute
         </p>
-        <Link to="/privateInvestigator">
-          <Button
-            colorScheme="#6836f5"
-            fontSize="20px"
-            fontWeight="500"
-            width="194px"
-            height="60px"
-            className={styles.getStartedButton}
-          >
-            Get Started
-          </Button>
+        <Link to="/privateInvestigator" className={styles.getStartedButton}>
+          Get Started
         </Link>
-      </div>
-      <div className={styles.offeringsContainer}>
-        <div className={styles.leftContainer}>
-          <h1 className={styles.leftHeading}>
-            Revolutionizing <br /> Cybersecurity in <br /> the Age of AI
-          </h1>
-          <p className={styles.leftDescription}>
-            We are on a mission to empower individuals in an era where AI can{" "}
-            <br />
-            exploit personal information without consent. Welcome to Erazer,{" "}
-            <br />
-            where we revolutionize cybersecurity for this generation.
-          </p>
-          <Link to="/privateInvestigator">
-            <Button
-              colorScheme="#6836f5"
-              fontSize="20px"
-              fontWeight="500"
-              width="194px"
-              height="60px"
-              className={styles.learnMoreButton}
-            >
-              Learn More
-            </Button>
-          </Link>
-        </div>
 
-        <div className={styles.rightContainer}>
+        <h1 className={styles.secondHeading}>
+          Start protecting yourself with{" "}
+          <span className={styles.secondHeadingColor}>Erazer</span>
+        </h1>
+        <div className={styles.offeringsContainer}>
           <OfferingsCard
-            product="Data Removal"
-            description="Unlike our competitors who have limitations in data removal and pricing, Erazer provides comprehensive coverage, erasing your data from an extensive network of data brokers."
+            product="Data Broker Removal"
+            description="Delete your personal data from 200+ data broker services."
           />
           <OfferingsCard
-            product="Coming Soon: Dark Web Monitoring"
-            description="We scour the deepest, darkest parts of the internet to alert you when your information is found in a place you don't want it to be."
+            product="Dark Web (coming soon)"
+            description="Monitor & support to remove any leaked personal information from the dark web."
           />
           <OfferingsCard
-            product="Coming Soon: Image Removal"
-            description="We use AI to scan the web and determine where your most sensitive photos are."
+            product="Image Piracy (coming soon)"
+            description="Remove your images from unwanted places on the internet."
           />
         </div>
       </div>
