@@ -1,56 +1,100 @@
-.mainContainer {
-  background-image: url(/darkPurpleBG.png);
+.backgroundContainer {
+  background-color: #100424;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.noiseBg {
+  background-image: url(/noise.png);
   background-size: cover;
-  background-repeat: no-repeat;
-  height: 90vh;
+  background-position: center;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  mix-blend-mode: soft-light;
+  z-index: 1;
+}
+
+.mainShape {
+  background-image: url(/gradient.png);
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.mainContainer {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 10%;
   align-items: center;
   color: white;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .mainHeading {
-  font-size: 64px;
+  font-size: 66px;
   font-weight: 700;
 }
 
 .tagLine {
-  font-size: 25px;
+  font-size: 30px;
+  font-weight: 500;
   margin: 20px 0 30px 0;
-  color: #e1e2e4;
+  color: #c7b8e7;
 }
 
-.getStartedButton,
-.learnMoreButton {
-  background-color: #6836f5;
+.getStartedButton {
+  background: linear-gradient(
+    267deg,
+    #6721ff 27.93%,
+    #00cbff 99.79%,
+    #c8bdff -31.69%,
+    #baa6ff -22.78%
+  );
+  border-radius: 30px;
+  width: 200px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.secondHeading {
+  font-size: 60px;
+  font-weight: 700;
+  margin: 50px 0 50px 0;
+}
+
+.secondHeadingColor {
+  background: linear-gradient(
+    89.78deg,
+    #c8bdff -31.69%,
+    #baa6ff -22.78%,
+    #6721ff 27.93%,
+    #00cbff 99.79%
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
 
 .offeringsContainer {
   display: flex;
   flex-direction: row;
-  background-color: #fdfdfd;
-  padding: 100px;
-}
-
-.leftContainer {
-  flex: 50;
-}
-
-.leftHeading {
-  font-size: 56px;
-  font-weight: 700;
-}
-
-.leftDescription {
-  font-size: 16px;
-  margin: 20px 0 30px 0;
-  color: #4a6782;
-}
-
-.rightContainer {
-  flex: 50;
-  display: flex;
-  flex-wrap: wrap;
 }

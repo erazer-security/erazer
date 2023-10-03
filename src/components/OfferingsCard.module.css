@@ -1,15 +1,9 @@
 .card {
-  width: 300px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  width: 300px;
-  padding: 20px;
-  border-style: solid;
-  border-width: 8px 0px 0px 0px;
-  border-color: #6836f5;
-  box-shadow: 0px 10px 50px 0px
-    rgba(63.99999999999993, 71.99999999999993, 81.99999999999991, 0.13);
-  margin: 10px;
+  width: 385px;
+  padding: 50px;
+  margin: 0 10px;
 }
 
 .product {
@@ -19,5 +13,5 @@
 
 .description {
   font-size: 15px;
-  color: #4a6782;
+  color: #ffffff;
 }
