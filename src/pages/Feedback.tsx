@@ -112,11 +112,7 @@ export default function Feedback() {
               variant="flushed"
               className={styles.feedback}
             />
-            <Button
-              colorScheme="blue"
-              type="submit"
-              className={styles.sendMessage}
-            >
+            <Button type="submit" className={styles.sendMessage}>
               Send
             </Button>
           </form>

@@ -1,41 +1,4 @@
-.backgroundContainer {
-  background-color: #100424;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.noiseBg {
-  background-image: url(/noise.png);
-  background-size: cover;
-  background-position: center;
-  opacity: 0.7;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  mix-blend-mode: soft-light;
-  z-index: 1;
-}
-
-.mainShape {
-  background-image: url(/gradient.png);
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.mainContainer {
-  height: 100vh;
+.container {
   display: flex;
   flex-direction: column;
   padding-top: 10%;
@@ -67,7 +30,7 @@
     #baa6ff -22.78%
   );
   border-radius: 30px;
-  width: 200px;
+  width: 250px;
   padding: 10px 0;
   display: flex;
   align-items: center;

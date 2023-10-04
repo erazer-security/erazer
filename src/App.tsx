@@ -12,6 +12,10 @@ import "./App.css";
 function App() {
   return (
     <ChakraProvider>
+      <div className="backgroundContainer">
+        <div className="noiseBg"></div>
+        <div className="mainShape"></div>
+      </div>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
