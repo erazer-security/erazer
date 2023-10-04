@@ -26,16 +26,18 @@ export default function Message({ messages, loading }: MessagesProps) {
         }
       })}
       {loading && (
-        <Comment
-          visible={true}
-          height="50"
-          width="50"
-          ariaLabel="comment-loading"
-          wrapperStyle={{}}
-          wrapperClass="comment-wrapper"
-          color="#fff"
-          backgroundColor="#40414f"
-        />
+        <div style={{ zIndex: 1 }}>
+          <Comment
+            visible={true}
+            height="50"
+            width="50"
+            ariaLabel="comment-loading"
+            wrapperStyle={{}}
+            wrapperClass="comment-wrapper"
+            color="#fff"
+            backgroundColor="#40414f"
+          />
+        </div>
       )}
     </div>
   );

@@ -162,11 +162,7 @@ function PrivateInvestigator() {
             onChange={(event) => setChat(event.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <Button
-            colorScheme="blue"
-            onClick={handleChatSent}
-            className={styles.sendMessage}
-          >
+          <Button onClick={handleChatSent} className={styles.sendMessage}>
             Send
           </Button>
         </div>
@@ -201,11 +197,7 @@ function PrivateInvestigator() {
               variant="flushed"
               className={styles.feedback}
             />
-            <Button
-              colorScheme="blue"
-              type="submit"
-              className={styles.sendFeedback}
-            >
+            <Button type="submit" className={styles.sendFeedback}>
               Send
             </Button>
           </form>
