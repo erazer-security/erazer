@@ -18,7 +18,7 @@ puppeteer.use(
 );
 
 const router = Router();
-router.post("/profiles", async (req, res) => {
+router.post("/.netlify/functions/api/profiles", async (req, res) => {
   try {
     const { firstName, lastName, userState } = req.body;
 
@@ -102,7 +102,7 @@ router.post("/profiles", async (req, res) => {
   }
 });
 
-router.post("/remove-profile", async (req, res) => {
+router.post("/.netlify/functions/api/remove-profile", async (req, res) => {
   try {
     const { firstName, lastName, userState, profile_index } = req.body;
 
