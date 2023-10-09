@@ -68,7 +68,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("/profiles", {
+    await fetch("/.netlify/functions/api/profiles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("/remove-profile", {
+    await fetch("/.netlify/functions/api/remove-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
