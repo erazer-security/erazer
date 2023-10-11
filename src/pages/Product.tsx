@@ -68,7 +68,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("/.netlify/functions/api/profiles", {
+    await fetch("http://192.34.63.74:5001/profiles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("/.netlify/functions/api/remove-profile", {
+    await fetch("http://192.34.63.74:5001/remove-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
