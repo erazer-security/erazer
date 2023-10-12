@@ -68,7 +68,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("http://192.34.63.74:5001/profiles", {
+    await fetch("https://api.erazer.io/profiles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Product() {
     setLoading(true);
 
     // Fetch scraped data from the server
-    await fetch("http://192.34.63.74:5001/remove-profile", {
+    await fetch("https://api.erazer.io/remove-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
