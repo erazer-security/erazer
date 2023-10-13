@@ -6,6 +6,14 @@
   margin-top: 10%;
 }
 
+.heading {
+  color: white;
+  font-size: 30px;
+  font-weight: 700;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+
 .inputContainer {
   height: auto;
   display: flex;
@@ -37,11 +45,9 @@
 .profile {
   margin: 10px 0 10px 0;
   padding: 20px;
-  /* background-color: #212121; */
   background-color: rgba(255, 255, 255, 0.1);
-
   border-radius: 10px;
-  height: 80px;
+  height: 100px;
 }
 
 .profile:hover {
