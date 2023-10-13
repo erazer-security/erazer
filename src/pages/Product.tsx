@@ -4,6 +4,9 @@ import styles from "./Product.module.css";
 import { useState } from "react";
 
 export default function Product() {
+  const [heading, setHeading] = useState(
+    "Remove your personal information from 16 data brokers."
+  );
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userState, setUserState] = useState("All States");
@@ -66,6 +69,7 @@ export default function Product() {
   async function searchProfile() {
     setProfiles([]);
     setLoading(true);
+    setHeading("Searching for your profile.");
 
     // Fetch scraped data from the server
     await fetch("https://api.erazer.io/profiles", {
@@ -86,11 +90,13 @@ export default function Product() {
       .catch((error) => console.error(error));
 
     setLoading(false);
+    setHeading(`Click on your profile to initiate the removal.`);
   }
 
   async function handleClick(profile_index: any) {
     setProfiles([]);
     setLoading(true);
+    setHeading("We are working on removing your profile... Please be patient.");
 
     // Fetch scraped data from the server
     await fetch("https://api.erazer.io/remove-profile", {
@@ -108,10 +114,12 @@ export default function Product() {
       .catch((error) => console.error(error));
 
     setLoading(false);
+    setHeading("Congratulations, your profile has been removed.");
   }
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.heading}>{heading}</h1>
       <div className={styles.inputContainer}>
         <Input
           autoComplete="off"
