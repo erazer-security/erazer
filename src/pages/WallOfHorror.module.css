@@ -6,13 +6,16 @@
   padding-top: 5%;
   position: relative;
   z-index: 1;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 105px;
+  }
 }
 
 .heading {
   font-family: horror;
   font-size: 50px;
   color: white;
-  margin: 20px;
 }
 
 .cards {

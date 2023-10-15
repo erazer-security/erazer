@@ -162,7 +162,14 @@ function PrivateInvestigator() {
             onChange={(event) => setChat(event.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <Button onClick={handleChatSent} className={styles.sendMessage}>
+          <Button
+            style={{
+              backgroundColor: "#6736f5",
+              color: "white",
+            }}
+            onClick={handleChatSent}
+            className={styles.sendMessage}
+          >
             Send
           </Button>
         </div>

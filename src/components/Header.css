@@ -13,12 +13,17 @@
 
 .logo {
   width: 180px;
+
+  @media screen and (max-width: 768px) {
+    width: 120px;
+  }
 }
 
 .routes {
   @media screen and (max-width: 768px) {
-    font-weight: 500;
+    display: none;
   }
+  display: block;
   color: white;
   font-size: 16px;
   font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
@@ -27,4 +32,73 @@
 
 .route {
   margin: 0 5px;
+}
+
+.hamburgerMenu {
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 26px;
+  height: 20px;
+  top: 41px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #6736f5;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #100424;
+  padding: 2.5em 1.5em 0;
+  font-size: 16px;
+  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: white;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  margin-bottom: 7px;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: #100424;
 }
