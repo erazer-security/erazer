@@ -109,7 +109,6 @@ export default function Product() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // setProfiles(data.scrapedData);
       })
       .catch((error) => console.error(error));
 
@@ -155,7 +154,6 @@ export default function Product() {
           style={{
             backgroundColor: "#6736f5",
             color: "white",
-            marginLeft: "10px",
           }}
           width="150px"
           onClick={searchProfile}

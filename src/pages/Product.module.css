@@ -3,26 +3,43 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
+  padding-top: 10%;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 105px;
+  }
 }
 
 .heading {
   color: white;
   font-size: 30px;
   font-weight: 700;
+  text-align: center;
   z-index: 1;
   margin-bottom: 50px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 }
 
 .inputContainer {
-  height: auto;
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .input {
   margin-right: 20px;
   color: white;
+
+  @media screen and (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }
 
 .input::placeholder {
@@ -31,6 +48,16 @@
 
 .select {
   margin-right: 20px;
+}
+
+.button {
+  background-color: #6736f5;
+  color: white;
+  margin-left: 10px;
+
+  @media screen and (max-width: 768px) {
+    margin: 20px 0 0 0;
+  }
 }
 
 .results {
@@ -48,6 +75,14 @@
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   height: 100px;
+  overflow-y: scroll;
+  /* hide scrollbar */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.profile::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .profile:hover {
