@@ -7,8 +7,8 @@ export default function WallOfHorror() {
     <div className={styles.container}>
       <h1 className={styles.heading}>Wall of Horror</h1>
       <div className={styles.cards}>
-        {stories.stories.map((story) => (
-          <div className={styles.storyCard}>
+        {stories.stories.map((story, index) => (
+          <div key={index} className={styles.storyCard}>
             <StoryCard
               title={story.title}
               author={story.author}

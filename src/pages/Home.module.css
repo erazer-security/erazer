@@ -30,29 +30,7 @@
 
   @media screen and (max-width: 768px) {
     font-size: 18px;
-  }
-}
-
-.getStartedButton {
-  background: linear-gradient(
-    267deg,
-    #6721ff 27.93%,
-    #00cbff 99.79%,
-    #c8bdff -31.69%,
-    #baa6ff -22.78%
-  );
-  border-radius: 30px;
-  width: 250px;
-  padding: 10px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 20px;
-
-  @media screen and (max-width: 768px) {
-    width: 200px;
-    font-size: 16px;
+    margin: 20px 0;
   }
 }
 

@@ -1,19 +1,18 @@
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
 import OfferingsCard from "@components/OfferingsCard";
+import ProfileRemoval from "@components/ProfileRemoval";
 
 function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.mainHeading}>
-        Cybersecurity Designed for This <br /> Generation's Problems
+        Remove your personal information <br /> from 16 data brokers
       </h1>
       <p className={styles.tagLine}>
         Because getting your data sold isn’t cute
       </p>
-      <Link to="/privateInvestigator" className={styles.getStartedButton}>
-        Chat With ErazerBot
-      </Link>
+
+      <ProfileRemoval />
 
       <h1 className={styles.secondHeading}>
         Start protecting yourself with{" "}
@@ -22,7 +21,7 @@ function Home() {
       <div className={styles.offeringsContainer}>
         <OfferingsCard
           product="Data Broker Removal"
-          description="Delete your personal data from 200+ data broker services."
+          description="Delete your personal data from 16 data broker services."
         />
         <OfferingsCard
           product="Dark Web (coming soon)"
