@@ -11,6 +11,10 @@
   z-index: 2;
 }
 
+.bannerScrolled {
+  background-color: #100424;
+}
+
 .logo {
   width: 180px;
 
