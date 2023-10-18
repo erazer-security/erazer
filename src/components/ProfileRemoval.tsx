@@ -110,12 +110,11 @@ export default function ProfileRemoval() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        setHeading(data.message);
       })
       .catch((error) => console.error(error));
 
     setLoading(false);
-    setHeading("Congratulations, your profile has been removed.");
   }
 
   return (
