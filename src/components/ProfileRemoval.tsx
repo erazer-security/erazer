@@ -1,17 +1,17 @@
+import styles from "./ProfileRemoval.module.css";
 import { TailSpin } from "react-loader-spinner";
 import { Input, Select, Button } from "@chakra-ui/react";
-import styles from "./ProfileRemoval.module.css";
 import { useState } from "react";
 
 export default function ProfileRemoval() {
-  const [heading, setHeading] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userState, setUserState] = useState("All States");
+  const [heading, setHeading] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [userState, setUserState] = useState<string>("All States");
   const [profiles, setProfiles] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const states = [
+  const states: string[] = [
     "AL",
     "AK",
     "AZ",
@@ -65,13 +65,19 @@ export default function ProfileRemoval() {
   ];
 
   async function searchProfile() {
+    // ensure first and last name are not empty
+    if (firstName.trim() === "" || lastName.trim() === "") {
+      setHeading("Please fill out your first and last name.");
+      return;
+    }
+
     setProfiles([]);
     setLoading(true);
     setHeading(
       `Hi ${firstName}, we are currently searching for your profile...`
     );
 
-    // Fetch scraped data from the server
+    // Fetch the profile, if it exists, from the server
     await fetch("https://api.erazer.io/profiles", {
       method: "POST",
       headers: {
@@ -82,25 +88,27 @@ export default function ProfileRemoval() {
       .then((response) => response.json())
       .then((data) => {
         if (data.scrapedData.length === 0) {
-          setProfiles(["No profiles found."]);
+          setHeading(
+            `${firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
+          );
         } else {
           setProfiles(data.scrapedData);
+          setHeading("Click on your profile to initiate the removal");
         }
       })
       .catch((error) => console.error(error));
 
     setLoading(false);
-    setHeading(`Click on your profile to initiate the removal`);
   }
 
-  async function handleClick(profile_index: any) {
+  async function handleClick(profile_index: number) {
     setProfiles([]);
     setLoading(true);
     setHeading(
       `Thank you for your patience ${firstName}, we are working on removing your profile...`
     );
 
-    // Fetch scraped data from the server
+    // Initiate the removal of the profile
     await fetch("https://api.erazer.io/remove-profile", {
       method: "POST",
       headers: {
@@ -143,7 +151,7 @@ export default function ProfileRemoval() {
           color="white"
           onChange={(event) => setUserState(event.target.value)}
         >
-          {states.map((state, index) => (
+          {states.map((state: string, index: number) => (
             <option key={index} value={state}>
               {state}
             </option>
@@ -164,7 +172,7 @@ export default function ProfileRemoval() {
       </div>
       <h1 className={styles.heading}>{heading}</h1>
       <div className={styles.results}>
-        {profiles.map((profile, index) => (
+        {profiles.map((profile: string, index: number) => (
           <div
             key={index}
             className={styles.profile}
