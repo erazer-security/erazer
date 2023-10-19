@@ -1,31 +1,54 @@
 import styles from "./Header.module.css";
-import { useEffect, useState } from "react";
 import { Route, routes } from "./routes";
-import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
+import logo from "/logo.png";
 
 function Header() {
-  const [atTop, setAtTop] = useState(true);
-
-  // Check if page is at top to update the background color
-  useEffect(() => {
-    if (typeof window != "undefined") {
-      window.addEventListener("scroll", () => {
-        // A bit hacky way to make sure the component doesn't re-render every single scroll event
-        if (Math.round(window.scrollY) != 0 && atTop) {
-          setAtTop(false);
-          return;
-        } else if (Math.round(window.scrollY) == 0) {
-          setAtTop(true);
-          return;
-        }
-      });
-    }
-  }, []);
-
+  var menuStyles = {
+    bmBurgerButton: {
+      position: "fixed",
+      width: "26px",
+      height: "20px",
+      top: "41px",
+    },
+    bmBurgerBars: {
+      background: "#6736f5",
+    },
+    bmCrossButton: {
+      height: "24px",
+      width: "24px",
+    },
+    bmCross: {
+      background: "#bdc3c7",
+    },
+    bmMenuWrap: {
+      position: "fixed",
+      height: "100%",
+    },
+    bmMenu: {
+      background: "#100424",
+      padding: "2.5em 1.5em 0",
+      fontSize: "16px",
+      fontFamily: "Poppins, Roboto, Helvetica, Arial, sans-serif",
+      fontWeight: "600",
+    },
+    bmItemList: {
+      display: "flex",
+      flexDirection: "column",
+      color: "white",
+      padding: "0.8em",
+    },
+    bmItem: {
+      display: "inline-block",
+      marginBottom: "7px",
+    },
+    bmOverlay: {
+      background: "#100424",
+    },
+  };
   return (
-    <div className={`${styles.banner} ${!atTop ? styles.bannerScrolled : ""}`}>
+    <div className={styles.banner}>
       <Link to="/">
         <img src={logo} className={styles.logo}></img>
       </Link>
@@ -37,7 +60,7 @@ function Header() {
         ))}
       </div>
       <div className={styles.hamburgerMenu}>
-        <Menu right>
+        <Menu right styles={menuStyles}>
           {routes.map((route: Route, index: number) => (
             <Link key={index} to={route.path} className={styles.route}>
               {route.title}
