@@ -7,10 +7,9 @@ import logo from "/logo.png";
 function Header() {
   var menuStyles = {
     bmBurgerButton: {
-      position: "fixed",
+      position: "relative",
       width: "26px",
       height: "20px",
-      top: "41px",
     },
     bmBurgerBars: {
       background: "#6736f5",
