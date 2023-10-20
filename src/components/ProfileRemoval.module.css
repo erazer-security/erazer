@@ -50,13 +50,25 @@
   font-weight: 700;
   text-align: center;
   z-index: 1;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   @media screen and (max-width: 768px) {
     font-size: 18px;
     margin: 20px 0;
     padding: 0 10px;
   }
+}
+
+.feedbackLink {
+  background: linear-gradient(
+    89.78deg,
+    #c8bdff -31.69%,
+    #baa6ff -22.78%,
+    #6721ff 27.93%,
+    #00cbff 99.79%
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
 
 .results {
