@@ -2,9 +2,10 @@ import styles from "./ProfileRemoval.module.css";
 import { TailSpin } from "react-loader-spinner";
 import { Input, Select, Button } from "@chakra-ui/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProfileRemoval() {
-  const [heading, setHeading] = useState<string>("");
+  const [heading, setHeading] = useState<string | JSX.Element>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [userState, setUserState] = useState<string>("All States");
@@ -118,7 +119,15 @@ export default function ProfileRemoval() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setHeading(data.message);
+        setHeading(
+          <div>
+            {data.message} <br /> Please take a second and leave us some
+            feedback{" "}
+            <Link target="_blank" to="https://forms.gle/oJUddJyhV5oNgxXK7">
+              <span className={styles.feedbackLink}>here.</span>
+            </Link>
+          </div>
+        );
       })
       .catch((error) => console.error(error));
 
