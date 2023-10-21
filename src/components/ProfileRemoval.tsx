@@ -1,8 +1,8 @@
 import styles from "./ProfileRemoval.module.css";
-import { TailSpin } from "react-loader-spinner";
 import { Input, Select, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ProgressBar from "@components/ProgressBar";
 
 export default function ProfileRemoval() {
   const [heading, setHeading] = useState<string | JSX.Element>("");
@@ -11,6 +11,9 @@ export default function ProfileRemoval() {
   const [userState, setUserState] = useState<string>("All States");
   const [profiles, setProfiles] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [progressText, setProgressText] = useState<string>("");
+  const [progressFact, setProgressFact] = useState<string>("");
 
   const states: string[] = [
     "AL",
@@ -65,6 +68,37 @@ export default function ProfileRemoval() {
     "WY",
   ];
 
+  const databrokers: string[] = [
+    "weinform.org",
+    "truthrecord.org",
+    "privatereports.org",
+    "personsearchers.com",
+    "backgroundcheckers.net",
+    "checksecrets.com",
+    "inmatesearcher.com",
+    "mugshotlook.com",
+    "peoplesearch123.com",
+    "peoplesearcher.com",
+    "peoplesearchusa.org",
+    "personsearcher.com",
+    "privaterecords.net",
+    "publicsearcher.com",
+    "sealedrecords.net",
+    "secretinfo.org",
+  ];
+
+  const cybersecurityFacts: string[] = [
+    "Are you ready for some cybersecurity facts?",
+    "Cybercrime is the fastest growing crime in the US.",
+    "In 2022, the FBI received 800,944 cybercrime complaints.",
+    "Losses exceeded $10.3 Billion in the U.S. alone.",
+    "Cost of cybercrime is projected to reach $10.5 Trillion annually by 2025.",
+    "More than 1 Billion Malware Programs Exist.",
+    "Human Error Accounts for 95% of Cyber Attacks.",
+    "Every 39 seconds there is a cyber attack.",
+    "Email is the primary entry point of 94% of malware attacks.",
+  ];
+
   async function searchProfile() {
     // ensure first and last name are not empty
     if (firstName.trim() === "" || lastName.trim() === "") {
@@ -78,8 +112,11 @@ export default function ProfileRemoval() {
       `Hi ${firstName}, we are currently searching for your profile...`
     );
 
+    // Track when fetch request is completed to update progress bar
+    let isFetchCompleted: boolean = false;
+
     // Fetch the profile, if it exists, from the server
-    await fetch("https://api.erazer.io/profiles", {
+    const fetchProfilePromise = fetch("https://api.erazer.io/profiles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,6 +125,7 @@ export default function ProfileRemoval() {
     })
       .then((response) => response.json())
       .then((data) => {
+        isFetchCompleted = true;
         if (data.scrapedData.length === 0) {
           setHeading(
             `${firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
@@ -99,7 +137,29 @@ export default function ProfileRemoval() {
       })
       .catch((error) => console.error(error));
 
+    // update progress bar
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    const updateProgressBarPromise = (async () => {
+      const totalDelayTime = 5000; // 5 seconds
+      const delayTime = totalDelayTime / databrokers.length;
+      for (let i = 0; i < databrokers.length; i++) {
+        if (isFetchCompleted) {
+          break;
+        }
+        await delay(delayTime);
+        // Update progress and progressText for each data broker
+        setProgress(((i + 1) / databrokers.length) * 97); // set max progress to 97%
+        setProgressText(`${databrokers[i]}`);
+      }
+    })();
+
+    await Promise.all([fetchProfilePromise, updateProgressBarPromise]);
+
     setLoading(false);
+    setProgress(0);
+    setProgressText("");
   }
 
   async function handleClick(profile_index: number) {
@@ -109,8 +169,11 @@ export default function ProfileRemoval() {
       `Thank you for your patience ${firstName}, we are working on removing your profile...`
     );
 
+    // Track when fetch request is completed to update progress bar
+    let isFetchCompleted: boolean = false;
+
     // Initiate the removal of the profile
-    await fetch("https://api.erazer.io/remove-profile", {
+    const removeProfilePromise = fetch("https://api.erazer.io/remove-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -119,6 +182,7 @@ export default function ProfileRemoval() {
     })
       .then((response) => response.json())
       .then((data) => {
+        isFetchCompleted = true;
         setHeading(
           <div>
             {data.message} <br /> Please take a second and leave us some
@@ -131,7 +195,29 @@ export default function ProfileRemoval() {
       })
       .catch((error) => console.error(error));
 
+    // update progress bar
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    const updateProgressBarPromise = (async () => {
+      const totalDelayTime = 25000; // 25 seconds
+      const delayTime = totalDelayTime / cybersecurityFacts.length;
+      for (let i = 0; i < cybersecurityFacts.length; i++) {
+        if (isFetchCompleted) {
+          break;
+        }
+        await delay(delayTime);
+        // Update progress and progressText for each data broker
+        setProgress(((i + 1) / cybersecurityFacts.length) * 97); // set max progress to 97%
+        setProgressFact(`${cybersecurityFacts[i]}`);
+      }
+    })();
+
+    await Promise.all([removeProfilePromise, updateProgressBarPromise]);
+
     setLoading(false);
+    setProgress(0);
+    setProgressFact("");
   }
 
   return (
@@ -193,15 +279,10 @@ export default function ProfileRemoval() {
       </div>
       <div style={{ zIndex: 1 }}>
         {loading && (
-          <TailSpin
-            height="50"
-            width="50"
-            color="#6736f5"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
+          <ProgressBar
+            progress={progress}
+            progressText={progressText}
+            progressFact={progressFact}
           />
         )}
       </div>
