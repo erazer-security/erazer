@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 70%;
   height: auto;
-  margin: 5% 0 2% 0;
+  margin: 20px 0;
 }
 
 .userMessage,
@@ -42,7 +42,7 @@
 }
 
 .userMessage::after {
-  background-color: black;
+  background-color: #100424;
   border-bottom-left-radius: 0.5rem;
   right: -40px;
   transform: translate(-30px, -2px);
@@ -63,7 +63,7 @@
 }
 
 .assistantMessage::after {
-  background-color: black;
+  background-color: #100424;
   border-bottom-right-radius: 0.5rem;
   left: 20px;
   transform: translate(-30px, -2px);
