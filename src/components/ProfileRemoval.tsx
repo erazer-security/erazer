@@ -1,19 +1,30 @@
 import styles from "./ProfileRemoval.module.css";
-import { Input, Select, Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { setProfiles } from "@redux/profiles";
+import { useSelector, useDispatch } from "react-redux";
+import { setFirstName, setLastName, setUserState, setAge } from "@redux/user";
+import { Input, Select, Button } from "@chakra-ui/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 import ProgressBar from "@components/ProgressBar";
+import { Profile } from "@components/types";
+
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default function ProfileRemoval() {
-  const [heading, setHeading] = useState<string | JSX.Element>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [userState, setUserState] = useState<string>("All States");
-  const [profiles, setProfiles] = useState<string[]>([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [heading, setHeading] = useState<string>("");
+  const { user } = useSelector((state: any) => state.user);
+  const [filteredProfiles, setFilteredProfiles] = useState<Profile[]>([]); // profiles filtered by age
+  const [selectedProfiles, setSelectedProfiles] = useState<Profile[]>([]); // profiles selected for removal
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [progressText, setProgressText] = useState<string>("");
-  const [progressFact, setProgressFact] = useState<string>("");
+  const [removalReady, setRemovalReady] = useState<boolean>(false);
 
   const states: string[] = [
     "AL",
@@ -70,46 +81,50 @@ export default function ProfileRemoval() {
 
   const databrokers: string[] = [
     "weinform.org",
+    "peoplewhizr.net",
     "truthrecord.org",
     "privatereports.org",
     "personsearchers.com",
+    "peoplewizard.com",
     "backgroundcheckers.net",
     "checksecrets.com",
     "inmatesearcher.com",
+    "peoplewhized.com",
     "mugshotlook.com",
+    "peopleswiz.com",
     "peoplesearch123.com",
+    "peopleswhizr.com",
+    "people-wizard.com",
     "peoplesearcher.com",
     "peoplesearchusa.org",
+    "peoplewizard.net",
     "personsearcher.com",
     "privaterecords.net",
     "publicsearcher.com",
+    "peoplewhiz.com",
     "sealedrecords.net",
     "secretinfo.org",
-  ];
-
-  const cybersecurityFacts: string[] = [
-    "Are you ready for some cybersecurity facts?",
-    "Cybercrime is the fastest growing crime in the US.",
-    "In 2022, the FBI received 800,944 cybercrime complaints.",
-    "Losses exceeded $10.3 Billion in the U.S. alone.",
-    "Cost of cybercrime is projected to reach $10.5 Trillion annually by 2025.",
-    "More than 1 Billion Malware Programs Exist.",
-    "Human Error Accounts for 95% of Cyber Attacks.",
-    "Every 39 seconds there is a cyber attack.",
-    "Email is the primary entry point of 94% of malware attacks.",
+    "peoplewizr.com",
   ];
 
   async function searchProfile() {
-    // ensure first and last name are not empty
-    if (firstName.trim() === "" || lastName.trim() === "") {
-      setHeading("Please fill out your first and last name.");
+    // ensure first and last name and age are not empty
+    if (
+      user.firstName.trim() === "" ||
+      user.lastName.trim() === "" ||
+      user.age === 0
+    ) {
+      setHeading("Please fill out your first and last name and age.");
       return;
     }
 
-    setProfiles([]);
+    dispatch(setProfiles([]));
+    setFilteredProfiles([]);
+    setSelectedProfiles([]);
     setLoading(true);
+    setRemovalReady(false);
     setHeading(
-      `Hi ${firstName}, we are currently searching for your profile...`
+      `Hi ${user.firstName}, we are currently searching for your profile...`
     );
 
     // Track when fetch request is completed to update progress bar
@@ -121,18 +136,44 @@ export default function ProfileRemoval() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ firstName, lastName, userState }),
+      body: JSON.stringify({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userState: user.userState,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
-        isFetchCompleted = true;
+        isFetchCompleted = true; // request is completed
         if (data.scrapedData.length === 0) {
           setHeading(
-            `${firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
+            `${user.firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
           );
         } else {
-          setProfiles(data.scrapedData);
-          setHeading("Click on your profile to initiate the removal");
+          dispatch(setProfiles(data.scrapedData));
+
+          const profilesFiltered = data.scrapedData.filter(
+            (profile: Profile) => profile.age == user.age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
+          );
+
+          if (profilesFiltered.length === 0) {
+            setHeading(
+              `${user.firstName}... it looks like your profile doesn't exist on these data brokers.`
+            );
+          } else {
+            setFilteredProfiles(profilesFiltered);
+
+            if (profilesFiltered.length === 1) {
+              setHeading(
+                "We found 1 profile. If this is you, click on it to begin removal."
+              );
+            } else {
+              setHeading(
+                `We found ${profilesFiltered.length} profiles. Swipe through them and click on those that match you.`
+              );
+            }
+            setRemovalReady(true); // enable removal button
+          }
         }
       })
       .catch((error) => console.error(error));
@@ -142,7 +183,7 @@ export default function ProfileRemoval() {
       new Promise((resolve) => setTimeout(resolve, ms));
 
     const updateProgressBarPromise = (async () => {
-      const totalDelayTime = 5000; // 5 seconds
+      const totalDelayTime = 10000; // 10 seconds
       const delayTime = totalDelayTime / databrokers.length;
       for (let i = 0; i < databrokers.length; i++) {
         if (isFetchCompleted) {
@@ -158,66 +199,34 @@ export default function ProfileRemoval() {
     await Promise.all([fetchProfilePromise, updateProgressBarPromise]);
 
     setLoading(false);
+    // reset progress bar
     setProgress(0);
     setProgressText("");
   }
 
-  async function handleClick(profile_index: number) {
-    setProfiles([]);
-    setLoading(true);
-    setHeading(
-      `Thank you for your patience ${firstName}, we are working on removing your profile...`
-    );
+  function navigateResults() {
+    // ensure at least one profile is selected
+    if (selectedProfiles.length === 0) {
+      setHeading("Please click on your profiles to begin removal.");
+      return;
+    }
 
-    // Track when fetch request is completed to update progress bar
-    let isFetchCompleted: boolean = false;
+    localStorage.setItem("removalReady", "true");
+    setRemovalReady(false); // disable removal button
+    navigate("/results", {
+      state: { profiles: selectedProfiles },
+    });
+  }
 
-    // Initiate the removal of the profile
-    const removeProfilePromise = fetch("https://api.erazer.io/remove-profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ firstName, lastName, userState, profile_index }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        isFetchCompleted = true;
-        setHeading(
-          <div>
-            {data.message} <br /> Please take a second and leave us some
-            feedback{" "}
-            <Link target="_blank" to="https://forms.gle/oJUddJyhV5oNgxXK7">
-              <span className={styles.feedbackLink}>here.</span>
-            </Link>
-          </div>
-        );
-      })
-      .catch((error) => console.error(error));
-
-    // update progress bar
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    const updateProgressBarPromise = (async () => {
-      const totalDelayTime = 25000; // 25 seconds
-      const delayTime = totalDelayTime / cybersecurityFacts.length;
-      for (let i = 0; i < cybersecurityFacts.length; i++) {
-        if (isFetchCompleted) {
-          break;
-        }
-        await delay(delayTime);
-        // Update progress and progressText for each data broker
-        setProgress(((i + 1) / cybersecurityFacts.length) * 97); // set max progress to 97%
-        setProgressFact(`${cybersecurityFacts[i]}`);
-      }
-    })();
-
-    await Promise.all([removeProfilePromise, updateProgressBarPromise]);
-
-    setLoading(false);
-    setProgress(0);
-    setProgressFact("");
+  function handleProfileClick(profile: Profile) {
+    // manage selected profiles
+    if (selectedProfiles.includes(profile)) {
+      setSelectedProfiles(
+        selectedProfiles.filter((selectedProfile) => selectedProfile != profile)
+      );
+    } else {
+      setSelectedProfiles([...selectedProfiles, profile]);
+    }
   }
 
   return (
@@ -228,7 +237,7 @@ export default function ProfileRemoval() {
           autoFocus
           type="text"
           placeholder="First Name"
-          onChange={(event) => setFirstName(event.target.value)}
+          onChange={(event) => dispatch(setFirstName(event.target.value))}
           variant="flushed"
           className={styles.input}
         />
@@ -236,15 +245,23 @@ export default function ProfileRemoval() {
           autoComplete="off"
           type="text"
           placeholder="Last Name"
-          onChange={(event) => setLastName(event.target.value)}
+          onChange={(event) => dispatch(setLastName(event.target.value))}
           variant="flushed"
           className={styles.input}
         />
+        <Input
+          autoComplete="off"
+          type="number"
+          placeholder="Age"
+          onChange={(event) => dispatch(setAge(parseInt(event.target.value)))}
+          variant="flushed"
+          className={styles.input}
+        ></Input>
         <Select
           variant="flushed"
           placeholder="All States"
           color="white"
-          onChange={(event) => setUserState(event.target.value)}
+          onChange={(event) => dispatch(setUserState(event.target.value))}
         >
           {states.map((state: string, index: number) => (
             <option key={index} value={state}>
@@ -266,24 +283,43 @@ export default function ProfileRemoval() {
         </Button>
       </div>
       <h1 className={styles.heading}>{heading}</h1>
-      <div className={styles.results}>
-        {profiles.map((profile: string, index: number) => (
-          <div
-            key={index}
-            className={styles.profile}
-            onClick={() => handleClick(index)}
-          >
-            <p className={styles.info}>{profile}</p>
-          </div>
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        className={styles.profilesCarousel}
+      >
+        {filteredProfiles.map((profile: Profile, index: number) => (
+          <SwiperSlide key={index}>
+            <div
+              key={index}
+              className={styles.profile}
+              style={{
+                backgroundColor: selectedProfiles.includes(profile)
+                  ? "#100424"
+                  : "",
+              }}
+              onClick={() => handleProfileClick(profile)}
+            >
+              <p className={styles.profileInfo}>{profile.profile}</p>
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
+      {removalReady && (
+        <Button
+          style={{
+            backgroundColor: "#6736f5",
+            color: "white",
+          }}
+          width="200px"
+          onClick={navigateResults}
+        >
+          Confirm Removal
+        </Button>
+      )}
       <div style={{ zIndex: 1 }}>
         {loading && (
-          <ProgressBar
-            progress={progress}
-            progressText={progressText}
-            progressFact={progressFact}
-          />
+          <ProgressBar progress={progress} progressText={progressText} />
         )}
       </div>
     </div>
