@@ -25,7 +25,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@redux/*": ["redux/*"]
     }
   },
   "include": ["src"],

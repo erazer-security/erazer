@@ -79,9 +79,17 @@
   z-index: 1;
 }
 
+.profilesCarousel {
+  max-width: 1000px;
+
+  @media screen and (max-width: 768px) {
+    max-width: 312px;
+  }
+}
+
 .profile {
-  margin: 10px 0 10px 0;
-  padding: 20px;
+  margin: 10px 0;
+  padding: 20px 45px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   height: 100px;
@@ -98,4 +106,13 @@
 
 .profile:hover {
   cursor: pointer;
+}
+
+.profileInfo {
+  font-size: 17px;
+  font-weight: 600;
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 }
