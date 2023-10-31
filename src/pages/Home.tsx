@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.mainHeading}>
-        Remove your personal information <br /> from 16 data brokers
+        Remove your personal information <br /> from 30 data brokers
       </h1>
       <p className={styles.tagLine}>
         Because getting your data sold isn’t cute
