@@ -71,19 +71,11 @@
   -webkit-background-clip: text;
 }
 
-.results {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  color: white;
-  z-index: 1;
-}
-
 .profilesCarousel {
-  max-width: 1000px;
+  width: 1000px;
 
   @media screen and (max-width: 768px) {
-    max-width: 312px;
+    width: 312px;
   }
 }
 
