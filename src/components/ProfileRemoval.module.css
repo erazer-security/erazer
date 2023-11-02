@@ -59,18 +59,6 @@
   }
 }
 
-.feedbackLink {
-  background: linear-gradient(
-    89.78deg,
-    #c8bdff -31.69%,
-    #baa6ff -22.78%,
-    #6721ff 27.93%,
-    #00cbff 99.79%
-  );
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-}
-
 .profilesCarousel {
   width: 1000px;
 
