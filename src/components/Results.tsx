@@ -1,6 +1,6 @@
 import styles from "./Results.module.css";
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import {
@@ -17,6 +17,10 @@ import { Profile } from "@components/types";
 function Results() {
   const location = useLocation();
   const { profiles } = location.state;
+  const { user } = useSelector((state: any) => state.user);
+  const [heading, setHeading] = useState<string | JSX.Element>(
+    "We are currently removing your information from these sites... Please be patient."
+  );
   const truthRecordSites: string[] = [
     "weinform.org",
     "privatereports.com",
@@ -48,7 +52,6 @@ function Results() {
     "peoplewizard.net",
     "peoplewizr.com",
   ];
-  const { user } = useSelector((state: any) => state.user);
 
   let allProfiles: Profile[] = [];
   profiles.forEach((profile: Profile) => {
@@ -96,10 +99,34 @@ function Results() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         isFetchCompleted = true;
         setIsRemovalCompleted(true);
         localStorage.setItem("removalReady", "false");
+
+        let removedHeading: string | JSX.Element;
+        // different line breaks for mobile and desktop
+        if (isMobile) {
+          removedHeading = (
+            <div>
+              {data.message} Please take a second and leave us some feedback{" "}
+              <Link target="_blank" to="https://forms.gle/oJUddJyhV5oNgxXK7">
+                <span className={styles.feedbackLink}>here.</span>
+              </Link>
+            </div>
+          );
+        } else {
+          removedHeading = (
+            <div>
+              {data.message} <br /> Please take a second and leave us some
+              feedback{" "}
+              <Link target="_blank" to="https://forms.gle/oJUddJyhV5oNgxXK7">
+                <span className={styles.feedbackLink}>here.</span>
+              </Link>
+            </div>
+          );
+        }
+
+        setHeading(removedHeading);
       })
       .catch((error) => console.error(error));
     // update progress bar
@@ -143,6 +170,7 @@ function Results() {
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.heading}>{heading}</h1>
       {/* Desktop Table */}
       {!isMobile && (
         <TableContainer className={styles.table}>
@@ -191,7 +219,7 @@ function Results() {
                   <Tr key={index}>
                     <Td className={styles.mobileInfo}>
                       <div>{profile.website}</div>
-                      <div>{profile.profile.slice(0, 25)}</div>
+                      <div>{profile.profile.slice(0, 25)}...</div>
                     </Td>
                     <Td>
                       {removalStatus[index] === "In Progress" ? (
