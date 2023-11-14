@@ -1,14 +1,14 @@
 import styles from "./Header.module.css";
-import { Route, routes } from "./routes";
+// import { Route, routes } from "./routes";
 import { Link } from "react-router-dom";
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+// import {
+//   IconButton,
+//   Menu,
+//   MenuButton,
+//   MenuList,
+//   MenuItem,
+// } from "@chakra-ui/react";
+// import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "/logo.png";
 
 function Header() {
@@ -17,7 +17,7 @@ function Header() {
       <Link to="/">
         <img src={logo} className={styles.logo}></img>
       </Link>
-      <div className={styles.routes}>
+      {/* <div className={styles.routes}>
         {routes.map((route: Route, index: number) => (
           <Link key={index} to={route.path} className={styles.route}>
             {route.title}
@@ -42,7 +42,7 @@ function Header() {
             ))}
           </MenuList>
         </Menu>
-      </div>
+      </div> */}
     </div>
   );
 }
