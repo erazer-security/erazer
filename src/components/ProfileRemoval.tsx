@@ -1,8 +1,8 @@
 import styles from "./ProfileRemoval.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setProfiles } from "@redux/profiles";
 import { useSelector, useDispatch } from "react-redux";
+import { setProfiles } from "@redux/profiles";
 import { setFirstName, setLastName, setUserState, setAge } from "@redux/user";
 import { Input, Select, Button } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -211,11 +211,22 @@ export default function ProfileRemoval() {
       return;
     }
 
-    localStorage.setItem("removalReady", "true");
+    // for all selected profiles, add a field to the object called "status" and set it to "In Progress"
+    const selectedProfilesWithStatus = selectedProfiles.map(
+      (profile: Profile) => ({
+        ...profile,
+        status: "In Progress",
+      })
+    );
+
     setRemovalReady(false); // disable removal button
-    navigate("/results", {
-      state: { profiles: selectedProfiles },
-    });
+
+    // set local variables to track removal feature and navigate to dashboard
+    localStorage.setItem(
+      "selectedProfiles",
+      JSON.stringify(selectedProfilesWithStatus)
+    );
+    navigate("/dashboard");
   }
 
   function handleProfileClick(profile: Profile) {

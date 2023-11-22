@@ -1,0 +1,305 @@
+.leftNavContainer {
+  position: fixed;
+  width: 280px;
+  height: 100vh;
+  background-color: #100424;
+  padding: 10% 0 0 0;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.highlightedRouteContainer {
+  background-color: #6736f5;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.highlightedRoute {
+  display: flex;
+  align-items: center;
+  margin: 7px 0 7px 35px;
+}
+
+.highlightedRouteLink {
+  font-size: 18px;
+  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  margin: 7px 0 7px 40px;
+}
+
+.routeLink {
+  font-size: 16px;
+  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.dashboardsContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 10% 0 0 320px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 105px 0 0 0;
+  }
+}
+
+.dashboards {
+  display: flex;
+  flex-direction: column;
+}
+
+.row1cards {
+  display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.removalProcessCard {
+  width: 360px;
+  height: 360px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid #efeff4;
+  color: #efeff4;
+}
+
+.removalProcessHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin: 20px;
+}
+
+.progressCircleContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressCircleTextContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progressCircleNumber {
+  font-size: 56px;
+  font-weight: 700;
+  color: white;
+}
+
+.progressCircleNumberText {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.removalProcessSubHeading {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 20px;
+}
+
+.emailBreachesCard {
+  width: 590px;
+  height: 360px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid #efeff4;
+  color: #efeff4;
+  margin-left: 125px;
+
+  /* hide scrollbar */
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  @media screen and (max-width: 768px) {
+    width: 360px;
+    margin: 20px 0 0 0;
+  }
+}
+
+.emailBreachesCard::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.emailBreachesHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin: 20px 0 0 20px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+}
+
+.noEmailBreachesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  width: 90%;
+  height: 90%;
+}
+
+.emailBreachesTable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.emailBreachesTableData {
+  width: 100%;
+  white-space: normal;
+}
+
+.breachTitle {
+  font-size: 16px;
+  font-weight: 700;
+
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
+}
+
+.breachDescription {
+  font-size: 14px;
+  font-weight: 600;
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.removalCard {
+  width: 1075px;
+  height: 460px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid #efeff4;
+  color: #efeff4;
+  margin-top: 100px;
+
+  /* hide scrollbar */
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  @media screen and (max-width: 768px) {
+    width: 360px;
+    margin-top: 20px;
+  }
+}
+
+.removalCard::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.removalHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin: 20px 0 0 20px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+}
+
+.removalTable {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.mobileInfo {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.removalSite {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.removalInformation {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.inProgressBox {
+  background-color: #f38701;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  width: 94px;
+  height: 25px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.removedBox {
+  background-color: #6736f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  width: 94px;
+  height: 25px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mobileInProgressBox {
+  background-color: #f38701;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  width: 70px;
+  height: 23px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.mobileRemovedBox {
+  background-color: #6736f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  width: 70px;
+  height: 23px;
+  font-size: 12px;
+  font-weight: 600;
+}

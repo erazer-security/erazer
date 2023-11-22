@@ -3,4 +3,5 @@ export type Profile = {
   profile: string;
   age: number;
   removalContext: string;
+  status?: string;
 };

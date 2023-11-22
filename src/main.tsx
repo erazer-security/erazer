@@ -5,13 +5,20 @@ import { BrowserRouter } from "react-router-dom";
 import store from "@redux/store";
 import { Provider } from "react-redux";
 import App from "./App.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+          <ReactQueryDevtools />
+        </Provider>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
