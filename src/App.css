@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -1;
 }
 
 .noiseBg {
@@ -19,7 +19,7 @@
   top: 0;
   left: 0;
   mix-blend-mode: soft-light;
-  z-index: 1;
+  z-index: -1;
 }
 
 .mainShape {
@@ -31,5 +31,5 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: -1;
 }

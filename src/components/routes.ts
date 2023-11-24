@@ -9,6 +9,10 @@ export const routes: Route[] = [
     title: "Home",
   },
   {
+    path: "/dashboard",
+    title: "Dashboard",
+  },
+  {
     path: "/privateInvestigator",
     title: "Private Investigator",
   },
@@ -19,5 +23,10 @@ export const routes: Route[] = [
   {
     path: "/feedback",
     title: "Feedback",
+  },
+  {
+    // path: "http://localhost:5001/logout",
+    path: "https://auth.erazer.io/logout",
+    title: "Sign Out",
   },
 ];

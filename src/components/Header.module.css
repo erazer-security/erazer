@@ -1,14 +1,19 @@
 .banner {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 40px;
+  height: 100px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  z-index: 2;
+  padding: 40px;
+  z-index: 1000;
+}
+
+.sticky {
+  background-color: #100424;
 }
 
 .logo {
@@ -19,25 +24,15 @@
   }
 }
 
-.routes {
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-  display: block;
-  font-size: 16px;
-  font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 600;
+.profilePicture {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #6736f5;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .route {
   color: white;
   margin: 0 5px;
-}
-
-.hamburgerMenu {
-  display: none;
-
-  @media screen and (max-width: 768px) {
-    display: block;
-  }
 }
