@@ -6,10 +6,10 @@ function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.mainHeading}>
-        Remove your personal information <br /> from 30 data brokers
+      Find out what personal information <br /> is available about you online
       </h1>
       <p className={styles.tagLine}>
-        Because getting your data sold isn’t cute
+        Remove yourself from 30 data brokers websites that buy & sell your data
       </p>
 
       <ProfileRemoval />
@@ -21,7 +21,7 @@ function Home() {
       <div className={styles.offeringsContainer}>
         <OfferingsCard
           product="Data Broker Removal"
-          description="Delete your personal data from 16 data broker services."
+          description="Delete your personal data from 30 data broker services."
         />
         <OfferingsCard
           product="Dark Web (coming soon)"
