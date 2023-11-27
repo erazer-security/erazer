@@ -29,10 +29,14 @@ export default function Header() {
   }, []);
 
   const getUser = async () => {
-    // const response = await fetch("http://localhost:5001/checkAuthentication", {
-    const response = await fetch("https://auth.erazer.io/checkAuthentication", {
-      credentials: "include",
-    });
+    const response = await fetch(
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5001/checkAuthentication"
+        : "https://authentication.erazer.io/checkAuthentication",
+      {
+        credentials: "include",
+      }
+    );
     const data = await response.json();
     console.log("data", data);
     return data.authenticated ? data.user : null;
