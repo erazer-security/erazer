@@ -9,6 +9,7 @@ import Results from "@components/Results";
 import PrivateInvestigator from "@components/PrivateInvestigator";
 import WallOfHorror from "@pages/WallOfHorror";
 import Feedback from "@pages/Feedback";
+import PrivacyPolicy from "@pages/PrivacyPolicy";
 import "./styles/global.css";
 import "./App.css";
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/privateInvestigator" element={<PrivateInvestigator />} />
         <Route path="/wallofhorror" element={<WallOfHorror />} />
         <Route path="/feedback" element={<Feedback />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
     </ChakraProvider>
   );
