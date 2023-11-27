@@ -101,17 +101,21 @@ export default function Dashboard() {
 
       localStorage.setItem("selectedProfiles", JSON.stringify(allProfiles));
 
-      // await fetch("http://localhost:5001/auth/google", {
-      await fetch("https://auth.erazer.io/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          profiles: JSON.parse(localStorage.getItem("selectedProfiles")!),
-        }),
-      }).then((response) => response.json());
+      await fetch(
+        import.meta.env.VITE_NODE_ENV === "DEV"
+          ? "http://localhost:5001/auth/google"
+          : "https://authentication.erazer.io/auth/google",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            profiles: JSON.parse(localStorage.getItem("selectedProfiles")!),
+          }),
+        }
+      ).then((response) => response.json());
     }
   }
 
@@ -179,18 +183,22 @@ export default function Dashboard() {
           });
         }
 
-        // await fetch("http://localhost:5001/auth/google", {
-        await fetch("https://auth.erazer.io/auth/google", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            profiles: profiles2,
-            removalComplete: true,
-          }),
-        }).then((response) => response.json());
+        await fetch(
+          import.meta.env.VITE_NODE_ENV === "DEV"
+            ? "http://localhost:5001/auth/google"
+            : "https://authentication.erazer.io/auth/google",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user.email,
+              profiles: profiles2,
+              removalComplete: true,
+            }),
+          }
+        ).then((response) => response.json());
       })();
 
       //   await Promise.all([removeProfilePromise, updateRemovalPromise]);

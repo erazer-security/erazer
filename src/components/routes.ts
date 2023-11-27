@@ -25,8 +25,10 @@ export const routes: Route[] = [
     title: "Feedback",
   },
   {
-    // path: "http://localhost:5001/logout",
-    path: "https://auth.erazer.io/logout",
+    path:
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5001/logout"
+        : "https://authentication.erazer.io/logout",
     title: "Sign Out",
   },
 ];

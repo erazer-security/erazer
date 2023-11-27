@@ -6,10 +6,14 @@ import loginLaptop from "/loginLaptop.png";
 
 export default function Signin() {
   const getUser = async () => {
-    // const response = await fetch("http://localhost:5001/checkAuthentication", {
-    const response = await fetch("https://auth.erazer.io/checkAuthentication", {
-      credentials: "include",
-    });
+    const response = await fetch(
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5001/checkAuthentication"
+        : "https://authentication.erazer.io/checkAuthentication",
+      {
+        credentials: "include",
+      }
+    );
     const data = await response.json();
     return data.authenticated ? data.user : null;
   };
@@ -35,8 +39,11 @@ export default function Signin() {
             and always be at a peace of mind.
           </h3>
           <Link
-            // to="http://localhost:5001/auth/google"
-            to="https://auth.erazer.io/auth/google"
+            to={
+              import.meta.env.VITE_NODE_ENV === "DEV"
+                ? "http://localhost:5001/auth/google"
+                : "https://authentication.erazer.io/auth/google"
+            }
             className={styles.loginGoogleButton}
           >
             <img src={googleLogo} className={styles.googleLogo}></img>
