@@ -21,6 +21,12 @@ function App() {
         <div className="mainShape"></div>
       </div>
       <Header />
+      <div className="messageContainer">
+        <p className="message">
+          We are currently experiencing issues with Google authentication.
+          Please give us time to fix it.
+        </p>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
