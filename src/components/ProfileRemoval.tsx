@@ -250,6 +250,7 @@ export default function ProfileRemoval() {
           placeholder="First Name"
           onChange={(event) => dispatch(setFirstName(event.target.value))}
           variant="flushed"
+          style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
         />
         <Input
@@ -258,6 +259,7 @@ export default function ProfileRemoval() {
           placeholder="Last Name"
           onChange={(event) => dispatch(setLastName(event.target.value))}
           variant="flushed"
+          style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
         />
         <Input
@@ -266,12 +268,14 @@ export default function ProfileRemoval() {
           placeholder="Age"
           onChange={(event) => dispatch(setAge(parseInt(event.target.value)))}
           variant="flushed"
+          style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
         ></Input>
         <Select
           variant="flushed"
           placeholder="All States"
           color="white"
+          style={{ fontWeight: "600", borderBottom: "2px solid #c7b8e7" }}
           onChange={(event) => dispatch(setUserState(event.target.value))}
         >
           {states.map((state: string, index: number) => (
@@ -280,18 +284,9 @@ export default function ProfileRemoval() {
             </option>
           ))}
         </Select>
-
-        <Button
-          style={{
-            backgroundColor: "#6736f5",
-            color: "white",
-          }}
-          width="200px"
-          onClick={searchProfile}
-          className={styles.searchButton}
-        >
+        <button onClick={searchProfile} className={styles.searchButton}>
           Search
-        </Button>
+        </button>
       </div>
       <h1 className={styles.heading}>{heading}</h1>
       <Swiper

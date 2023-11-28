@@ -24,7 +24,7 @@ function App() {
       <div className="messageContainer">
         <p className="message">
           We are currently experiencing issues with Google authentication.
-          Please give us time to fix it.
+          Please hang on while we try to fix it.
         </p>
       </div>
       <Routes>
