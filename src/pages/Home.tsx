@@ -1,4 +1,5 @@
 import styles from "./Home.module.css";
+import { Link } from "react-router-dom";
 import OfferingsCard from "@components/OfferingsCard";
 import ProfileRemoval from "@components/ProfileRemoval";
 
@@ -32,6 +33,9 @@ function Home() {
           description="Remove your images from unwanted places on the internet."
         />
       </div>
+      <Link to="/privacypolicy" className={styles.privacyPolicyLink}>
+        Privacy Policy
+      </Link>
     </div>
   );
 }
