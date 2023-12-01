@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  font-size: 60px;
+  font-weight: 700;
+
+  @media screen and (max-width: 768px) {
+    font-size: 22px;
+    margin: 10px 0;
+  }
+}
+
+.headingColor {
+  background: linear-gradient(
+    89.78deg,
+    #c8bdff -31.69%,
+    #baa6ff -22.78%,
+    #6721ff 27.93%,
+    #00cbff 99.79%
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.tagLine {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 10px 0 30px 0;
+  color: #c7b8e7;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 50px;
+  width: 500px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 0;
+    background-color: transparent; /* remove search bar for mobile */
+    width: 90%;
+  }
+}
+
+.input {
+  color: white;
+  font-weight: 600;
+  margin-right: 20px;
+
+  @media screen and (max-width: 768px) {
+    margin: 0 0 20px 0;
+  }
+}
+
+.input::placeholder {
+  color: white;
+}
+
+.signUpButton {
+  color: white;
+  background-color: #6736f5;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  padding: 10px;
+  width: 150px;
+  font-weight: 600;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 10px 0 0 0;
+    border-radius: 10px;
+  }
+}

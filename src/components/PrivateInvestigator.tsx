@@ -126,6 +126,8 @@ function PrivateInvestigator() {
       <h1 className={styles.privateInvestigatorHeading}>
         How secure are you online?
       </h1>
+      <p className={styles.tagLine}>Chat with Erazerbot</p>
+
       <MessageBox messages={messages} loading={loading}></MessageBox>
       {!feedbackHit && (
         <div className={styles.inputContainer}>
@@ -134,7 +136,6 @@ function PrivateInvestigator() {
             id="user-input"
             placeholder="Type your message..."
             value={chat}
-            autoFocus
             autoComplete="off"
             onChange={(event) => setChat(event.target.value)}
             onKeyDown={handleKeyDown}

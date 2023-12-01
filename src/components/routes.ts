@@ -13,16 +13,20 @@ export const routes: Route[] = [
     title: "Dashboard",
   },
   {
-    path: "/privateInvestigator",
+    path: "/#privateInvestigator",
     title: "Private Investigator",
   },
   {
-    path: "/wallofhorror",
+    path: "/#wallOfHorror",
     title: "Wall of Horror",
   },
   {
     path: "/feedback",
     title: "Feedback",
+  },
+  {
+    path: "/signin",
+    title: "Sign In",
   },
   {
     path:
