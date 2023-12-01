@@ -1,22 +1,44 @@
 import styles from "./WallOfHorror.module.css";
 import StoryCard from "@components/StoryCard";
 import stories from "@pages/wallOfHorrorStories.json";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import { isMobile } from "react-device-detect";
+
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default function WallOfHorror() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Wall of Horror</h1>
-      <div className={styles.cards}>
+      <h1 className={styles.heading}>Hall of Horror</h1>
+      <p className={styles.tagLine}>
+        Hear stories from others who've had their identities stolen.
+      </p>
+
+      <Swiper
+        slidesPerView={isMobile ? 1 : 3}
+        spaceBetween={isMobile ? 0 : 10}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Autoplay, Pagination]}
+        className={styles.storiesCarousel}
+      >
         {stories.stories.map((story, index) => (
-          <div key={index} className={styles.storyCard}>
+          <SwiperSlide key={index} className={styles.storySlide}>
             <StoryCard
               title={story.title}
               author={story.author}
               story={story.story}
             />
-          </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   );
 }

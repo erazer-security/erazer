@@ -3,34 +3,42 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 5%;
-  /* position: relative; */
-
-  @media screen and (max-width: 768px) {
-    padding-top: 105px;
-  }
+  padding-top: 50px;
 }
 
 .heading {
-  font-family: horror;
   font-size: 50px;
+  font-weight: 700;
   color: white;
-}
 
-.cards {
   @media screen and (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
+    font-size: 22px;
   }
-
-  columns: 3;
-  column-gap: 20px;
-  max-width: 940px;
-  margin-bottom: 5%;
 }
 
-.storyCard {
-  width: 100%; /* Cards take the full width of a column */
-  margin-bottom: 20px;
-  break-inside: avoid-column; /* Prevents a card from being split between columns */
+.tagLine {
+  font-size: 22px;
+  font-weight: 500;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px 0 30px 0;
+  /* margin: 0 0 20px 0; */
+  color: #c7b8e7;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+}
+
+.storiesCarousel {
+  width: 1000px;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
+}
+
+.storySlide {
+  padding: 20px 0;
 }

@@ -1,5 +1,6 @@
 import styles from "./Signin.module.css";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import { useQuery } from "@tanstack/react-query";
 import googleLogo from "/googleLogo.png";
 import loginLaptop from "/loginLaptop.png";
@@ -38,7 +39,7 @@ export default function Signin() {
             <span className={styles.secondHeadingColor}>Erazer</span> <br />
             and always be at a peace of mind.
           </h3>
-          <Link
+          <HashLink
             to={
               import.meta.env.VITE_NODE_ENV === "DEV"
                 ? "http://localhost:5001/auth/google"
@@ -48,7 +49,7 @@ export default function Signin() {
           >
             <img src={googleLogo} className={styles.googleLogo}></img>
             SIGN IN WITH GOOGLE
-          </Link>
+          </HashLink>
           <img src={loginLaptop} className={styles.loginLaptop}></img>
         </div>
       )}

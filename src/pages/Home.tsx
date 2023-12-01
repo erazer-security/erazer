@@ -1,7 +1,9 @@
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
-import OfferingsCard from "@components/OfferingsCard";
+import { HashLink } from "react-router-hash-link";
 import ProfileRemoval from "@components/ProfileRemoval";
+import WallOfHorror from "@pages/WallOfHorror";
+import PrivateInvestigator from "@components/PrivateInvestigator";
+import Waitlist from "@components/Waitlist";
 
 function Home() {
   return (
@@ -13,29 +15,21 @@ function Home() {
         Because getting your data sold isn’t cute
       </p>
 
-      <ProfileRemoval />
-
-      <h1 className={styles.secondHeading}>
-        Start protecting yourself with{" "}
-        <span className={styles.secondHeadingColor}>Erazer</span>
-      </h1>
-      <div className={styles.offeringsContainer}>
-        <OfferingsCard
-          product="Data Broker Removal"
-          description="Delete your personal data from 16 data broker services."
-        />
-        <OfferingsCard
-          product="Dark Web (coming soon)"
-          description="Monitor & support to remove any leaked personal information from the dark web."
-        />
-        <OfferingsCard
-          product="Image Piracy (coming soon)"
-          description="Remove your images from unwanted places on the internet."
-        />
-      </div>
-      <Link to="/privacypolicy" className={styles.privacyPolicyLink}>
+      <section id="profileRemoval">
+        <ProfileRemoval />
+      </section>
+      <section id="waitlist">
+        <Waitlist />
+      </section>
+      <section id="wallOfHorror">
+        <WallOfHorror />
+      </section>
+      <section id="privateInvestigator">
+        <PrivateInvestigator />
+      </section>
+      <HashLink to="/privacypolicy" className={styles.privacyPolicyLink}>
         Privacy Policy
-      </Link>
+      </HashLink>
     </div>
   );
 }

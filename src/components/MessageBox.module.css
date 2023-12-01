@@ -1,9 +1,13 @@
 .messagesContainer {
   display: flex;
   flex-direction: column;
-  width: 70%;
   height: auto;
   margin: 20px 0;
+
+  @media screen and (max-width: 768px) {
+    width: 80%;
+    margin: 10px 0;
+  }
 }
 
 .userMessage,

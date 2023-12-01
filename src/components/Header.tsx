@@ -1,7 +1,7 @@
 import styles from "./Header.module.css";
 import { Route, routes } from "./routes";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import { useQuery } from "@tanstack/react-query";
 import {
   IconButton,
@@ -11,8 +11,16 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-
 import logo from "/logo.png";
+
+const pageRoutes: string[] = [
+  "Home",
+  "Dashboard",
+  "Wall of Horror",
+  "Private Investigator",
+  "Sign In",
+  "Sign Out",
+];
 
 export default function Header() {
   // handle header scroll color change
@@ -53,9 +61,9 @@ export default function Header() {
         isScrolled ? `${styles.banner} ${styles.sticky}` : `${styles.banner}`
       }
     >
-      <Link to="/">
+      <HashLink to="/">
         <img src={logo} className={styles.logo}></img>
-      </Link>
+      </HashLink>
       <div className={styles.hamburgerMenu}>
         <Menu>
           <MenuButton
@@ -71,16 +79,30 @@ export default function Header() {
             variant="unstyled"
           />
           <MenuList bg="#100424">
-            {(user ? routes : routes.slice(0, -1)).map(
-              // if the user isn't signed in, don't show sign out route
-              (route: Route, index: number) => (
-                <MenuItem key={index} bg="#100424">
-                  <Link to={route.path} className={styles.route}>
-                    {route.title}
-                  </Link>
-                </MenuItem>
-              )
-            )}
+            {routes.map((route: Route, index: number) => {
+              if (pageRoutes.includes(route.title)) {
+                // if user is not signed in, don't display dashboard
+                if (route.title === "Dashboard" && !user) {
+                  return null;
+                  // if user is signed in, don't display sign in
+                } else if (route.title === "Sign In" && user) {
+                  return null;
+                  // if user is not signed in, don't display sign out
+                } else if (route.title === "Sign Out" && !user) {
+                  return null;
+                } else {
+                  return (
+                    <MenuItem key={index} bg="#100424">
+                      <HashLink smooth to={route.path} className={styles.route}>
+                        {route.title}
+                      </HashLink>
+                    </MenuItem>
+                  );
+                }
+              } else {
+                return null;
+              }
+            })}
           </MenuList>
         </Menu>
       </div>

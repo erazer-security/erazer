@@ -1,6 +1,6 @@
 import styles from "./Dashboard.module.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
 import {
@@ -23,10 +23,7 @@ import { htmlToText } from "html-to-text";
 import { isMobile } from "react-device-detect";
 import { Profile } from "@components/types";
 import { Route, routes } from "@components/routes";
-
-interface PageRoutes {
-  [key: string]: typeof Icon;
-}
+import { PageRoutes } from "@components/types";
 
 // the routes to display on the left nav
 const pageRoutes: PageRoutes = {
@@ -243,20 +240,20 @@ export default function Dashboard() {
                 <div className={styles.highlightedRouteContainer}>
                   <div key={index} className={styles.highlightedRoute}>
                     <Icon as={pageRoutes[route.title]} boxSize={5} />
-                    <Link
+                    <HashLink
                       to={route.path}
                       className={styles.highlightedRouteLink}
                     >
                       {route.title}
-                    </Link>
+                    </HashLink>
                   </div>
                 </div>
               ) : (
                 <div key={index} className={styles.route}>
                   <Icon as={pageRoutes[route.title]} boxSize={5} />
-                  <Link to={route.path} className={styles.routeLink}>
+                  <HashLink to={route.path} className={styles.routeLink}>
                     {route.title}
-                  </Link>
+                  </HashLink>
                 </div>
               ))
           )}
