@@ -67,14 +67,16 @@ const peoplesWizSites: string[] = [
 
 export default function Dashboard() {
   const queryClient = useQueryClient();
-  const user: any | undefined = queryClient.getQueryData(["user"]);
+  let user: any | undefined = queryClient.getQueryData(["user"]);
   const [profilesRemoved, setProfilesRemoved] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
 
   async function updateDBProfiles() {
+    // update the list of profiles to include all truth record and peoples wiz sites
     if (user && !user.removalComplete) {
       let allProfiles: Profile[] = [];
-      JSON.parse(localStorage.getItem("selectedProfiles")!).forEach(
+
+      JSON.parse(sessionStorage.getItem("selectedProfiles")!).forEach(
         (profile: Profile) => {
           allProfiles.push(profile);
 
@@ -96,12 +98,13 @@ export default function Dashboard() {
         }
       );
 
-      localStorage.setItem("selectedProfiles", JSON.stringify(allProfiles));
+      sessionStorage.setItem("selectedProfiles", JSON.stringify(allProfiles)); // update selected profiles in session storage
 
+      // send the updated list of profiles to the backend
       await fetch(
         import.meta.env.VITE_NODE_ENV === "DEV"
-          ? "http://localhost:5001/auth/google"
-          : "https://authentication.erazer.io/auth/google",
+          ? "http://localhost:5001/updateStateAndProfiles"
+          : "https://authentication.erazer.io/updateStateAndProfiles",
         {
           method: "POST",
           headers: {
@@ -109,7 +112,8 @@ export default function Dashboard() {
           },
           body: JSON.stringify({
             email: user.email,
-            profiles: JSON.parse(localStorage.getItem("selectedProfiles")!),
+            state: sessionStorage.getItem("userState"),
+            profiles: allProfiles,
           }),
         }
       ).then((response) => response.json());
@@ -117,44 +121,47 @@ export default function Dashboard() {
   }
 
   async function initiateRemoval() {
+    // get the updated user
+    user = queryClient.getQueryData(["user"]);
+
     if (user && !user.removalComplete) {
       // Track when fetch request is completed to update progress bar
       let isFetchCompleted: boolean = false;
 
-      // const removeProfilePromise = fetch("https://api.erazer.io/remove-profile", {
-      //   const removeProfilePromise = fetch(
-      //     "http://localhost:5002/remove-profile",
-      //     {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         firstName: user.firstName,
-      //         lastName: user.lastName,
-      //         userState: user.userState,
-      //         filteredProfiles: user2.profiles,
-      //       }),
-      //     }
-      //   )
-      //     .then((response) => response.json())
-      //     .then((data) => {
-      //       data;
-      //       isFetchCompleted = true;
-      //     })
-      //     .catch((error) => console.log(error));
+      const removeProfilePromise = fetch(
+        import.meta.env.VITE_NODE_ENV === "DEV"
+          ? "http://localhost:5002/remove-profile"
+          : "https://api.erazer.io/remove-profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // since first name and last name of what the user eneterd could be different from what's on their account, use session storage variables
+            firstName: sessionStorage.getItem("firstName"),
+            lastName: sessionStorage.getItem("lastName"),
+            userState: sessionStorage.getItem("userState"),
+            filteredProfiles: user.profiles,
+          }),
+        }
+      )
+        .then((response) => {
+          response.json();
+          isFetchCompleted = true;
+        })
+        .catch((error) => console.log(error));
 
       // update progress bar
       const delay = (ms: number) =>
         new Promise((resolve) => setTimeout(resolve, ms));
 
       const updateRemovalPromise = (async () => {
-        const delayTime = 1000; // 1 second per profile
-        let profiles2: Profile[] = JSON.parse(
-          localStorage.getItem("selectedProfiles")!
-        );
+        const delayTime = 2000; // 2 seconds per profile
 
-        for (let i = 0; i < profiles2.length; i++) {
+        let profiles2: Profile[] = user.profiles;
+
+        for (let i = 0; i < profiles2.length - 1; i++) {
           if (isFetchCompleted) {
             break;
           }
@@ -180,40 +187,64 @@ export default function Dashboard() {
           });
         }
 
-        await fetch(
-          import.meta.env.VITE_NODE_ENV === "DEV"
-            ? "http://localhost:5001/auth/google"
-            : "https://authentication.erazer.io/auth/google",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: user.email,
+        // wait for fetch request to complete
+        while (!isFetchCompleted) {
+          await delay(1000);
+        }
+
+        if (isFetchCompleted) {
+          setProfilesRemoved(profiles2.length);
+          setPercentage(100);
+
+          // update all profiles to "Removed"
+          profiles2 = profiles2.map((profile: Profile) => ({
+            ...profile,
+            status: "Removed",
+          }));
+
+          // set all "user.profiles.status" to "Removed"
+          queryClient.setQueryData(["user"], (oldData: any) => {
+            return {
+              ...oldData,
               profiles: profiles2,
-              removalComplete: true,
-            }),
-          }
-        ).then((response) => response.json());
+            };
+          });
+
+          // send updated profiles to backend
+          await fetch(
+            import.meta.env.VITE_NODE_ENV === "DEV"
+              ? "http://localhost:5001/updateProfiles"
+              : "https://authentication.erazer.io/updateProfiles",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: user.email,
+                profiles: profiles2,
+                removalComplete: true,
+              }),
+            }
+          ).then((response) => response.json());
+        }
       })();
 
-      //   await Promise.all([removeProfilePromise, updateRemovalPromise]);
-      await Promise.all([updateRemovalPromise]);
+      await Promise.all([removeProfilePromise, updateRemovalPromise]);
     }
   }
 
   const updateDBProfilesMutation = useMutation({
     mutationFn: updateDBProfiles,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"], exact: true });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["user"], exact: true });
     },
   });
 
   const initiateRemovalMutation = useMutation({
     mutationFn: initiateRemoval,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"], exact: true });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["user"], exact: true });
     },
   });
 
