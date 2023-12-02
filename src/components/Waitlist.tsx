@@ -31,7 +31,7 @@ export default function Waitlist() {
           autoComplete="off"
           type="email"
           name="from_email"
-          placeholder="Enter your email address"
+          placeholder="Email Address"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           variant="flushed"

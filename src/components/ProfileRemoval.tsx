@@ -221,8 +221,11 @@ export default function ProfileRemoval() {
 
     setRemovalReady(false); // disable removal button
 
-    // set local variables to track removal feature and navigate to dashboard
-    localStorage.setItem(
+    // set necessary removal information in session and navigate to dashboard
+    sessionStorage.setItem("firstName", user.firstName);
+    sessionStorage.setItem("lastName", user.lastName);
+    sessionStorage.setItem("userState", user.userState);
+    sessionStorage.setItem(
       "selectedProfiles",
       JSON.stringify(selectedProfilesWithStatus)
     );
