@@ -9,10 +9,10 @@ function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.mainHeading}>
-        Remove your personal information <br /> from 30 data brokers
+        Skirt The Stalkers <br /> See What The Internet Knows About You
       </h1>
       <p className={styles.tagLine}>
-        Because getting your data sold isn’t cute
+        Remove your personal information from 30 data brokers
       </p>
 
       <section id="profileRemoval">

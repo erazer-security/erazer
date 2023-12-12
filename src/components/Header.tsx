@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import logo from "/logo.png";
+import logo from "/logo.svg";
 
 const pageRoutes: string[] = [
   "Home",
@@ -46,7 +46,6 @@ export default function Header() {
       }
     );
     const data = await response.json();
-    console.log("data", data);
     return data.authenticated ? data.user : null;
   };
 
@@ -73,7 +72,7 @@ export default function Header() {
               user ? ( // if user is signed in, display profile picture
                 <img src={user.picture} className={styles.profilePicture}></img>
               ) : (
-                <HamburgerIcon boxSize="30px" color="#6736f5" />
+                <HamburgerIcon boxSize="30px" color="#ffffff" />
               )
             }
             variant="unstyled"

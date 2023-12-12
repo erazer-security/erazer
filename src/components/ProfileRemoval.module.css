@@ -115,3 +115,25 @@
     font-size: 14px;
   }
 }
+
+.loginGoogleButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #6736f5;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  width: 455px;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+}
+
+.googleLogo {
+  margin-right: 10px;
+}
