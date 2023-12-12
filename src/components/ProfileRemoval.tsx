@@ -1,21 +1,20 @@
 import styles from "./ProfileRemoval.module.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfiles } from "@redux/profiles";
 import { setFirstName, setLastName, setUserState, setAge } from "@redux/user";
-import { Input, Select, Button } from "@chakra-ui/react";
+import { Input, Select } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { A11y, Navigation, Pagination } from "swiper/modules";
+import { SwiperNavButtons } from "@components/SwiperNavButton";
+import "swiper/css";
+import "swiper/css/pagination";
 import ProgressBar from "@components/ProgressBar";
 import { Profile } from "@components/types";
-
-import "swiper/css";
-import "swiper/css/navigation";
+import googleLogo from "/googleLogo.png";
 
 export default function ProfileRemoval() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [heading, setHeading] = useState<string>("");
   const { user } = useSelector((state: any) => state.user);
@@ -167,12 +166,12 @@ export default function ProfileRemoval() {
               setHeading(
                 "We found 1 profile. If this is you, click on it to begin removal."
               );
+              setRemovalReady(true); // since this is the only profile available, enable removal button
             } else {
               setHeading(
-                `We found ${profilesFiltered.length} profiles. Swipe through them and click on those that match you.`
+                `We found ${profilesFiltered.length} profiles. Let's narrow it down by selecting those that match you.`
               );
             }
-            setRemovalReady(true); // enable removal button
           }
         }
       })
@@ -207,7 +206,7 @@ export default function ProfileRemoval() {
   function navigateResults() {
     // ensure at least one profile is selected
     if (selectedProfiles.length === 0) {
-      setHeading("Please click on your profiles to begin removal.");
+      setHeading("You must select at least one profile to begin removal.");
       return;
     }
 
@@ -221,7 +220,7 @@ export default function ProfileRemoval() {
 
     setRemovalReady(false); // disable removal button
 
-    // set necessary removal information in session and navigate to dashboard
+    // set necessary removal information in session and navigate to sign in page
     sessionStorage.setItem("firstName", user.firstName);
     sessionStorage.setItem("lastName", user.lastName);
     sessionStorage.setItem("userState", user.userState);
@@ -229,19 +228,33 @@ export default function ProfileRemoval() {
       "selectedProfiles",
       JSON.stringify(selectedProfilesWithStatus)
     );
-    navigate("/dashboard");
+
+    window.location.href =
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5001/auth/google"
+        : "https://authentication.erazer.io/auth/google";
   }
 
-  function handleProfileClick(profile: Profile) {
-    // manage selected profiles
-    if (selectedProfiles.includes(profile)) {
-      setSelectedProfiles(
-        selectedProfiles.filter((selectedProfile) => selectedProfile != profile)
-      );
-    } else {
+  function handleProfileAdd(profile: Profile) {
+    // add profile to selected profiles if it doesn't already exist
+    if (!selectedProfiles.includes(profile)) {
       setSelectedProfiles([...selectedProfiles, profile]);
     }
   }
+
+  function handleProfileRemove(profile: Profile) {
+    // remove profile from selected profiles
+    setSelectedProfiles(
+      selectedProfiles.filter((selectedProfile) => selectedProfile != profile)
+    );
+  }
+
+  const handleSlideChange = (swiper: any) => {
+    // ensure user goes through all profiles before enabling removal button
+    if (swiper.activeIndex === filteredProfiles.length - 1) {
+      setRemovalReady(true); // enable removal button
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -292,9 +305,10 @@ export default function ProfileRemoval() {
         </button>
       </div>
       <h1 className={styles.heading}>{heading}</h1>
+
       <Swiper
-        modules={[Navigation]}
-        navigation
+        modules={[Navigation, Pagination, A11y]}
+        onSlideChange={handleSlideChange}
         className={styles.profilesCarousel}
       >
         {filteredProfiles.map((profile: Profile, index: number) => (
@@ -307,24 +321,22 @@ export default function ProfileRemoval() {
                   ? "#100424"
                   : "",
               }}
-              onClick={() => handleProfileClick(profile)}
             >
               <p className={styles.profileInfo}>{profile.profile}</p>
             </div>
+            <SwiperNavButtons
+              onNotMeClick={() => handleProfileRemove(profile)}
+              onThisIsMeClick={() => handleProfileAdd(profile)}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
+
       {removalReady && (
-        <Button
-          style={{
-            backgroundColor: "#6736f5",
-            color: "white",
-          }}
-          width="200px"
-          onClick={navigateResults}
-        >
-          Confirm Removal
-        </Button>
+        <button onClick={navigateResults} className={styles.loginGoogleButton}>
+          <img src={googleLogo} className={styles.googleLogo}></img>
+          SIGN IN WITH GOOGLE TO BEGIN REMOVAL
+        </button>
       )}
       <div style={{ zIndex: 1 }}>
         {loading && (

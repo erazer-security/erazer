@@ -23,9 +23,6 @@ export default function WallOfHorror() {
           delay: 2500,
           disableOnInteraction: false,
         }}
-        pagination={{
-          clickable: true,
-        }}
         modules={[Autoplay, Pagination]}
         className={styles.storiesCarousel}
       >
