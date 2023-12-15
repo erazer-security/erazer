@@ -13,82 +13,99 @@ import {
   TableContainer,
   Icon,
 } from "@chakra-ui/react";
-import {
-  CalendarIcon,
-  SearchIcon,
-  CopyIcon,
-  EmailIcon,
-} from "@chakra-ui/icons";
+import { CalendarIcon, CopyIcon, EmailIcon } from "@chakra-ui/icons";
+import { loadStripe } from "@stripe/stripe-js";
 import { htmlToText } from "html-to-text";
 import { isMobile } from "react-device-detect";
 import { Profile } from "@components/types";
 import { Route, routes } from "@components/routes";
 import { PageRoutes } from "@components/types";
+import {
+  truthRecordSites,
+  peoplesWizSites,
+  newenglandFactsSites,
+  usaOfficialSites,
+  floridaResidentsDirectorySites,
+  spokeoSites,
+  beenVerifiedSites,
+} from "@components/databrokers";
+
+let stripePromise: any;
+
+const getStripe = () => {
+  if (!stripePromise) {
+    stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_KEY}`);
+  }
+
+  return stripePromise;
+};
 
 // the routes to display on the left nav
 const pageRoutes: PageRoutes = {
   Dashboard: CalendarIcon,
-  "Private Investigator": SearchIcon,
-  "Wall of Horror": CopyIcon,
+  "Hall of Horror": CopyIcon,
   Feedback: EmailIcon,
 };
 
-const truthRecordSites: string[] = [
-  "weinform.org",
-  "privatereports.com",
-  "personsearchers.com",
-  "backgroundcheckers.net",
-  "checksecrets.com",
-  "inmatessearcher.com",
-  "mugshotlook.com",
-  "peoplesearch123.com",
-  "peoplesearcher.com",
-  "peoplesearchusa.org",
-  "personsearchers.com",
-  "privaterecords.net",
-  "publicsearcher.com",
-  "sealedrecords.net",
-  "secretinfo.org",
-];
-const peoplesWizSites: string[] = [
-  "peopleswhizr.com",
-  "peopleswizard.com",
-  "people-wizard.com",
-  "peoplewhiz.com",
-  "peoplewhiz.net",
-  "peoplewhized.com",
-  "peoplewhized.net",
-  "peoplewhizr.com",
-  "peoplewhizr.net",
-  "peoplewiz.com",
-  "peoplewizard.net",
-  "peoplewizr.com",
-];
+const siteMapping: any = {
+  "truthrecord.org": truthRecordSites,
+  "peopleswiz.com": peoplesWizSites,
+  "newenglandfacts.com": newenglandFactsSites,
+  "usaofficial.info": usaOfficialSites,
+  "usa-official.com": usaOfficialSites,
+  "floridaresidentsdirectory.com": floridaResidentsDirectorySites,
+  "spokeo.com": spokeoSites,
+  "beenverified.com": beenVerifiedSites,
+};
 
 export default function Dashboard() {
   const queryClient = useQueryClient();
   let user: any | undefined = queryClient.getQueryData(["user"]);
   const [profilesRemoved, setProfilesRemoved] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
+  const [removalProcessText, setRemovalProcessText] = useState<string>(
+    user && user.paidForRemoval && user.removalComplete
+      ? "Congratulations! Your profiles have been removed."
+      : "Pay below to initiate removal"
+  );
+
+  const item = {
+    price: `${import.meta.env.VITE_STRIPE_PRICE_ID}`,
+    quantity: 1,
+  };
+
+  const checkoutOptions = {
+    lineItems: [item],
+    mode: "payment",
+    successUrl:
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5173/dashboard"
+        : "https://erazer.io/dashboard",
+    cancelUrl:
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5173/dashboard"
+        : "https://erazer.io/dashboard",
+    customerEmail: user.email,
+  };
 
   async function updateDBProfiles() {
     // update the list of profiles to include all truth record and peoples wiz sites
-    if (user && !user.removalComplete) {
+    if (
+      user &&
+      !user.paidForRemoval &&
+      !user.removalComplete &&
+      user.profiles.length !==
+        JSON.parse(sessionStorage.getItem("selectedProfiles")!).length
+    ) {
       let allProfiles: Profile[] = [];
 
       JSON.parse(sessionStorage.getItem("selectedProfiles")!).forEach(
         (profile: Profile) => {
           allProfiles.push(profile);
 
-          if (profile.website === "truthrecord.org") {
-            truthRecordSites.forEach((site) => {
-              allProfiles.push({
-                ...profile,
-                website: site,
-              });
-            });
-          } else if (profile.website === "peopleswiz.com") {
-            peoplesWizSites.forEach((site) => {
+          // find the sites that match the profile.website, and add them to the list of profiles
+          if (siteMapping[profile.website]) {
+            siteMapping[profile.website].forEach((site: string) => {
               allProfiles.push({
                 ...profile,
                 website: site,
@@ -124,9 +141,10 @@ export default function Dashboard() {
     // get the updated user
     user = queryClient.getQueryData(["user"]);
 
-    if (user && !user.removalComplete) {
+    if (user && user.paidForRemoval && !user.removalComplete) {
       // Track when fetch request is completed to update progress bar
       let isFetchCompleted: boolean = false;
+      setRemovalProcessText("Do not exit this page");
 
       const removeProfilePromise = fetch(
         import.meta.env.VITE_NODE_ENV === "DEV"
@@ -226,13 +244,24 @@ export default function Dashboard() {
                 removalComplete: true,
               }),
             }
-          ).then((response) => response.json());
+          ).then((response) => {
+            response.json();
+            setRemovalProcessText(
+              "Congratulations! Your profiles have been removed."
+            );
+          });
         }
       })();
 
       await Promise.all([removeProfilePromise, updateRemovalPromise]);
     }
   }
+
+  const redirectToCheckout = async () => {
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOptions);
+    console.log("Stripe checkout error", error);
+  };
 
   const updateDBProfilesMutation = useMutation({
     mutationFn: updateDBProfiles,
@@ -252,7 +281,7 @@ export default function Dashboard() {
     async function updateDashboard() {
       await updateDBProfilesMutation.mutateAsync();
       await initiateRemovalMutation.mutateAsync();
-      if (user && user.removalComplete) {
+      if (user && user.paidForRemoval && user.removalComplete) {
         setPercentage(100);
         setProfilesRemoved(user.profiles.length);
       }
@@ -268,8 +297,8 @@ export default function Dashboard() {
             (route: Route, index: number) =>
               pageRoutes[route.title] &&
               (route.title == "Dashboard" ? (
-                <div className={styles.highlightedRouteContainer}>
-                  <div key={index} className={styles.highlightedRoute}>
+                <div key={index} className={styles.highlightedRouteContainer}>
+                  <div className={styles.highlightedRoute}>
                     <Icon as={pageRoutes[route.title]} boxSize={5} />
                     <HashLink
                       to={route.path}
@@ -322,7 +351,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <p className={styles.removalProcessSubHeading}>
-                Do not exit this page
+                {removalProcessText}
               </p>
             </div>
             {!user.breaches ? (
@@ -334,7 +363,7 @@ export default function Dashboard() {
             ) : (
               <div className={styles.emailBreachesCard}>
                 <p className={styles.emailBreachesHeading}>
-                  Your Email Has Been Breached In The Following Places
+                  Your Email Has Been Breached On The Dark Web
                 </p>
                 <div className={styles.emailBreachesTable}>
                   <TableContainer>
@@ -373,75 +402,90 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-          <div className={styles.removalCard}>
-            <p className={styles.removalHeading}>Overview</p>
-            <div className={styles.removalTable}>
-              {isMobile ? (
-                <TableContainer>
-                  <Table>
-                    <Thead>
-                      <Tr>
-                        <Th style={{ color: "white" }}>Info</Th>
-                        <Th style={{ color: "white" }}>Removal</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {user.profiles?.map((profile: any, index: number) => (
-                        <Tr key={index}>
-                          <Td className={styles.mobileInfo}>
-                            <div>{profile.website}</div>
-                            <div>{profile.profile.slice(0, 25)}...</div>
-                          </Td>
-                          <Td>
-                            {profile.status === "In Progress" ? (
-                              <div className={styles.mobileInProgressBox}>
-                                In Progress
-                              </div>
-                            ) : (
-                              <div className={styles.mobileRemovedBox}>
-                                Removed
-                              </div>
-                            )}
-                          </Td>
+
+          <div className={styles.removalContainer}>
+            {!user.paidForRemoval && (
+              <button
+                onClick={redirectToCheckout}
+                className={styles.removeAllButton}
+              >
+                Click here to remove your profiles from all{" "}
+                {user.profiles.length} data brokers for $9.99
+              </button>
+            )}
+
+            <div className={styles.removalCard}>
+              <p className={styles.removalHeading}>Overview</p>
+              <div className={styles.removalTable}>
+                {isMobile ? (
+                  <TableContainer>
+                    <Table>
+                      <Thead>
+                        <Tr>
+                          <Th style={{ color: "white" }}>Info</Th>
+                          <Th style={{ color: "white" }}>Removal</Th>
                         </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <TableContainer>
-                  <Table>
-                    <Thead>
-                      <Tr>
-                        <Th style={{ color: "white" }}>Found On</Th>
-                        <Th style={{ color: "white" }}>Personal Information</Th>
-                        <Th style={{ color: "white" }}>Removal Status</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {user.profiles?.map((profile: any, index: number) => (
-                        <Tr key={index}>
-                          <Td className={styles.removalSite}>
-                            {profile.website}
-                          </Td>
-                          <Td className={styles.removalInformation}>
-                            {profile.profile.slice(0, 50)}...
-                          </Td>
-                          <Td>
-                            {profile.status === "In Progress" ? (
-                              <div className={styles.inProgressBox}>
-                                In Progress
-                              </div>
-                            ) : (
-                              <div className={styles.removedBox}>Removed</div>
-                            )}
-                          </Td>
+                      </Thead>
+                      <Tbody>
+                        {user.profiles?.map((profile: any, index: number) => (
+                          <Tr key={index}>
+                            <Td className={styles.mobileInfo}>
+                              <div>{profile.website}</div>
+                              <div>{profile.profile.slice(0, 25)}...</div>
+                            </Td>
+                            <Td>
+                              {profile.status === "Pending" ? (
+                                <div className={styles.mobileInProgressBox}>
+                                  Pending
+                                </div>
+                              ) : (
+                                <div className={styles.mobileRemovedBox}>
+                                  Removed
+                                </div>
+                              )}
+                            </Td>
+                          </Tr>
+                        ))}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                ) : (
+                  <TableContainer>
+                    <Table>
+                      <Thead>
+                        <Tr>
+                          <Th style={{ color: "white" }}>Found On</Th>
+                          <Th style={{ color: "white" }}>
+                            Personal Information
+                          </Th>
+                          <Th style={{ color: "white" }}>Removal Status</Th>
                         </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              )}
+                      </Thead>
+                      <Tbody>
+                        {user.profiles?.map((profile: any, index: number) => (
+                          <Tr key={index}>
+                            <Td className={styles.removalSite}>
+                              {profile.website}
+                            </Td>
+                            <Td className={styles.removalInformation}>
+                              {profile.profile.slice(0, 50)}...
+                            </Td>
+                            <Td>
+                              {profile.status === "Pending" ? (
+                                <div className={styles.inProgressBox}>
+                                  Pending
+                                </div>
+                              ) : (
+                                <div className={styles.removedBox}>Removed</div>
+                              )}
+                            </Td>
+                          </Tr>
+                        ))}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                )}
+              </div>
             </div>
           </div>
         </div>

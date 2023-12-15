@@ -1,5 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
+import "@stripe/stripe-js";
 import Header from "@components/Header";
 import Home from "@pages/Home";
 import Signin from "@pages/Signin";

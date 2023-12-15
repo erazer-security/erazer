@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   height: auto;
-  margin: 20px 0;
+  margin: 50px 10%;
 
   @media screen and (max-width: 768px) {
     width: 80%;
-    margin: 10px 0;
+    margin: 25px 0;
   }
 }
 

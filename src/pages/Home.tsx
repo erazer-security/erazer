@@ -1,8 +1,7 @@
 import styles from "./Home.module.css";
 import { HashLink } from "react-router-hash-link";
 import ProfileRemoval from "@components/ProfileRemoval";
-import WallOfHorror from "@pages/WallOfHorror";
-import PrivateInvestigator from "@components/PrivateInvestigator";
+import HallOfHorror from "@pages/HallOfHorror";
 import Waitlist from "@components/Waitlist";
 
 function Home() {
@@ -12,7 +11,7 @@ function Home() {
         Skirt The Stalkers <br /> See What The Internet Knows About You
       </h1>
       <p className={styles.tagLine}>
-        Remove your personal information from 30 data brokers
+        Remove your personal information from 70 data brokers
       </p>
 
       <section id="profileRemoval">
@@ -21,11 +20,8 @@ function Home() {
       <section id="waitlist">
         <Waitlist />
       </section>
-      <section id="wallOfHorror">
-        <WallOfHorror />
-      </section>
-      <section id="privateInvestigator">
-        <PrivateInvestigator />
+      <section id="hallOfHorror">
+        <HallOfHorror />
       </section>
       <HashLink to="/privacypolicy" className={styles.privacyPolicyLink}>
         Privacy Policy
