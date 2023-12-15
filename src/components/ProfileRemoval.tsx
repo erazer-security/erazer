@@ -12,6 +12,15 @@ import "swiper/css/pagination";
 import ProgressBar from "@components/ProgressBar";
 import { Profile } from "@components/types";
 import googleLogo from "/googleLogo.png";
+import {
+  truthRecordSites,
+  peoplesWizSites,
+  newenglandFactsSites,
+  usaOfficialSites,
+  floridaResidentsDirectorySites,
+  spokeoSites,
+  beenVerifiedSites,
+} from "@components/databrokers";
 
 export default function ProfileRemoval() {
   const dispatch = useDispatch();
@@ -79,31 +88,20 @@ export default function ProfileRemoval() {
   ];
 
   const databrokers: string[] = [
-    "weinform.org",
-    "peoplewhizr.net",
     "truthrecord.org",
-    "privatereports.org",
-    "personsearchers.com",
-    "peoplewizard.com",
-    "backgroundcheckers.net",
-    "checksecrets.com",
-    "inmatesearcher.com",
-    "peoplewhized.com",
-    "mugshotlook.com",
     "peopleswiz.com",
-    "peoplesearch123.com",
-    "peopleswhizr.com",
-    "people-wizard.com",
-    "peoplesearcher.com",
-    "peoplesearchusa.org",
-    "peoplewizard.net",
-    "personsearcher.com",
-    "privaterecords.net",
-    "publicsearcher.com",
-    "peoplewhiz.com",
-    "sealedrecords.net",
-    "secretinfo.org",
-    "peoplewizr.com",
+    "newenglandfacts.com",
+    "usa-official.com",
+    "floridaresidentsdirectory.com",
+    "spokeo.com",
+    "beenverified.com",
+    ...truthRecordSites,
+    ...peoplesWizSites,
+    ...newenglandFactsSites,
+    ...usaOfficialSites,
+    ...floridaResidentsDirectorySites,
+    ...spokeoSites,
+    ...beenVerifiedSites,
   ];
 
   async function searchProfile() {
@@ -188,7 +186,7 @@ export default function ProfileRemoval() {
       new Promise((resolve) => setTimeout(resolve, ms));
 
     const updateProgressBarPromise = (async () => {
-      const totalDelayTime = 10000; // 10 seconds
+      const totalDelayTime = 40000; // 40 seconds
       const delayTime = totalDelayTime / databrokers.length;
       for (let i = 0; i < databrokers.length; i++) {
         if (isFetchCompleted) {
@@ -216,12 +214,11 @@ export default function ProfileRemoval() {
       return;
     }
 
-    // for all selected profiles, add a field to the object called "status" and set it to "In Progress"
+    // for all selected profiles, add a field to the object called "status" and set it to "Pending"
     const selectedProfilesWithStatus = selectedProfiles.map(
       (profile: Profile) => ({
         ...profile,
-        status: "In Progress",
-        // status: "Pending",
+        status: "Pending",
       })
     );
 

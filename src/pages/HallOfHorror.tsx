@@ -1,4 +1,4 @@
-import styles from "./WallOfHorror.module.css";
+import styles from "./HallOfHorror.module.css";
 import StoryCard from "@components/StoryCard";
 import stories from "@pages/wallOfHorrorStories.json";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,7 +8,7 @@ import { isMobile } from "react-device-detect";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function WallOfHorror() {
+export default function HallOfHorror() {
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Hall of Horror</h1>

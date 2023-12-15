@@ -13,12 +13,8 @@ export const routes: Route[] = [
     title: "Dashboard",
   },
   {
-    path: "/#privateInvestigator",
-    title: "Private Investigator",
-  },
-  {
-    path: "/#wallOfHorror",
-    title: "Wall of Horror",
+    path: "/#hallOfHorror",
+    title: "Hall of Horror",
   },
   {
     path: "/feedback",

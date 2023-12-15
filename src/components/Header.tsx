@@ -16,8 +16,7 @@ import logo from "/logo.svg";
 const pageRoutes: string[] = [
   "Home",
   "Dashboard",
-  "Wall of Horror",
-  "Private Investigator",
+  "Hall of Horror",
   "Sign In",
   "Sign Out",
 ];
