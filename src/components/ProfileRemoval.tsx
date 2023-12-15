@@ -130,17 +130,23 @@ export default function ProfileRemoval() {
     let isFetchCompleted: boolean = false;
 
     // Fetch the profile, if it exists, from the server
-    const fetchProfilePromise = fetch("https://api.erazer.io/profiles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        userState: user.userState,
-      }),
-    })
+    const fetchProfilePromise = fetch(
+      import.meta.env.VITE_NODE_ENV === "DEV"
+        ? "http://localhost:5002/profiles"
+        : "https://api.erazer.io/profiles",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userState: user.userState,
+          age: user.age,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         isFetchCompleted = true; // request is completed
@@ -215,6 +221,7 @@ export default function ProfileRemoval() {
       (profile: Profile) => ({
         ...profile,
         status: "In Progress",
+        // status: "Pending",
       })
     );
 
