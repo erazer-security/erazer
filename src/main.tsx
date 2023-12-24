@@ -6,7 +6,7 @@ import store from "@redux/store";
 import { Provider } from "react-redux";
 import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Provider store={store}>
           <App />
-          {/* <ReactQueryDevtools /> */}
+          {import.meta.env.VITE_NODE_ENV === "DEV" && <ReactQueryDevtools />}
         </Provider>
       </BrowserRouter>
     </QueryClientProvider>

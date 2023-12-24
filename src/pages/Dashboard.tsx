@@ -1,5 +1,5 @@
 import styles from "./Dashboard.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { HashLink } from "react-router-hash-link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
@@ -63,10 +63,23 @@ export default function Dashboard() {
   let user: any | undefined = queryClient.getQueryData(["user"]);
   const [profilesRemoved, setProfilesRemoved] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
-  const [removalProcessText, setRemovalProcessText] = useState<string>(
-    user && user.paidForRemoval && user.removalComplete
-      ? "Congratulations! Your profiles have been removed."
-      : "Pay below to initiate removal"
+
+  const redirectToCheckout = async () => {
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOptions);
+    console.log("Stripe checkout error", error);
+  };
+
+  const [removalProcessText, setRemovalProcessText] = useState<
+    string | ReactNode
+  >(
+    user && user.paidForRemoval && user.removalComplete ? (
+      "Congratulations! Your profiles have been removed."
+    ) : (
+      <button onClick={redirectToCheckout} className={styles.removeAllButton}>
+        Remove all profiles for $9.99
+      </button>
+    )
   );
 
   const item = {
@@ -142,11 +155,9 @@ export default function Dashboard() {
     user = queryClient.getQueryData(["user"]);
 
     if (user && user.paidForRemoval && !user.removalComplete) {
-      // Track when fetch request is completed to update progress bar
-      let isFetchCompleted: boolean = false;
       setRemovalProcessText("Do not exit this page");
 
-      const removeProfilePromise = fetch(
+      fetch(
         import.meta.env.VITE_NODE_ENV === "DEV"
           ? "http://localhost:5002/remove-profile"
           : "https://api.erazer.io/remove-profile",
@@ -163,105 +174,73 @@ export default function Dashboard() {
             filteredProfiles: user.profiles,
           }),
         }
-      )
-        .then((response) => {
-          response.json();
-          isFetchCompleted = true;
-        })
-        .catch((error) => console.log(error));
+      ).catch((error) => console.log(error));
 
       // update progress bar
       const delay = (ms: number) =>
         new Promise((resolve) => setTimeout(resolve, ms));
 
-      const updateRemovalPromise = (async () => {
-        const delayTime = 2000; // 2 seconds per profile
+      const delayTime = 2000; // 2 seconds per profile
 
-        let profiles2: Profile[] = user.profiles;
+      let profiles2: Profile[] = user.profiles;
 
-        for (let i = 0; i < profiles2.length - 1; i++) {
-          if (isFetchCompleted) {
-            break;
-          }
+      for (let i = 0; i < profiles2.length; i++) {
+        await delay(delayTime);
+        // update profile status
+        profiles2 = profiles2.map((profile: Profile, index: number) =>
+          index === i
+            ? {
+                ...profile,
+                status: "Removed",
+              }
+            : profile
+        );
+        setProfilesRemoved(i + 1); // update number of profiles removed
+        setPercentage(((i + 1) / profiles2.length) * 100); // update percentage
+        // manually update queryClient cache of user.profiles[i].status
+        queryClient.setQueryData(["user"], (oldData: any) => {
+          return {
+            ...oldData,
+            profiles: profiles2,
+          };
+        });
+      }
 
-          await delay(delayTime);
-          // update profile status
-          profiles2 = profiles2.map((profile: Profile, index: number) =>
-            index === i
-              ? {
-                  ...profile,
-                  status: "Removed",
-                }
-              : profile
-          );
-          setProfilesRemoved(i + 1); // update number of profiles removed
-          setPercentage(((i + 1) / profiles2.length) * 100); // update percentage
-          // manually update queryClient cache of user.profiles[i].status
-          queryClient.setQueryData(["user"], (oldData: any) => {
-            return {
-              ...oldData,
-              profiles: profiles2,
-            };
-          });
+      setProfilesRemoved(profiles2.length);
+      setPercentage(100);
+
+      // set all "user.profiles.status" to "Removed"
+      queryClient.setQueryData(["user"], (oldData: any) => {
+        return {
+          ...oldData,
+          profiles: profiles2,
+        };
+      });
+
+      // send updated profiles to backend
+      await fetch(
+        import.meta.env.VITE_NODE_ENV === "DEV"
+          ? "http://localhost:5001/updateProfiles"
+          : "https://authentication.erazer.io/updateProfiles",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            profiles: profiles2,
+            removalComplete: true,
+          }),
         }
-
-        // wait for fetch request to complete
-        while (!isFetchCompleted) {
-          await delay(1000);
-        }
-
-        if (isFetchCompleted) {
-          setProfilesRemoved(profiles2.length);
-          setPercentage(100);
-
-          // update all profiles to "Removed"
-          profiles2 = profiles2.map((profile: Profile) => ({
-            ...profile,
-            status: "Removed",
-          }));
-
-          // set all "user.profiles.status" to "Removed"
-          queryClient.setQueryData(["user"], (oldData: any) => {
-            return {
-              ...oldData,
-              profiles: profiles2,
-            };
-          });
-
-          // send updated profiles to backend
-          await fetch(
-            import.meta.env.VITE_NODE_ENV === "DEV"
-              ? "http://localhost:5001/updateProfiles"
-              : "https://authentication.erazer.io/updateProfiles",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: user.email,
-                profiles: profiles2,
-                removalComplete: true,
-              }),
-            }
-          ).then((response) => {
-            response.json();
-            setRemovalProcessText(
-              "Congratulations! Your profiles have been removed."
-            );
-          });
-        }
-      })();
-
-      await Promise.all([removeProfilePromise, updateRemovalPromise]);
+      ).then((response) => {
+        response.json();
+        setRemovalProcessText(
+          "Congratulations! Your profiles have been removed."
+        );
+      });
     }
   }
-
-  const redirectToCheckout = async () => {
-    const stripe = await getStripe();
-    const { error } = await stripe.redirectToCheckout(checkoutOptions);
-    console.log("Stripe checkout error", error);
-  };
 
   const updateDBProfilesMutation = useMutation({
     mutationFn: updateDBProfiles,
@@ -350,9 +329,15 @@ export default function Dashboard() {
                   </p>
                 </div>
               </div>
-              <p className={styles.removalProcessSubHeading}>
+              <div
+                className={
+                  typeof removalProcessText === "string"
+                    ? styles.removalProcessSubHeading
+                    : ""
+                }
+              >
                 {removalProcessText}
-              </p>
+              </div>
             </div>
             {!user.breaches ? (
               <div className={styles.emailBreachesCard}>
@@ -402,90 +387,75 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-
-          <div className={styles.removalContainer}>
-            {!user.paidForRemoval && (
-              <button
-                onClick={redirectToCheckout}
-                className={styles.removeAllButton}
-              >
-                Click here to remove your profiles from all{" "}
-                {user.profiles.length} data brokers for $9.99
-              </button>
-            )}
-
-            <div className={styles.removalCard}>
-              <p className={styles.removalHeading}>Overview</p>
-              <div className={styles.removalTable}>
-                {isMobile ? (
-                  <TableContainer>
-                    <Table>
-                      <Thead>
-                        <Tr>
-                          <Th style={{ color: "white" }}>Info</Th>
-                          <Th style={{ color: "white" }}>Removal</Th>
+          <div className={styles.removalCard}>
+            <p className={styles.removalHeading}>Overview</p>
+            <div className={styles.removalTable}>
+              {isMobile ? (
+                <TableContainer>
+                  <Table>
+                    <Thead>
+                      <Tr>
+                        <Th style={{ color: "white" }}>Info</Th>
+                        <Th style={{ color: "white" }}>Removal</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {user.profiles?.map((profile: any, index: number) => (
+                        <Tr key={index}>
+                          <Td className={styles.mobileInfo}>
+                            <div>{profile.website}</div>
+                            <div>{profile.profile.slice(0, 25)}...</div>
+                          </Td>
+                          <Td>
+                            {profile.status === "Pending" ? (
+                              <div className={styles.mobileInProgressBox}>
+                                Pending
+                              </div>
+                            ) : (
+                              <div className={styles.mobileRemovedBox}>
+                                Removed
+                              </div>
+                            )}
+                          </Td>
                         </Tr>
-                      </Thead>
-                      <Tbody>
-                        {user.profiles?.map((profile: any, index: number) => (
-                          <Tr key={index}>
-                            <Td className={styles.mobileInfo}>
-                              <div>{profile.website}</div>
-                              <div>{profile.profile.slice(0, 25)}...</div>
-                            </Td>
-                            <Td>
-                              {profile.status === "Pending" ? (
-                                <div className={styles.mobileInProgressBox}>
-                                  Pending
-                                </div>
-                              ) : (
-                                <div className={styles.mobileRemovedBox}>
-                                  Removed
-                                </div>
-                              )}
-                            </Td>
-                          </Tr>
-                        ))}
-                      </Tbody>
-                    </Table>
-                  </TableContainer>
-                ) : (
-                  <TableContainer>
-                    <Table>
-                      <Thead>
-                        <Tr>
-                          <Th style={{ color: "white" }}>Found On</Th>
-                          <Th style={{ color: "white" }}>
-                            Personal Information
-                          </Th>
-                          <Th style={{ color: "white" }}>Removal Status</Th>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <TableContainer>
+                  <Table>
+                    <Thead>
+                      <Tr>
+                        <Th style={{ color: "white" }}>Found On</Th>
+                        <Th style={{ color: "white" }}>Personal Information</Th>
+                        <Th style={{ color: "white" }}>Removal Status</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {user.profiles?.map((profile: any, index: number) => (
+                        <Tr key={index}>
+                          <Td className={styles.removalSite}>
+                            {profile.website}
+                          </Td>
+                          <Td className={styles.removalInformation}>
+                            {profile.profile.slice(0, 50)}...
+                          </Td>
+                          <Td>
+                            {profile.status === "Pending" ? (
+                              <div className={styles.inProgressBox}>
+                                Pending
+                              </div>
+                            ) : (
+                              <div className={styles.removedBox}>Removed</div>
+                            )}
+                          </Td>
                         </Tr>
-                      </Thead>
-                      <Tbody>
-                        {user.profiles?.map((profile: any, index: number) => (
-                          <Tr key={index}>
-                            <Td className={styles.removalSite}>
-                              {profile.website}
-                            </Td>
-                            <Td className={styles.removalInformation}>
-                              {profile.profile.slice(0, 50)}...
-                            </Td>
-                            <Td>
-                              {profile.status === "Pending" ? (
-                                <div className={styles.inProgressBox}>
-                                  Pending
-                                </div>
-                              ) : (
-                                <div className={styles.removedBox}>Removed</div>
-                              )}
-                            </Td>
-                          </Tr>
-                        ))}
-                      </Tbody>
-                    </Table>
-                  </TableContainer>
-                )}
-              </div>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              )}
             </div>
           </div>
         </div>

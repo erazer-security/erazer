@@ -12,15 +12,7 @@ import "swiper/css/pagination";
 import ProgressBar from "@components/ProgressBar";
 import { Profile } from "@components/types";
 import googleLogo from "/googleLogo.png";
-import {
-  truthRecordSites,
-  peoplesWizSites,
-  newenglandFactsSites,
-  usaOfficialSites,
-  floridaResidentsDirectorySites,
-  spokeoSites,
-  beenVerifiedSites,
-} from "@components/databrokers";
+import { allDatabrokers } from "@components/databrokers";
 
 export default function ProfileRemoval() {
   const dispatch = useDispatch();
@@ -87,23 +79,6 @@ export default function ProfileRemoval() {
     "WY",
   ];
 
-  const databrokers: string[] = [
-    "truthrecord.org",
-    "peopleswiz.com",
-    "newenglandfacts.com",
-    "usa-official.com",
-    "floridaresidentsdirectory.com",
-    "spokeo.com",
-    "beenverified.com",
-    ...truthRecordSites,
-    ...peoplesWizSites,
-    ...newenglandFactsSites,
-    ...usaOfficialSites,
-    ...floridaResidentsDirectorySites,
-    ...spokeoSites,
-    ...beenVerifiedSites,
-  ];
-
   async function searchProfile() {
     // ensure first and last name and age are not empty
     if (
@@ -128,7 +103,7 @@ export default function ProfileRemoval() {
     let isFetchCompleted: boolean = false;
 
     // Fetch the profile, if it exists, from the server
-    const fetchProfilePromise = fetch(
+    const fetchProfilesPromise = fetch(
       import.meta.env.VITE_NODE_ENV === "DEV"
         ? "http://localhost:5002/profiles"
         : "https://api.erazer.io/profiles",
@@ -147,15 +122,15 @@ export default function ProfileRemoval() {
     )
       .then((response) => response.json())
       .then((data) => {
-        isFetchCompleted = true; // request is completed
-        if (data.scrapedData.length === 0) {
+        isFetchCompleted = true; // all fetch requests are completed
+        if (data.profiles.length === 0) {
           setHeading(
             `${user.firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
           );
         } else {
-          dispatch(setProfiles(data.scrapedData));
+          dispatch(setProfiles(data.profiles));
 
-          const profilesFiltered = data.scrapedData.filter(
+          const profilesFiltered = data.profiles.filter(
             (profile: Profile) => profile.age == user.age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
           );
 
@@ -186,20 +161,21 @@ export default function ProfileRemoval() {
       new Promise((resolve) => setTimeout(resolve, ms));
 
     const updateProgressBarPromise = (async () => {
+      //////////////////////////////// UPDATE DELAY TIME ////////////////////////////////
       const totalDelayTime = 40000; // 40 seconds
-      const delayTime = totalDelayTime / databrokers.length;
-      for (let i = 0; i < databrokers.length; i++) {
+      const delayTime = totalDelayTime / allDatabrokers.length;
+      for (let i = 0; i < allDatabrokers.length; i++) {
         if (isFetchCompleted) {
           break;
         }
         await delay(delayTime);
         // Update progress and progressText for each data broker
-        setProgress(((i + 1) / databrokers.length) * 97); // set max progress to 97%
-        setProgressText(`${databrokers[i]}`);
+        setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
+        setProgressText(`${allDatabrokers[i]}`);
       }
     })();
 
-    await Promise.all([fetchProfilePromise, updateProgressBarPromise]);
+    await Promise.all([fetchProfilesPromise, updateProgressBarPromise]);
 
     setLoading(false);
     // reset progress bar
@@ -326,6 +302,9 @@ export default function ProfileRemoval() {
                   : "",
               }}
             >
+              <p className={styles.profileIndex}>
+                {index + 1}/{filteredProfiles.length}
+              </p>
               <p className={styles.profileInfo}>{profile.profile}</p>
             </div>
             <SwiperNavButtons

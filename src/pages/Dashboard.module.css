@@ -84,13 +84,14 @@
   border-radius: 10px;
   border: 2px solid #efeff4;
   color: #efeff4;
+  padding: 0 20px;
 }
 
 .removalProcessHeading {
   font-size: 20px;
   font-weight: 700;
   color: white;
-  margin: 20px;
+  margin: 20px 0;
 }
 
 .progressCircleContainer {
@@ -125,6 +126,20 @@
   font-weight: 700;
   color: white;
   margin: 20px;
+}
+
+.removeAllButton {
+  width: 100%;
+  background-color: #ff6961;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  padding: 7px 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 }
 
 .emailBreachesCard {
@@ -202,33 +217,6 @@
   }
 }
 
-.removalContainer {
-  margin-top: 100px;
-
-  @media screen and (max-width: 768px) {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-.removeAllButton {
-  width: 100%;
-  background-color: #ff6961;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: 600;
-  color: white;
-  padding: 7px 0;
-  margin-bottom: 20px;
-
-  @media screen and (max-width: 768px) {
-    font-size: 18px;
-  }
-}
-
 .removalCard {
   width: 1075px;
   height: 460px;
@@ -236,6 +224,7 @@
   border-radius: 10px;
   border: 2px solid #efeff4;
   color: #efeff4;
+  margin-top: 100px;
 
   /* hide scrollbar */
   overflow-y: scroll;
