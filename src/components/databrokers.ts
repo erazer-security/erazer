@@ -90,3 +90,20 @@ export const beenVerifiedSites: string[] = [
 //   "usa-people-search.com",
 //   "truepeoplesearch.com",
 // ];
+
+export const allDatabrokers: string[] = [
+  "truthrecord.org",
+  "peopleswiz.com",
+  "newenglandfacts.com",
+  "usa-official.com",
+  "floridaresidentsdirectory.com",
+  "spokeo.com",
+  "beenverified.com",
+  ...truthRecordSites,
+  ...peoplesWizSites,
+  ...newenglandFactsSites,
+  ...usaOfficialSites,
+  ...floridaResidentsDirectorySites,
+  ...spokeoSites,
+  ...beenVerifiedSites,
+];

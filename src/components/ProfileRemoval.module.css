@@ -87,6 +87,7 @@
 }
 
 .profile {
+  position: relative;
   margin: 10px 0;
   padding: 20px 45px;
   background-color: rgba(255, 255, 255, 0.1);
@@ -105,6 +106,18 @@
 
 .profile:hover {
   cursor: pointer;
+}
+
+.profileIndex {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 15px;
+  font-weight: 500;
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 }
 
 .profileInfo {
