@@ -1,10 +1,11 @@
 import styles from "./Waitlist.module.css";
 import { useState } from "react";
-import { Input } from "@chakra-ui/react";
+import { Input, useToast } from "@chakra-ui/react";
 import emailjs from "@emailjs/browser";
 
 export default function Waitlist() {
   const [email, setEmail] = useState<string>("");
+  const toast = useToast();
 
   function handleSignup(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,6 +19,12 @@ export default function Waitlist() {
     );
 
     setEmail("");
+    toast({
+      title: "You have been added to the waitlist",
+      status: "success",
+      duration: 4000,
+      isClosable: true,
+    });
   }
 
   return (
