@@ -201,9 +201,12 @@ export default function ProfileRemoval() {
     // only keep profiles that include the user's city
     const profilesFiltered = filteredProfiles.filter((profile: Profile) =>
       // check if any of the profile's locations include the user's city
-      profile.locations.some((location: string) =>
-        location.toLowerCase().includes(userCity.toLowerCase())
-      )
+      // if the profile.website is usa-official.com, then check if the profile.profile includes the user's city (this is because usa-official.com have very non static ways of displaying locations)
+      profile.website === "usa-official.com"
+        ? profile.profile.toLowerCase().includes(userCity.toLowerCase())
+        : profile.locations.some((location: string) =>
+            location.toLowerCase().includes(userCity.toLowerCase())
+          )
     );
 
     setFilteredProfiles(profilesFiltered);
