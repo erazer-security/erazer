@@ -1,8 +1,5 @@
 import styles from "./ProfileRemoval.module.css";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setProfiles } from "@redux/profiles";
-import { setFirstName, setLastName, setUserState, setAge } from "@redux/user";
+import { useState, useRef } from "react";
 import { Input, Select } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Navigation, Pagination } from "swiper/modules";
@@ -15,10 +12,14 @@ import googleLogo from "/googleLogo.png";
 import { allDatabrokers } from "@components/databrokers";
 
 export default function ProfileRemoval() {
-  const dispatch = useDispatch();
-
+  const swiperRef = useRef<any>(null); // reference to swiper instance
   const [heading, setHeading] = useState<string>("");
-  const { user } = useSelector((state: any) => state.user);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [userState, setUserState] = useState<string>("All States");
+  const [userCity, setUserCity] = useState<string>("");
+  const [age, setAge] = useState<number>(0);
+  const [locations, setLocations] = useState<string[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<Profile[]>([]); // profiles filtered by age
   const [selectedProfiles, setSelectedProfiles] = useState<Profile[]>([]); // profiles selected for removal
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,22 +82,19 @@ export default function ProfileRemoval() {
 
   async function searchProfile() {
     // ensure first and last name and age are not empty
-    if (
-      user.firstName.trim() === "" ||
-      user.lastName.trim() === "" ||
-      user.age === 0
-    ) {
+    if (firstName.trim() === "" || lastName.trim() === "" || age === 0) {
       setHeading("Please fill out your first and last name and age.");
       return;
     }
 
-    dispatch(setProfiles([]));
+    setUserCity("");
+    setLocations([]);
     setFilteredProfiles([]);
     setSelectedProfiles([]);
     setLoading(true);
     setRemovalReady(false);
     setHeading(
-      `Hi ${user.firstName}, we are currently searching for your profile...`
+      `Hi ${firstName}, we are currently searching for your profile...`
     );
 
     // Track when fetch request is completed to update progress bar
@@ -113,10 +111,10 @@ export default function ProfileRemoval() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          userState: user.userState,
-          age: user.age,
+          firstName: firstName,
+          lastName: lastName,
+          userState: userState,
+          age: age,
         }),
       }
     )
@@ -125,27 +123,39 @@ export default function ProfileRemoval() {
         isFetchCompleted = true; // all fetch requests are completed
         if (data.profiles.length === 0) {
           setHeading(
-            `${user.firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
+            `${firstName}... luckily for you, it looks like your profile doesn't exist on these data brokers.`
           );
         } else {
-          dispatch(setProfiles(data.profiles));
-
           const profilesFiltered = data.profiles.filter(
-            (profile: Profile) => profile.age == user.age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
+            (profile: Profile) => profile.age == age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
           );
 
           if (profilesFiltered.length === 0) {
             setHeading(
-              `${user.firstName}... it looks like your profile doesn't exist on these data brokers.`
+              `${firstName}... it looks like your profile doesn't exist on these data brokers.`
             );
           } else {
             setFilteredProfiles(profilesFiltered);
+            // setLocations to profilesFiltered's locations.  Use Set to remove duplicates
+            setLocations(
+              Array.from(
+                new Set(
+                  profilesFiltered
+                    .map((profile: Profile) => profile.locations)
+                    .flat()
+                )
+              )
+            );
 
             if (profilesFiltered.length === 1) {
               setHeading(
                 "We found 1 profile. If this is you, click on it to begin removal."
               );
               setRemovalReady(true); // since this is the only profile available, enable removal button
+            } else if (profilesFiltered.length > 10) {
+              setHeading(
+                `We found ${profilesFiltered.length} profiles.  This may be a lot of profiles to go through. If you’d like, you can provide your city to narrow down the results. Or you can simply just go through all of them.`
+              );
             } else {
               setHeading(
                 `We found ${profilesFiltered.length} profiles. Let's narrow it down by selecting those that match you.`
@@ -161,7 +171,6 @@ export default function ProfileRemoval() {
       new Promise((resolve) => setTimeout(resolve, ms));
 
     const updateProgressBarPromise = (async () => {
-      //////////////////////////////// UPDATE DELAY TIME ////////////////////////////////
       const totalDelayTime = 40000; // 40 seconds
       const delayTime = totalDelayTime / allDatabrokers.length;
       for (let i = 0; i < allDatabrokers.length; i++) {
@@ -183,6 +192,37 @@ export default function ProfileRemoval() {
     setProgressText("");
   }
 
+  async function narrowProfiles() {
+    if (userCity.trim() === "") {
+      setHeading("Please enter your city.");
+      return;
+    }
+
+    // only keep profiles that include the user's city
+    const profilesFiltered = filteredProfiles.filter((profile: Profile) =>
+      // check if any of the profile's locations include the user's city
+      profile.locations.some((location: string) =>
+        location.toLowerCase().includes(userCity.toLowerCase())
+      )
+    );
+
+    setFilteredProfiles(profilesFiltered);
+
+    if (profilesFiltered.length === 0) {
+      setHeading("It looks like your city doesn't match any of the profiles.");
+      return;
+    } else {
+      setHeading("These are the profiles that match your city.");
+      if (profilesFiltered.length === 1) {
+        setRemovalReady(true); // since this is the only profile available, enable removal button
+      }
+      // reset the index of swiper slides to 0
+      if (swiperRef.current) {
+        swiperRef.current.swiper.slideTo(0);
+      }
+    }
+  }
+
   function navigateResults() {
     // ensure at least one profile is selected
     if (selectedProfiles.length === 0) {
@@ -201,9 +241,9 @@ export default function ProfileRemoval() {
     setRemovalReady(false); // disable removal button
 
     // set necessary removal information in session and navigate to sign in page
-    sessionStorage.setItem("firstName", user.firstName);
-    sessionStorage.setItem("lastName", user.lastName);
-    sessionStorage.setItem("userState", user.userState);
+    sessionStorage.setItem("firstName", firstName);
+    sessionStorage.setItem("lastName", lastName);
+    sessionStorage.setItem("userState", userState);
     sessionStorage.setItem(
       "selectedProfiles",
       JSON.stringify(selectedProfilesWithStatus)
@@ -244,7 +284,7 @@ export default function ProfileRemoval() {
           autoFocus
           type="text"
           placeholder="First Name"
-          onChange={(event) => dispatch(setFirstName(event.target.value))}
+          onChange={(event) => setFirstName(event.target.value)}
           variant="flushed"
           style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
@@ -253,7 +293,7 @@ export default function ProfileRemoval() {
           autoComplete="off"
           type="text"
           placeholder="Last Name"
-          onChange={(event) => dispatch(setLastName(event.target.value))}
+          onChange={(event) => setLastName(event.target.value)}
           variant="flushed"
           style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
@@ -262,7 +302,7 @@ export default function ProfileRemoval() {
           autoComplete="off"
           type="number"
           placeholder="Age"
-          onChange={(event) => dispatch(setAge(parseInt(event.target.value)))}
+          onChange={(event) => setAge(parseInt(event.target.value))}
           variant="flushed"
           style={{ borderBottom: "2px solid #c7b8e7" }}
           className={styles.input}
@@ -272,7 +312,7 @@ export default function ProfileRemoval() {
           placeholder="All States"
           color="white"
           style={{ fontWeight: "600", borderBottom: "2px solid #c7b8e7" }}
-          onChange={(event) => dispatch(setUserState(event.target.value))}
+          onChange={(event) => setUserState(event.target.value)}
         >
           {states.map((state: string, index: number) => (
             <option key={index} value={state}>
@@ -284,9 +324,41 @@ export default function ProfileRemoval() {
           Search
         </button>
       </div>
+
       <h1 className={styles.heading}>{heading}</h1>
 
+      {filteredProfiles.length > 10 && (
+        <div className={styles.inputContainer}>
+          <Input
+            list="locations"
+            autoComplete="new-password" // disable broswers from autofilling user location
+            type="text"
+            placeholder="City"
+            onChange={(event) => setUserCity(event.target.value)}
+            variant="flushed"
+            style={{ borderBottom: "2px solid #c7b8e7" }}
+            className={styles.input}
+          />
+          {userCity.trim() !== "" && (
+            <datalist id="locations">
+              {locations
+                .filter((location: string) =>
+                  location.toLowerCase().includes(userCity.toLowerCase())
+                )
+                .slice(0, 10)
+                .map((location: string, index: number) => (
+                  <option key={index} value={location} />
+                ))}
+            </datalist>
+          )}
+          <button onClick={narrowProfiles} className={styles.searchButton}>
+            Confirm
+          </button>
+        </div>
+      )}
+
       <Swiper
+        ref={swiperRef}
         modules={[Navigation, Pagination, A11y]}
         onSlideChange={handleSlideChange}
         className={styles.profilesCarousel}
