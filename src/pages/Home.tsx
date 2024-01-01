@@ -1,6 +1,6 @@
 import styles from "./Home.module.css";
 import { HashLink } from "react-router-hash-link";
-import ProfileRemoval from "@components/ProfileRemoval";
+import ProfileSearch from "@components/ProfileSearch";
 import HallOfHorror from "@pages/HallOfHorror";
 import Waitlist from "@components/Waitlist";
 
@@ -14,8 +14,8 @@ function Home() {
         Remove your personal information from 70 data brokers
       </p>
 
-      <section id="profileRemoval">
-        <ProfileRemoval />
+      <section id="profileSearch">
+        <ProfileSearch />
       </section>
       <section id="waitlist">
         <Waitlist />
