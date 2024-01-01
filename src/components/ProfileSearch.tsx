@@ -1,4 +1,4 @@
-import styles from "./ProfileRemoval.module.css";
+import styles from "./ProfileSearch.module.css";
 import { useState, useRef } from "react";
 import { Input, Select } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +11,7 @@ import { Profile } from "@components/types";
 import googleLogo from "/googleLogo.png";
 import { allDatabrokers } from "@components/databrokers";
 
-export default function ProfileRemoval() {
+export default function ProfileSearch() {
   const swiperRef = useRef<any>(null); // reference to swiper instance
   const [heading, setHeading] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -97,6 +97,11 @@ export default function ProfileRemoval() {
       `Hi ${firstName}, we are currently searching for your profile...`
     );
 
+    // reset the index of swiper slides to 0
+    if (swiperRef.current) {
+      swiperRef.current.swiper.slideTo(0);
+    }
+
     // Track when fetch request is completed to update progress bar
     let isFetchCompleted: boolean = false;
 
@@ -136,12 +141,16 @@ export default function ProfileRemoval() {
             );
           } else {
             setFilteredProfiles(profilesFiltered);
-            // setLocations to profilesFiltered's locations.  Use Set to remove duplicates
+            // setLocations to profilesFiltered's locations. Use Set to remove duplicates
             setLocations(
               Array.from(
                 new Set(
                   profilesFiltered
-                    .map((profile: Profile) => profile.locations)
+                    .map((profile: Profile) =>
+                      profile.locations.map((location: string) =>
+                        location.toUpperCase()
+                      )
+                    )
                     .flat()
                 )
               )
@@ -203,9 +212,9 @@ export default function ProfileRemoval() {
       // check if any of the profile's locations include the user's city
       // if the profile.website is usa-official.com, then check if the profile.profile includes the user's city (this is because usa-official.com have very non static ways of displaying locations)
       profile.website === "usa-official.com"
-        ? profile.profile.toLowerCase().includes(userCity.toLowerCase())
+        ? profile.profile.toUpperCase().includes(userCity)
         : profile.locations.some((location: string) =>
-            location.toLowerCase().includes(userCity.toLowerCase())
+            location.toUpperCase().includes(userCity)
           )
     );
 
@@ -337,7 +346,7 @@ export default function ProfileRemoval() {
             autoComplete="new-password" // disable broswers from autofilling user location
             type="text"
             placeholder="City"
-            onChange={(event) => setUserCity(event.target.value)}
+            onChange={(event) => setUserCity(event.target.value.toUpperCase())}
             variant="flushed"
             style={{ borderBottom: "2px solid #c7b8e7" }}
             className={styles.input}
@@ -345,9 +354,7 @@ export default function ProfileRemoval() {
           {userCity.trim() !== "" && (
             <datalist id="locations">
               {locations
-                .filter((location: string) =>
-                  location.toLowerCase().includes(userCity.toLowerCase())
-                )
+                .filter((location: string) => location.includes(userCity))
                 .slice(0, 10)
                 .map((location: string, index: number) => (
                   <option key={index} value={location} />
