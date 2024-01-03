@@ -23,7 +23,6 @@
     "emailjs": "^4.0.2",
     "express": "^4.18.2",
     "framer-motion": "^10.15.1",
-    "html-react-parser": "^4.2.2",
     "kind-of": "^6.0.3",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.3",
@@ -37,7 +36,6 @@
     "swiper": "^11.0.3"
   },
   "devDependencies": {
-    "@types/html-to-text": "^9.0.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-hash-link": "^2.4.9",
@@ -47,7 +45,6 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "html-to-text": "^9.0.5",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-tsconfig-paths": "^4.2.0"

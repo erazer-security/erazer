@@ -12,14 +12,20 @@ import {
   Td,
   TableContainer,
   Icon,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
 } from "@chakra-ui/react";
 import { CalendarIcon, CopyIcon, EmailIcon } from "@chakra-ui/icons";
 import { loadStripe } from "@stripe/stripe-js";
-import { htmlToText } from "html-to-text";
 import { isMobile } from "react-device-detect";
 import { Profile } from "@components/types";
 import { Route, routes } from "@components/routes";
 import { PageRoutes } from "@components/types";
+import { Breach } from "@components/types";
 import {
   truthRecordSites,
   peoplesWizSites,
@@ -350,40 +356,37 @@ export default function Dashboard() {
                 <p className={styles.emailBreachesHeading}>
                   Your Email Has Been Breached On The Dark Web
                 </p>
-                <div className={styles.emailBreachesTable}>
-                  <TableContainer>
-                    <Table>
-                      <Tbody>
-                        <Tr>
-                          <Td></Td>
-                        </Tr>
-                        {user.breaches?.map(
-                          (
-                            breach: any, // add type for breach {}
-                            index: number
-                          ) => (
-                            <Tr key={index}>
-                              <Td className={styles.emailBreachesTableData}>
-                                <p className={styles.breachTitle}>
-                                  {breach.Title} {breach.BreachDate}
-                                </p>
-                                <p
-                                  className={styles.breachDescription}
-                                  // dangerouslySetInnerHTML={{
-                                  //   __html: breach.Description,
-                                  // }}
-                                >
-                                  {htmlToText(breach.Description).slice(0, 100)}
-                                  ...
-                                </p>
-                              </Td>
-                            </Tr>
-                          )
-                        )}
-                      </Tbody>
-                    </Table>
-                  </TableContainer>
-                </div>
+                <Accordion
+                  defaultIndex={[0]}
+                  allowMultiple
+                  className={styles.emailBreachesTable}
+                >
+                  {user.breaches?.map((breach: Breach, index: number) => {
+                    return (
+                      <AccordionItem key={index}>
+                        <AccordionButton>
+                          <Box
+                            as="span"
+                            flex="1"
+                            textAlign="left"
+                            className={styles.breachTitle}
+                          >
+                            {breach.Title} {breach.BreachDate}
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                        <AccordionPanel pb={4}>
+                          <p
+                            className={styles.breachDescription}
+                            dangerouslySetInnerHTML={{
+                              __html: breach.Description,
+                            }}
+                          ></p>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    );
+                  })}
+                </Accordion>
               </div>
             )}
           </div>
@@ -438,8 +441,24 @@ export default function Dashboard() {
                           <Td className={styles.removalSite}>
                             {profile.website}
                           </Td>
-                          <Td className={styles.removalInformation}>
-                            {profile.profile.slice(0, 50)}...
+                          <Td style={{ width: "100%" }}>
+                            <Accordion allowToggle>
+                              <AccordionItem border="none">
+                                <AccordionButton>
+                                  <Box flex="1" textAlign="left">
+                                    <p className={styles.removalInformation}>
+                                      {profile.profile.slice(0, 50)}...
+                                    </p>
+                                  </Box>
+                                  <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel pb={4}>
+                                  <p className={styles.removalInformation}>
+                                    {profile.profile}
+                                  </p>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Accordion>
                           </Td>
                           <Td>
                             {profile.status === "Pending" ? (
