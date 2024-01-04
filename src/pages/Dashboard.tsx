@@ -34,6 +34,7 @@ import {
   floridaResidentsDirectorySites,
   spokeoSites,
   beenVerifiedSites,
+  whoisDatabrokers,
 } from "@components/databrokers";
 
 let stripePromise: any;
@@ -438,10 +439,27 @@ export default function Dashboard() {
                     <Tbody>
                       {user.profiles?.map((profile: any, index: number) => (
                         <Tr key={index}>
-                          <Td className={styles.removalSite}>
-                            {profile.website}
+                          <Td>
+                            <Accordion allowToggle>
+                              <AccordionItem border="none">
+                                <AccordionButton>
+                                  <Box flex="1" textAlign="left">
+                                    <p className={styles.removalInformation}>
+                                      {profile.website}
+                                    </p>
+                                  </Box>
+                                  <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel pb={4}>
+                                  <p className={styles.whoIsInfo}>
+                                    {whoisDatabrokers[profile.website]}
+                                  </p>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Accordion>
                           </Td>
                           <Td style={{ width: "100%" }}>
+                            {/* width: "100%" is a hack to stop Td width changing when expanding and collapsing accordian */}
                             <Accordion allowToggle>
                               <AccordionItem border="none">
                                 <AccordionButton>

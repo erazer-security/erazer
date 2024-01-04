@@ -276,6 +276,12 @@
   white-space: normal; /* to wrap text to next line */
 }
 
+.whoIsInfo {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: normal; /* to wrap text to next line */
+}
+
 .inProgressBox {
   background-color: #f38701;
   display: flex;
