@@ -34,6 +34,10 @@ import {
   floridaResidentsDirectorySites,
   spokeoSites,
   beenVerifiedSites,
+  telephonedirectoriesSites,
+  checkpeopleSites,
+  locatepeopleSites,
+  idtrueSites,
   whoisDatabrokers,
 } from "@components/databrokers";
 
@@ -63,6 +67,10 @@ const siteMapping: any = {
   "floridaresidentsdirectory.com": floridaResidentsDirectorySites,
   "spokeo.com": spokeoSites,
   "beenverified.com": beenVerifiedSites,
+  "telephonedirectories.us": telephonedirectoriesSites,
+  "checkpeople.com": checkpeopleSites,
+  "locatepeople.org": locatepeopleSites,
+  "idtrue.com": idtrueSites,
 };
 
 export default function Dashboard() {

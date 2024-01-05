@@ -11,7 +11,7 @@ function Home() {
         Skirt The Stalkers <br /> See What The Internet Knows About You
       </h1>
       <p className={styles.tagLine}>
-        Remove your personal information from 70 data brokers
+        Remove your personal information from 74 data brokers
       </p>
 
       <section id="profileSearch">

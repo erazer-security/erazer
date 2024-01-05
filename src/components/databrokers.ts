@@ -89,6 +89,11 @@ export const beenVerifiedSites: string[] = [
 //   "truepeoplesearch.com",
 // ];
 
+export const telephonedirectoriesSites: string[] = [];
+export const checkpeopleSites: string[] = [];
+export const locatepeopleSites: string[] = [];
+export const idtrueSites: string[] = [];
+
 export const allDatabrokers: string[] = [
   "truthrecord.org",
   "peopleswiz.com",
@@ -97,6 +102,10 @@ export const allDatabrokers: string[] = [
   "floridaresidentsdirectory.com",
   "spokeo.com",
   "beenverified.com",
+  "telephonedirectories.us",
+  "checkpeople.com",
+  "locatepeople.org",
+  "idtrue.com",
   ...truthRecordSites,
   ...peoplesWizSites,
   ...newenglandFactsSites,
@@ -104,6 +113,10 @@ export const allDatabrokers: string[] = [
   ...floridaResidentsDirectorySites,
   ...spokeoSites,
   ...beenVerifiedSites,
+  ...telephonedirectoriesSites,
+  ...checkpeopleSites,
+  ...locatepeopleSites,
+  ...idtrueSites,
 ];
 
 export const whoisDatabrokers: { [key: string]: string } = {
@@ -251,4 +264,13 @@ export const whoisDatabrokers: { [key: string]: string } = {
     "personius.net is a public information search engine that offers services like people search, reverse phone lookups, email lookups, and address lookups. It provides users with access to billions of records, helping them find contact info, court records, and property details.",
   "freephonetracer.com":
     "freephonetracer.com is a reverse phone lookup service that allows users to trace any number. It provides an extensive directory of cellular and landline numbers, enabling users to find out more about the callers.",
+
+  "telephonedirectories.us":
+    "This website allows users to search for individuals, businesses, and other entities using an extensive database. It provides information such as phone numbers, addresses, and emails, and it also includes a directory of various categories like health, education, government, and more.",
+  "checkpeople.com":
+    "CheckPeople.com is a website that enables users to find people by their names or through a reverse phone number and name lookup. It is designed for personal and safety reasons, providing contact information, criminal records, and more.",
+  "locatepeople.org":
+    "LocatePeople.org aims to help users find current and historical personal information, including contact information, phone numbers, age, current and past home addresses, email addresses, social network profile photos, and more.",
+  "idtrue.com":
+    "idtrue.come offers background checks and reports with up-to-date data from public records. It allows users to find anyone located in the US.",
 };
