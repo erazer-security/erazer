@@ -16,7 +16,7 @@ export default function ProfileSearch() {
   const [heading, setHeading] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [userState, setUserState] = useState<string>("All States");
+  const [userState, setUserState] = useState<string>("");
   const [userCity, setUserCity] = useState<string>("");
   const [age, setAge] = useState<number>(0);
   const [locations, setLocations] = useState<string[]>([]);
@@ -84,6 +84,10 @@ export default function ProfileSearch() {
     // ensure first and last name and age are not empty
     if (firstName.trim() === "" || lastName.trim() === "" || age === 0) {
       setHeading("Please fill out your first and last name and age.");
+      return;
+    }
+    if (userState === "") {
+      setHeading("Please select your state.");
       return;
     }
 
@@ -321,11 +325,13 @@ export default function ProfileSearch() {
         ></Input>
         <Select
           variant="flushed"
-          placeholder="All States"
           color="white"
           style={{ fontWeight: "600", borderBottom: "2px solid #c7b8e7" }}
           onChange={(event) => setUserState(event.target.value)}
         >
+          <option value="State" disabled selected>
+            State
+          </option>
           {states.map((state: string, index: number) => (
             <option key={index} value={state}>
               {state}
