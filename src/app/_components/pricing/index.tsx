@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function () {
+export default function Pricing() {
   return (
     <div className="flex flex-col justify-center items-center">
       <h2 className="text-[50px] md:text-[56px] text-center font-medium leading-[55px] tracking-[-2.5px] mt-24 mb-28">

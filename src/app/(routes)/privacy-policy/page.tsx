@@ -26,8 +26,8 @@ export default function PrivacyPolicy() {
         <li>- Phone Number</li>
       </ul>
       <p>
-        If you purchase Erazer's products and services, we collect billing and
-        credit card information. This information is used to complete the
+        If you purchase Erazer&apos;s products and services, we collect billing
+        and credit card information. This information is used to complete the
         purchase transaction.
       </p>
       <p>
@@ -113,9 +113,9 @@ export default function PrivacyPolicy() {
       <p>
         We understand the sensitivity of the data we are requesting access to
         and assure Google that we will adhere to all privacy and security
-        protocols. Our mission aligns with Google's commitment to user privacy,
-        and by collaborating, we can collectively work towards creating a safer
-        online environment for all users.
+        protocols. Our mission aligns with Google&apos;s commitment to user
+        privacy, and by collaborating, we can collectively work towards creating
+        a safer online environment for all users.
       </p>
       <h2 className="text-[22px] font-bold">
         Automatically Collected Information
@@ -130,12 +130,12 @@ export default function PrivacyPolicy() {
       </p>
       <h2 className="text-[22px] font-bold">Use of Cookies</h2>
       <p>
-        The Erazer website may use "cookies" to help you personalize your online
-        experience. A cookie is a text file that is placed on your hard disk by
-        a web page server. Cookies cannot be used to run programs or deliver
-        viruses to your computer. Cookies are uniquely assigned to you, and can
-        only be read by a web server in the domain that issued the cookie to
-        you.
+        The Erazer website may use &ldquo;cookies&rdquo; to help you personalize
+        your online experience. A cookie is a text file that is placed on your
+        hard disk by a web page server. Cookies cannot be used to run programs
+        or deliver viruses to your computer. Cookies are uniquely assigned to
+        you, and can only be read by a web server in the domain that issued the
+        cookie to you.
       </p>
       <p>
         One of the primary purposes of cookies is to provide a convenience

@@ -23,7 +23,7 @@ export default function Footer() {
             height={47}
           />
           <p className="text-[#5F5F61] text-lg font-normal leading-[30px]">
-            Because getting your data sold isn't cute
+            Because getting your data sold isn&apos;t cute
           </p>
           <div className="flex flex-row items-center gap-5">
             <Link

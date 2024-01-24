@@ -50,8 +50,11 @@ export default function RemovalsTableCard({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {profiles.map((profile) => (
-              <TableRow className="border-none transition-colors hover:bg-[#23242A]">
+            {profiles.map((profile: Profile, index: number) => (
+              <TableRow
+                key={index}
+                className="border-none transition-colors hover:bg-[#23242A]"
+              >
                 <TableCell>
                   <div
                     className={`flex flex-row items-center ${

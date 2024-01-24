@@ -4,7 +4,6 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import testimonials from "./testimonials.json";
@@ -28,7 +27,7 @@ export default function TestimonialsCarousel() {
                   height={22}
                 />
                 <h4 className="text-[26px] font-medium leading-[28.6px] tracking-[-1.3px]">
-                  "{testimonial.title}"
+                  &ldquo;{testimonial.title}&rdquo;
                 </h4>
                 <p className="text-[#a7a7a7] text-[16px] font-normal leading-[20.8px] tracking-[0.32px]">
                   {testimonial.description}

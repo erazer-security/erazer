@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import SideNav from "@/app/_components/sideNav";
 import StatisticsCard from "@/app/_components/statisticsCard";
 import RemovalProgressCard from "@/app/_components/removalProgressCard";
 import EmailBreachesCard from "@/app/_components/emailBreachesCard";
@@ -255,7 +254,7 @@ export default function Dashboard() {
         <>
           {/* tablet and mobile view */}
           <h1 className="lg:hidden text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
-            {user.firstName}'s Dashboard
+            {user.firstName}&apos;s Dashboard
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:hidden">
             <StatisticsCard
@@ -287,10 +286,9 @@ export default function Dashboard() {
           </div>
           {/* desktop view */}
           <div className="hidden lg:flex flex-row gap-8">
-            {/* <SideNav className="" /> */}
             <div className="flex flex-col gap-8">
               <h1 className="text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
-                {user.firstName}'s Dashboard
+                {user.firstName}&apos;s Dashboard
               </h1>
               <div className="flex flex-row gap-8">
                 <StatisticsCard
