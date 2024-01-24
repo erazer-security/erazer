@@ -1,0 +1,28 @@
+{
+  "testimonials": [
+    {
+      "stars": 5,
+      "title": "Super shocked by the information",
+      "description": "Was super shocked by the information that was available. Erazer helped me quickly search and remove my profiles. Love the detailed dashboard, it shows a better breakdown of what websites have my information and what has been removed for me.",
+      "author": "Udai Khattar, Quantitative Analyst at Chase"
+    },
+    {
+      "stars": 4,
+      "title": "Removed my information in a mere minutes at a low cost",
+      "description": "I love the friendly UI and ease of use, however, there are some bugs in Firefox. Having my private information protected is my main priority and a website that it basically removes in a mere minutes at a low cost is amazing to me.",
+      "author": "Nihal Alam, Researcher at NYU"
+    },
+    {
+      "stars": 5,
+      "title": "The Avengers of online cleanup",
+      "description": "Erazer.io has won me over with their upfront style and a tool that's basically the Avengers of online cleanup. Going for their affordable profile detox now is like getting VIP access to a drama-free future which is smart move to keep my online rep on point.",
+      "author": "Rambajunakun Bartholowmeh Presnikasnatinapur, Digital Forensics Analyst"
+    },
+    {
+      "stars": 4,
+      "title": "I trust them to continue helping me",
+      "description": "WOW, this really made me worried about my family’s safety. Erazer helped me remove their info from these data brokers and I trust them to continue helping me. I would really love more features to help me better understand where all my data is and who has access to it.",
+      "author": "Samuel Chavez, Investment Banker at Morgan Stanley"
+    }
+  ]
+}
