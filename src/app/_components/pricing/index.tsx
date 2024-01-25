@@ -42,9 +42,6 @@ export default function Pricing() {
           <div className="absolute top-[104px] left-[50px] lg:left-[70px]">
             <h2 className="text-[56px] font-medium leading-10 tracking-tighter">
               $9.99
-              <span className="text-[22px] font-normal tracking-[0.44px]">
-                /month
-              </span>
             </h2>
             <h3 className="text-[32px] font-medium leading-10 tracking-tighter my-5">
               Standard
