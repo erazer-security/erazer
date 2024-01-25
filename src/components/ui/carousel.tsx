@@ -238,11 +238,7 @@ const CarouselNext = React.forwardRef<
     };
 
     return (
-      <button
-        // disabled={!canScrollNext}
-        onClick={handleClick}
-        className={cn(className)}
-      >
+      <button onClick={handleClick} className={cn(className)}>
         {props.children}
       </button>
     );

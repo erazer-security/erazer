@@ -22,20 +22,7 @@ interface HeaderProps {
 
 export default function Header({ className }: HeaderProps) {
   const pathname = usePathname();
-  // handle header scroll color change
-  const [isScrolled, setIsScrolled] = useState(false);
-  const checkScroll = () => {
-    setIsScrolled(window.scrollY > 0);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkScroll);
-    return () => {
-      window.removeEventListener("scroll", checkScroll);
-    };
-  }, []);
-
-  const { data: user, isLoading } = useUser();
+  const { data: user } = useUser();
 
   const HeaderRoutes: string[] = [
     "Process",
@@ -46,9 +33,7 @@ export default function Header({ className }: HeaderProps) {
 
   return (
     <nav
-      className={`flex flex-row justify-between lg:justify-around items-center mt-12 ${className} ${
-        isScrolled ? "bg-[#00000080]" : ""
-      }`}
+      className={`flex flex-row justify-between lg:justify-around items-center mt-12 ${className}`}
     >
       <Link href="/">
         <Image
