@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Route, routes } from "./routes";
-import { useQuery } from "@tanstack/react-query";
 import useUser from "@/lib/useUser";
 import {
   NavigationMenu,
