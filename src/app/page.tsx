@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Header from "@/app/_components/header";
 import CybersecurityStatistics from "@/app/_components/cybersecurityStatistics";
 import Process from "@/app/_components/process";
 import Testimonials from "@/app/_components/testimonials";
@@ -8,7 +6,6 @@ import Pricing from "@/app/_components/pricing";
 import WallOfHorror from "@/app/_components/wallOfHorror";
 import Community from "@/app/_components/community";
 import ProfileSearch from "@/app/_components/profileSearch";
-import Footer from "@/app/_components/footer";
 
 export default function Home() {
   return (
@@ -18,20 +15,13 @@ export default function Home() {
         online footprint
       </h1>
       <p className="text-[22px] text-center font-normal mb-9 leading-[28.6px] tracking-[0.44px]">
-        Get started with 1 click, remove yourself from 70 databrokers
+        Get started with 1 click, remove yourself from 74 databrokers
       </p>
       <section id="profile-search">
         <div className="flex flex-row justify-center items-center">
           <ProfileSearch />
         </div>
       </section>
-      {/* <Image
-        src="/home/rings.svg"
-        alt="Rings"
-        width={1372}
-        height={1372}
-        className="absolute aspect-square z-[-1] top-[164px] mg:top-[62px] lg:top-[-19px] left-0 right-0 mx-auto shrink-0"
-      /> */}
       <img
         src="/home/rings.svg"
         alt="Rings"
