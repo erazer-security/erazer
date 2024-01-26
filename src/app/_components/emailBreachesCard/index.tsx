@@ -68,7 +68,12 @@ export default function EmailBreachesCard({
                 <AccordionTrigger className="text-left">
                   Never reuse passwords for any account.
                 </AccordionTrigger>
-                <AccordionContent className="w-full"></AccordionContent>
+                <AccordionContent className="w-full">
+                  Reusing passwords increases the risk of multiple accounts
+                  being compromised if one account’s password is discovered.
+                  Unique passwords for each account ensure that a breach in one
+                  does not lead to a domino effect.
+                </AccordionContent>
               </AccordionItem>
               <AccordionItem
                 value="2"
@@ -78,7 +83,13 @@ export default function EmailBreachesCard({
                   Make sure every account has multi-factor authentication
                   enabled.
                 </AccordionTrigger>
-                <AccordionContent className="w-full"></AccordionContent>
+                <AccordionContent className="w-full">
+                  Multi-factor authentication adds an extra layer of security by
+                  requiring more than just a password to access an account.
+                  Usually it'll ask you to confirm a login through another
+                  device that you own. This makes it harder for unauthorized
+                  users to gain access, even if they know your password.
+                </AccordionContent>
               </AccordionItem>
               <AccordionItem
                 value="3"
@@ -87,7 +98,13 @@ export default function EmailBreachesCard({
                 <AccordionTrigger className="text-left">
                   Do not click on random links.
                 </AccordionTrigger>
-                <AccordionContent className="w-full"></AccordionContent>
+                <AccordionContent className="w-full">
+                  Random links can lead to malicious websites designed to steal
+                  your information or infect your device with malware. Always
+                  verify the source of a link before clicking. Usually you can
+                  hover over a link, and your browser will tell you where it
+                  will take you on the bottom left corner of your screen.
+                </AccordionContent>
               </AccordionItem>
               <AccordionItem
                 value="4"
@@ -96,7 +113,11 @@ export default function EmailBreachesCard({
                 <AccordionTrigger className="text-left">
                   Keep your devices up to date.
                 </AccordionTrigger>
-                <AccordionContent className="w-full"></AccordionContent>
+                <AccordionContent className="w-full">
+                  Updates often include patches for security vulnerabilities.
+                  Keeping devices up to date ensures you have the latest
+                  protections against threats.
+                </AccordionContent>
               </AccordionItem>
               <AccordionItem
                 value="5"
@@ -105,7 +126,12 @@ export default function EmailBreachesCard({
                 <AccordionTrigger className="text-left">
                   Do not connect to public WiFi.
                 </AccordionTrigger>
-                <AccordionContent className="w-full"></AccordionContent>
+                <AccordionContent className="w-full">
+                  Public WiFi networks are often unsecured, since anyone can
+                  access them. This makes it easy for hackers to intercept your
+                  data. Avoid using them for sensitive activities to protect
+                  your information.
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
           </ScrollArea>
