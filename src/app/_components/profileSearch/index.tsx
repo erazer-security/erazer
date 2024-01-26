@@ -98,10 +98,31 @@ export default function ProfileSearch() {
         }),
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          setOpenDialog(false);
+          toast({
+            variant: "destructive",
+            description: `${firstName}, there was an error while scraping your profile. Please try again.`,
+          });
+          setLoading(false);
+          setProgress(0); // reset progress bar
+          setCurrentDatabroker(allDatabrokers[0]);
+          return;
+        }
+        return response.json();
+      })
       .then((data) => {
         isFetchCompleted = true; // all fetch requests are completed
         if (data.profiles.length === 0) {
+          setOpenDialog(false);
+          toast({
+            variant: "success",
+            description: `${firstName}, it looks like your profile doesn't exist on these databrokers.`,
+          });
+          setLoading(false);
+          setProgress(0); // reset progress bar
+          setCurrentDatabroker(allDatabrokers[0]);
           return;
         } else {
           const profilesFiltered = data.profiles.filter(
@@ -124,7 +145,18 @@ export default function ProfileSearch() {
           }
         }
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error(error);
+        setOpenDialog(false);
+        toast({
+          variant: "destructive",
+          description: `${firstName}, there was an error while scraping your profile. Please try again.`,
+        });
+        setLoading(false);
+        setProgress(0); // reset progress bar
+        setCurrentDatabroker(allDatabrokers[0]);
+        return;
+      });
 
     // update progress bar
     const delay = (ms: number) =>
