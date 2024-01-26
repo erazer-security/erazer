@@ -274,7 +274,7 @@ export default function ProfileSearch() {
             <DialogHeader>
               <div className="w-full flex flex-col gap-4 lg:gap-5">
                 <div className="w-full flex flex-row">
-                  <h4 className="text-[28px] text-left font-bold leading-[40px] mr-auto">
+                  <h4 className="sm:w-[181px] md:w-full text-[28px] text-left font-bold leading-[40px] mr-auto">
                     {heading}
                   </h4>
                   <button
