@@ -27,7 +27,7 @@ export default function EmailBreachesCard({
       {breaches ? (
         <>
           <p className="text=[#B0B0B0] text-[12px] font-medium leading-[15.6px] tracking-[0.24px]">
-            Your Email has been breached on the dark web.
+            Your Email has been has been found in a few breaches.
           </p>
           <ScrollArea className="h-[315px]">
             <Accordion type="single" collapsible>
