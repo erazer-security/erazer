@@ -114,7 +114,10 @@ export default function ProfileSearch() {
       })
       .then((data) => {
         isFetchCompleted = true; // all fetch requests are completed
-        if (data.profiles.length === 0) {
+        const profilesFiltered = data.profiles.filter(
+          (profile: Profile) => profile.age == age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
+        );
+        if (profilesFiltered.length === 0) {
           setOpenDialog(false);
           toast({
             variant: "success",
@@ -125,22 +128,16 @@ export default function ProfileSearch() {
           setCurrentDatabroker(allDatabrokers[0]);
           return;
         } else {
-          const profilesFiltered = data.profiles.filter(
-            (profile: Profile) => profile.age == age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
-          );
-          if (profilesFiltered.length === 0) {
-          } else {
-            setFilteredProfiles(profilesFiltered);
-            updateLocations(profilesFiltered);
+          setFilteredProfiles(profilesFiltered);
+          updateLocations(profilesFiltered);
 
-            if (profilesFiltered.length === 1) {
-              setHeading("We found 1 profile.");
-              setRemovalReady(true); // since this is the only profile available, enable removal button
-            } else {
-              setHeading(`We found ${profilesFiltered.length} profiles.`);
-              if (profilesFiltered.length > 10) {
-                setTooManyProfiles(true);
-              }
+          if (profilesFiltered.length === 1) {
+            setHeading("We found 1 profile.");
+            setRemovalReady(true); // since this is the only profile available, enable removal button
+          } else {
+            setHeading(`We found ${profilesFiltered.length} profiles.`);
+            if (profilesFiltered.length > 10) {
+              setTooManyProfiles(true);
             }
           }
         }
