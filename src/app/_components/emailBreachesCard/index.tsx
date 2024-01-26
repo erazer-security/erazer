@@ -70,9 +70,9 @@ export default function EmailBreachesCard({
                 </AccordionTrigger>
                 <AccordionContent className="w-full">
                   Reusing passwords increases the risk of multiple accounts
-                  being compromised if one account’s password is discovered.
-                  Unique passwords for each account ensure that a breach in one
-                  does not lead to a domino effect.
+                  being compromised if one account&apos;s password is
+                  discovered. Unique passwords for each account ensure that a
+                  breach in one does not lead to a domino effect.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
@@ -86,7 +86,7 @@ export default function EmailBreachesCard({
                 <AccordionContent className="w-full">
                   Multi-factor authentication adds an extra layer of security by
                   requiring more than just a password to access an account.
-                  Usually it'll ask you to confirm a login through another
+                  Usually it&apos;ll ask you to confirm a login through another
                   device that you own. This makes it harder for unauthorized
                   users to gain access, even if they know your password.
                 </AccordionContent>
