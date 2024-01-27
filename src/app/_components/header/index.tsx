@@ -100,9 +100,8 @@ export default function Header({ className }: HeaderProps) {
                   {routes.map(
                     (route: Route, index: number) =>
                       HeaderRoutes.includes(route.title) && (
-                        <NavigationMenuLink>
+                        <NavigationMenuLink key={index}>
                           <Link
-                            key={index}
                             href={route.path}
                             className="text-base text-white block select-none space-y-1 rounded-xl p-3 leading-none no-underline outline-none transition-colors hover:bg-[#23242A] hover:text-accent-foreground focus:bg-[#23242A] focus:text-accent-foreground"
                           >
