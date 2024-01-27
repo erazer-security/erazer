@@ -37,13 +37,18 @@ export default function Community() {
     <div className="lg:h-[530px] bg-[#ffffff0d] flex flex-col lg:flex-row lg:justify-around lg:items-center -mx-5 md:-mx-16 mt-48 py-14 lg:py-0">
       <div className="bg-[#0a0a0a] lg:-translate-y-24">
         <div className="overflow-hidden top-0 left-0 right-0 bottom-0 rounded-t-3xl bg-gradient-to-br from-[#7e30e140] to-[#49108b40]">
-          <Image
-            src="/community/facebook.svg"
-            alt="Facebook"
-            width={353}
-            height={286}
-            className="opacity-20"
-          />
+          <Link
+            href="https://www.facebook.com/groups/321264396948984/"
+            target="_blank"
+          >
+            <Image
+              src="/community/facebook.svg"
+              alt="Facebook"
+              width={353}
+              height={286}
+              className="opacity-20"
+            />
+          </Link>
         </div>
         <div className="flex flex-col items-start gap-5 p-8">
           <Link
