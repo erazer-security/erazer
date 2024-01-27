@@ -19,7 +19,7 @@ export default function Process() {
           <Image
             loading="lazy"
             src="/process/initialSearch.svg"
-            alt=""
+            alt="Initial Search Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full"
@@ -34,7 +34,7 @@ export default function Process() {
         <Image
           loading="lazy"
           src="/process/2.svg"
-          alt="1"
+          alt="2"
           width={72}
           height={173}
         />
@@ -42,7 +42,7 @@ export default function Process() {
           <Image
             loading="lazy"
             src="/process/comprehensiveScraping.svg"
-            alt=""
+            alt="Comprehensive Scraping Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full"
@@ -57,7 +57,7 @@ export default function Process() {
         <Image
           loading="lazy"
           src="/process/3.svg"
-          alt="1"
+          alt="3"
           width={72}
           height={173}
         />
@@ -65,7 +65,7 @@ export default function Process() {
           <Image
             loading="lazy"
             src="/process/effortlessRemoval.svg"
-            alt=""
+            alt="Effortless Removal Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full"
@@ -78,27 +78,29 @@ export default function Process() {
           </p>
         </div>
       </div>
-      {/* Desktop */}
+      {/* Tablet and Desktop */}
       <div className="hidden md:flex flex-row gap-5 px-5 mt-24">
         <div className="flex flex-col grow basis-[0%] items-end max-md:max-w-full">
           <Image
             loading="lazy"
             src="/process/initialSearch.svg"
-            alt=""
+            alt="Initial Search Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full"
           />
-          <h3 className="text-[32px] font-medium leading-10 self-stretch mt-36">
-            Comprehensive Scraping
-          </h3>
-          <p className="text-neutral-400 text-[22px] leading-7 tracking-wide mt-3.5">
-            Our system scans databrokers for matching info.
-          </p>
+          <div>
+            <h3 className="text-[32px] font-medium leading-10 mt-36">
+              Comprehensive Scraping
+            </h3>
+            <p className="text-neutral-400 text-[22px] leading-7 tracking-wide mt-3.5">
+              Our system scans databrokers for matching info.
+            </p>
+          </div>
           <Image
             loading="lazy"
             src="/process/effortlessRemoval.svg"
-            alt=""
+            alt="Effortless Removal Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full mt-36 max-md:mt-10"
@@ -107,12 +109,12 @@ export default function Process() {
         <Image
           loading="lazy"
           src="/process/123.svg"
-          alt=""
+          alt="123"
           width={72}
           height={72}
           className="aspect-[0.08] object-contain object-center overflow-hidden self-stretch shrink-0 max-w-full max-md:hidden"
         />
-        <div className="flex flex-col grow basis-[0%]">
+        <div className="flex flex-col grow basis-[0%] mt-10">
           <h3 className="text-[32px] font-medium leading-10 self-stretch">
             Initial Search
           </h3>
@@ -123,7 +125,7 @@ export default function Process() {
           <Image
             loading="lazy"
             src="/process/comprehensiveScraping.svg"
-            alt=""
+            alt="Comprehensive Scraping Image"
             width={255}
             height={255}
             className="aspect-[1.1] object-contain object-center overflow-hidden max-w-full mt-40 max-md:mt-10"
