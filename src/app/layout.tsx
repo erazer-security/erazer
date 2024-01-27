@@ -52,14 +52,14 @@ export default function RootLayout({
         })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=")`}
       </Script>
       <body className={poppins.className}>
-        <div className="px-5 md:px-16">
-          <TanstackProvider>
-            <Header />
+        <TanstackProvider>
+          <Header />
+          <div className="px-5 md:px-16">
             {children}
             <Footer />
             <Toaster />
-          </TanstackProvider>
-        </div>
+          </div>
+        </TanstackProvider>
       </body>
     </html>
   );
