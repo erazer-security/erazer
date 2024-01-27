@@ -1,7 +1,22 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function Pricing() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const handleClick = () => {
+    toast({
+      variant: "success",
+      description:
+        "Search for your profile and then head to the dashboard to begin.",
+    });
+    router.push("/");
+    return;
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
       <h2 className="text-[50px] md:text-[56px] text-center font-medium leading-[55px] tracking-[-2.5px] mt-24 mb-28">
@@ -30,7 +45,10 @@ export default function Pricing() {
               </p>
             </div>
           </div>
-          <button className="absolute w-fit left-[50px] lg:left-[30px] bottom-16 rounded-3xl bg-[#7e30e1] px-10 py-3 mt-16 md:mt-[155px] hover:bg-[#3F0687] active:bg-[#100320]">
+          <button
+            onClick={handleClick}
+            className="absolute w-fit left-[50px] lg:left-[30px] bottom-16 rounded-3xl bg-[#7e30e1] px-10 py-3 mt-16 md:mt-[155px] hover:bg-[#3F0687] active:bg-[#100320]"
+          >
             Get Started
           </button>
         </div>
@@ -71,7 +89,10 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <button className="absolute w-fit left-[50px] lg:left-[70px] bottom-16 rounded-3xl bg-white text-[#49108B] px-10 py-3 mt-16 hover:bg-gray-200 active:bg-gray-300">
+          <button
+            onClick={handleClick}
+            className="absolute w-fit left-[50px] lg:left-[70px] bottom-16 rounded-3xl bg-white text-[#49108B] px-10 py-3 mt-16 hover:bg-gray-200 active:bg-gray-300"
+          >
             Get Started
           </button>
         </div>
