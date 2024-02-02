@@ -52,7 +52,7 @@ export default function Dashboard() {
           redirectTo:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000/dashboard"
-              : "https://eraser.io/dashboard",
+              : "https://erazer.io/dashboard",
         },
       });
       if (error) {
