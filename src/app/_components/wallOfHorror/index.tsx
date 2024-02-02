@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Story } from "@/app/types/Story";
 import stories from "./stories.json";
 
 export default function WallOfHorror() {
@@ -13,7 +14,7 @@ export default function WallOfHorror() {
         <h4 className="md:w-[431px] text-[26px] text-[#A7A7A7] font-medium leading-[28.6px] tracking-[-1.3px]">
           Hear stories from others who’ve had their identities stolen
         </h4>
-        {stories.stories.map((story: any, index: number) => (
+        {stories.stories.map((story: Story, index: number) => (
           <div
             key={index}
             className="relative bg-[#ffffff0d] rounded-3xl px-10 py-10"
@@ -50,7 +51,7 @@ export default function WallOfHorror() {
               Hear stories from others who’ve had their identities stolen
             </h4>
           </div>
-          {stories.stories.slice(0, 2).map((story: any, index: number) => (
+          {stories.stories.slice(0, 2).map((story: Story, index: number) => (
             <div
               key={index}
               className="relative bg-[#ffffff0d] rounded-3xl px-10 py-10"
@@ -77,7 +78,7 @@ export default function WallOfHorror() {
           ))}
         </div>
         <div className="flex flex-col gap-5">
-          {stories.stories.slice(2).map((story: any, index: number) => (
+          {stories.stories.slice(2).map((story: Story, index: number) => (
             <div
               key={index}
               className="relative bg-[#ffffff0d] rounded-3xl px-10 py-10"

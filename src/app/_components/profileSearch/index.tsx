@@ -1,27 +1,24 @@
 "use client";
-
 import { useState } from "react";
+import Image from "next/image";
+import { supabaseBrowser } from "@/lib/supabase/browser";
+import SearchBar from "@/app/_components/searchBar";
+import Globe from "@/app/_components/globe";
+import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import SearchBar from "@/app/_components/searchBar";
-import { Progress } from "@/components/ui/progress";
-import Globe from "@/app/_components/globe";
-import { useToast } from "@/components/ui/use-toast";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Profile } from "@/app/types/Profile";
 import { allDatabrokers } from "@/app/types/Databrokers";
-import TooManyProfiles from "./tooManyProfiles";
 import ProfilesCarousel from "./profilesCarousel";
+import TooManyProfiles from "./tooManyProfiles";
 
 export default function ProfileSearch() {
-  const router = useRouter();
+  const supabase = supabaseBrowser();
   const { toast } = useToast();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [heading, setHeading] = useState<string>("");
@@ -67,6 +64,7 @@ export default function ProfileSearch() {
       return;
     }
 
+    // reset all states
     setUserCity("");
     setLocations([]);
     setFilteredProfiles([]);
@@ -243,7 +241,7 @@ export default function ProfileSearch() {
     );
   }
 
-  function navigateResults() {
+  async function navigateResults() {
     // ensure at least one profile is selected
     if (selectedProfiles.length === 0) {
       setHeading("You must select at least one profile to begin removal.");
@@ -270,11 +268,18 @@ export default function ProfileSearch() {
       JSON.stringify(selectedProfilesWithStatus)
     );
 
-    router.push(
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:5001/auth/google"
-        : "https://authentication.erazer.io/auth/google"
-    );
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000/dashboard"
+            : "https://eraser.io/dashboard",
+      },
+    });
+    if (error) {
+      console.error(error);
+    }
   }
 
   return (

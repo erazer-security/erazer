@@ -1,12 +1,12 @@
+import "@stripe/stripe-js";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import TanstackProvider from "@/providers/TanstackProvider";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
-import "@stripe/stripe-js";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
@@ -56,9 +56,9 @@ export default function RootLayout({
           <Header />
           <div className="px-5 md:px-16">
             {children}
-            <Footer />
             <Toaster />
           </div>
+          <Footer />
         </TanstackProvider>
       </body>
     </html>

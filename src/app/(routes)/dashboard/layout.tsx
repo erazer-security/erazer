@@ -1,14 +1,14 @@
 "use client";
-
-import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/lib/useUser";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, isLoading } = useUser();
+  const { isLoading } = useUser();
+
   return isLoading ? (
     <div className="flex justify-center items-center space-x-4 h-screen">
       <Skeleton className="h-12 w-12 rounded-full" />

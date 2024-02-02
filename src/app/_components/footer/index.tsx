@@ -13,7 +13,7 @@ const FooterRoutes: string[] = [
 
 export default function Footer() {
   return (
-    <div className="bg-[#ffffff0d] flex flex-col -mx-5 -mb-10 md:-mx-16">
+    <div className="bg-[#ffffff0d] flex flex-col">
       <div className="flex flex-col lg:flex-row lg:justify-around gap-12 lg:gap-0 border-t-[1px] border-[#31343D] ml-5 lg:ml-0 pt-28 pb-20">
         <div className="w-[250px] flex flex-col gap-5">
           <Image

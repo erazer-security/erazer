@@ -119,6 +119,15 @@ export const allDatabrokers: string[] = [
   ...idtrueSites,
 ];
 
+export const revealnameSites: string[] = [];
+export const spytoxSites: string[] = [];
+export const advancedDatabrokers: string[] = [
+  "revealname.com",
+  "spytox.com",
+  ...revealnameSites,
+  ...spytoxSites,
+];
+
 export const whoisDatabrokers: { [key: string]: string } = {
   "truthrecord.org":
     "TruthRecord.org is a people-search site. It collects and shares personal information online.",
@@ -273,4 +282,9 @@ export const whoisDatabrokers: { [key: string]: string } = {
     "LocatePeople.org aims to help users find current and historical personal information, including contact information, phone numbers, age, current and past home addresses, email addresses, social network profile photos, and more.",
   "idtrue.com":
     "idtrue.come offers background checks and reports with up-to-date data from public records. It allows users to find anyone located in the US.",
+
+  "revealname.com":
+    "Revealname.com is an online data broker that allows anyone to conduct a reverse search of a phone number and receive owner information, including a free report with name, location, and carrier info.",
+  "spytox.com":
+    "Spytox.com is a people search data broker that lets you find full name, phone number, e-mail address, mailing address, photos and more on any person living across the world.",
 };
