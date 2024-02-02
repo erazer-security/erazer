@@ -24,7 +24,7 @@ export default function EmailBreachesCard({
       <p className="text-base font-medium leading-[20.8px] tracking-[0.32px]">
         Email
       </p>
-      {breaches ? (
+      {breaches.length !== 0 ? (
         <>
           <p className="text=[#B0B0B0] text-[12px] font-medium leading-[15.6px] tracking-[0.24px]">
             Your Email has been has been found in a few breaches.

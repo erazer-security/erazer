@@ -5,9 +5,14 @@ interface RemovalProgressCardProps {
   profilesRemoved: number;
   percentage: number;
   removalProgressMessage: React.ReactNode;
-  redirectToCheckout: () => void;
   className?: string;
 }
+
+/**
+ * Determines the color of the SemiCircleProgress based on the percentage
+ * @param {number} percentage
+ * @returns {number}
+ */
 const getColor = (percentage: number) => {
   if (percentage >= 0 && percentage <= 50) {
     return "#FF718B";
@@ -22,7 +27,6 @@ export default function RemovalProcessCard({
   profilesRemoved,
   percentage,
   removalProgressMessage,
-  redirectToCheckout,
   className,
 }: RemovalProgressCardProps) {
   return (
