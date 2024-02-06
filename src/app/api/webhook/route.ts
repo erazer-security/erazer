@@ -54,16 +54,27 @@ export async function POST(req: Request) {
       switch (event.type) {
         case "checkout.session.completed":
           const checkoutSession = event.data.object as Stripe.Checkout.Session;
-          // update supabase user's fields to reflect the new subscription
-          const { data, error } = await supabase
-            .from("users")
-            .update({
-              paidForRemoval: true,
-            })
-            .eq("email", checkoutSession.customer_email);
+          if (checkoutSession.mode === "subscription") {
+            // update supabase user's fields to reflect the monthly subscription
+            const { data, error } = await supabase
+              .from("users")
+              .update({
+                paidForMonthlyRemoval: true,
+              })
+              .eq("email", checkoutSession.customer_email);
 
-          console.log("checkout session completed", data, error);
+            console.log("checkout session SUBSCRIPTION completed", data, error);
+          } else if (checkoutSession.mode === "payment") {
+            // update supabase user's fields to reflect the one time payment
+            const { data, error } = await supabase
+              .from("users")
+              .update({
+                paidForRemoval: true,
+              })
+              .eq("email", checkoutSession.customer_email);
 
+            console.log("checkout session PAYMENT completed", data, error);
+          }
           break;
         default:
           console.log("Unhandled relevant event!");

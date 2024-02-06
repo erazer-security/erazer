@@ -1,5 +1,4 @@
 import React from "react";
-
 interface TooManyProfilesProps {
   userCity: string;
   setUserCity: (userCity: string) => void;
@@ -20,7 +19,7 @@ export default function TooManyProfiles({
   return (
     <div className="flex flex-col gap-5">
       <p className="w-[275px] md:w-[350px] lg:w-[896px] text-[#a7a7a7] text-base text-left font-normal leading-[20.8px] tracking-[0.32px]">
-        This may be a lot of profiles to go through. If you’d like, you can
+        This may be a lot of profiles to go through. If you&apos;d like, you can
         provide your city to narrow down the results. Or you can simply just go
         through all of them.
       </p>
