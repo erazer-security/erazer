@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   );
 
   if (req.method === "POST") {
-    const { priceID } = await req.json();
+    const { price } = await req.json();
 
     try {
       const {
@@ -32,25 +32,48 @@ export async function POST(req: Request) {
       } = await supabase.auth.getUser();
 
       // Create a checkout session in Stripe
-      let session = await stripe.checkout.sessions.create({
-        line_items: [
-          {
-            price: priceID,
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        allow_promotion_codes: true,
-        success_url:
-          process.env.NODE_ENV === "development"
-            ? "http://localhost:3000/dashboard"
-            : "https://erazer.io/dashboard",
-        cancel_url:
-          process.env.NODE_ENV === "development"
-            ? "http://localhost:3000/dashboard"
-            : "https://erazer.io/dashboard",
-        customer_email: user?.email,
-      });
+      let session;
+      if (price.type === "one_time") {
+        session = await stripe.checkout.sessions.create({
+          line_items: [
+            {
+              price: price.priceID,
+              quantity: 1,
+            },
+          ],
+          mode: "payment",
+          allow_promotion_codes: true,
+          success_url:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000/dashboard"
+              : "https://erazer.io/dashboard",
+          cancel_url:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000/dashboard"
+              : "https://erazer.io/dashboard",
+          customer_email: user?.email,
+        });
+      } else if (price.type === "subscription") {
+        session = await stripe.checkout.sessions.create({
+          line_items: [
+            {
+              price: price.priceID,
+              quantity: 1,
+            },
+          ],
+          mode: "subscription",
+          allow_promotion_codes: true,
+          success_url:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000/dashboard"
+              : "https://erazer.io/dashboard",
+          cancel_url:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000/dashboard"
+              : "https://erazer.io/dashboard",
+          customer_email: user?.email,
+        });
+      }
 
       if (session) {
         return new Response(JSON.stringify({ sessionId: session.id }), {

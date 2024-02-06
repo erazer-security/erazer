@@ -30,7 +30,9 @@ export default function RemovalProcessCard({
   className,
 }: RemovalProgressCardProps) {
   return (
-    <div className={`bg-[#2E3033] rounded-2xl px-8 py-5 ${className}`}>
+    <div
+      className={`flex flex-col bg-[#2E3033] rounded-2xl px-8 py-5 ${className}`}
+    >
       <p className="text-base font-medium leading-[20.8px] tracking-[0.32px]">
         Removal Process
       </p>

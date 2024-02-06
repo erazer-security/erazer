@@ -3,7 +3,6 @@ import Image from "next/image";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -16,17 +15,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { whoisDatabrokers } from "@/app/types/Databrokers";
 import { Profile } from "@/app/types/Profile";
 
 interface RemovalsTableCardProps {
   profiles: Profile[];
-  whoisDatabrokers: { [key: string]: string };
   className?: string;
 }
 
 export default function RemovalsTableCard({
   profiles,
-  whoisDatabrokers,
   className,
 }: RemovalsTableCardProps) {
   return (

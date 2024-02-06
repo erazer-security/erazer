@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getStripe } from "@/lib/stripe-client";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import useUser from "@/lib/useUser";
 import ExpandedProfileSearch from "@/app/_components/expandedProfileSearch";
@@ -9,36 +9,8 @@ import StatisticsCard from "@/app/_components/statisticsCard";
 import RemovalProgressCard from "@/app/_components/removalProgressCard";
 import EmailBreachesCard from "@/app/_components/emailBreachesCard";
 import RemovalsTableCard from "@/app/_components/removalsTableCard";
-import { Profile } from "@/app/types/Profile";
-import {
-  truthRecordSites,
-  peoplesWizSites,
-  newenglandFactsSites,
-  usaOfficialSites,
-  floridaResidentsDirectorySites,
-  spokeoSites,
-  beenVerifiedSites,
-  telephonedirectoriesSites,
-  checkpeopleSites,
-  locatepeopleSites,
-  idtrueSites,
-  whoisDatabrokers,
-} from "@/app/types/Databrokers";
-
-const siteMapping: { [key: string]: string[] } = {
-  "truthrecord.org": truthRecordSites,
-  "peopleswiz.com": peoplesWizSites,
-  "newenglandfacts.com": newenglandFactsSites,
-  "usaofficial.info": usaOfficialSites,
-  "usa-official.com": usaOfficialSites,
-  "floridaresidentsdirectory.com": floridaResidentsDirectorySites,
-  "spokeo.com": spokeoSites,
-  "beenverified.com": beenVerifiedSites,
-  "telephonedirectories.us": telephonedirectoriesSites,
-  "checkpeople.com": checkpeopleSites,
-  "locatepeople.org": locatepeopleSites,
-  "idtrue.com": idtrueSites,
-};
+import getAllProfiles from "./getAllProfiles";
+import MonthlyModal from "./monthlyModal";
 
 export default function Dashboard() {
   const supabase = supabaseBrowser();
@@ -60,54 +32,37 @@ export default function Dashboard() {
       }
     })();
   }
+  const [openDialog, setOpenDialog] = useState<boolean>(
+    user &&
+      user.paidForMonthlyRemoval &&
+      !user.syncedRemovals &&
+      user.monthlyScannedProfiles.length > 0
+  );
   const [profilesRemoved, setProfilesRemoved] = useState<number>(
     user ? user.removedProfiles.length : 0
   );
   const [percentage, setPercentage] = useState<number>(
-    user && user.paidForRemoval && user.syncedRemovals ? 100 : 0
+    user &&
+      (user.paidForRemoval || user.paidForMonthlyRemoval) &&
+      user.syncedRemovals
+      ? 100
+      : 0
   );
   const [removalProgressMessage, setRemovalProgressMessage] =
     useState<React.ReactNode>(
-      <button
-        onClick={() =>
-          redirectToCheckout(`${process.env.NEXT_PUBLIC_STRIPE_PRICE_ID}`)
-        }
-        className="w-full bg-[#EFE3FF] hover:bg-[#D6C9E6] active:bg-[#BDAFCD] text-black rounded-2xl px-5 py-3"
-      >
-        Remove all profiles for $9.99
-      </button>
-    );
-
-  const redirectToCheckout = async (priceID: string) => {
-    try {
-      // update the removal progress message to show loading button
-      setRemovalProgressMessage(
-        <button
-          disabled
-          className="w-full bg-[#BDAFCD] text-black rounded-2xl px-5 py-3"
+      user &&
+        (user.paidForRemoval || user.paidForMonthlyRemoval) &&
+        user.syncedRemovals ? (
+        "Congratulations! Your profiles have been removed."
+      ) : (
+        <Link
+          href="/#pricing"
+          className="w-full text-center bg-[#EFE3FF] hover:bg-[#D6C9E6] active:bg-[#BDAFCD] text-black rounded-2xl px-5 py-3"
         >
-          Loading...
-        </button>
-      );
-      const { sessionId } = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-        body: JSON.stringify({ priceID }),
-      }).then((res) => {
-        if (!res.ok) {
-          console.log("Error in creating checkout session", { res });
-          throw Error(res.statusText);
-        }
-        return res.json();
-      });
-
-      const stripe = await getStripe();
-      stripe?.redirectToCheckout({ sessionId });
-    } catch (error) {
-      return console.error("Error in creating checkout session", { error });
-    }
-  };
+          Remove all profiles
+        </Link>
+      )
+    );
 
   async function updateDBProfiles() {
     // update the list of profiles to include all parent and children site profiles
@@ -117,25 +72,9 @@ export default function Dashboard() {
       user.scannedProfiles.length === 0 &&
       user.removedProfiles.length === 0
     ) {
-      let allProfiles: Profile[] = [];
-
-      JSON.parse(sessionStorage.getItem("selectedProfiles")!).forEach(
-        (profile: Profile) => {
-          allProfiles.push(profile);
-
-          // find the sites that match the profile.website, and add them to the list of profiles
-          if (siteMapping[profile.website]) {
-            siteMapping[profile.website].forEach((site: string) => {
-              allProfiles.push({
-                ...profile,
-                website: site,
-              });
-            });
-          }
-        }
+      let allProfiles = getAllProfiles(
+        JSON.parse(sessionStorage.getItem("selectedProfiles")!)
       );
-
-      sessionStorage.setItem("selectedProfiles", JSON.stringify(allProfiles)); // update selected profiles in session storage
 
       // update the user's fields in the database
       const { data, error } = await supabase
@@ -158,8 +97,16 @@ export default function Dashboard() {
     let numRemovedProfiles = user.removedProfiles.length;
     let numTotalProfiles = numScannedProfiles + numRemovedProfiles;
 
-    // initiate the removal process
-    if (user && user.paidForRemoval && !user.syncedRemovals) {
+    // initiate the removal process:
+    // if the user paid for the one time removal, ensure that the removals are not synced
+    // if the user paid for the monthly removal, ensure that the the removals are not synced and that the there's nothing in the monthly scanned profiles (this is to prevent this function from running when the monthlyModal profiles are added)
+    if (
+      user &&
+      ((user.paidForRemoval && !user.syncedRemovals) ||
+        (user.paidForMonthlyRemoval &&
+          user.monthlyScannedProfiles.length === 0 &&
+          !user.syncedRemovals))
+    ) {
       setRemovalProgressMessage("Do not exit this page");
       fetch(
         process.env.NODE_ENV === "development"
@@ -236,12 +183,6 @@ export default function Dashboard() {
     async function updateDashboard() {
       await updateDBProfilesMutation.mutateAsync();
       await initiateRemovalMutation.mutateAsync();
-      if (user && user.paidForRemoval && user.syncedRemovals) {
-        setPercentage(100);
-        setRemovalProgressMessage(
-          "Congratulations! Your profiles have been removed."
-        );
-      }
     }
     updateDashboard();
   }, [user]);
@@ -250,6 +191,11 @@ export default function Dashboard() {
     <div className="flex flex-col gap-8 py-10">
       {user && (
         <>
+          <MonthlyModal
+            user={user}
+            openDialog={openDialog}
+            setOpenDialog={setOpenDialog}
+          />
           {/* tablet and mobile view */}
           <h1 className="lg:hidden text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
             {user.firstName}&apos;s Dashboard
@@ -277,7 +223,6 @@ export default function Dashboard() {
             />
             <EmailBreachesCard breaches={user.breaches} className="" />
             <RemovalsTableCard
-              whoisDatabrokers={whoisDatabrokers}
               profiles={[...user.scannedProfiles, ...user.removedProfiles]}
               className="md:col-span-2"
             />
@@ -309,7 +254,6 @@ export default function Dashboard() {
                 />
               </div>
               <RemovalsTableCard
-                whoisDatabrokers={whoisDatabrokers}
                 profiles={[...user.scannedProfiles, ...user.removedProfiles]}
               />
             </div>

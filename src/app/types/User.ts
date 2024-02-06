@@ -14,6 +14,7 @@ export type User = {
   picture: string;
   scannedProfiles: Profile[];
   removedProfiles: Profile[];
+  monthlyScannedProfiles: Profile[];
   breaches: Breach[];
   paidForRemoval: boolean;
   paidForMonthlyRemoval: boolean;
