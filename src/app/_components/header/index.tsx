@@ -64,7 +64,7 @@ export default function Header({ className }: HeaderProps) {
     }
   });
 
-  const HeaderRoutes: string[] = ["Process", "Testimonials", "Pricing"];
+  const HeaderRoutes: string[] = ["The Process", "About Us", "Pricing"];
   return (
     <nav
       className={`sticky z-[1] h-[75px] md:h-[100px] lg:h-[115px] w-full top-0 left-0 ${
