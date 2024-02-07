@@ -6,7 +6,11 @@ export interface Route {
 export const routes: Array<Route> = [
   {
     path: "/#process",
-    title: "Process",
+    title: "The Process",
+  },
+  {
+    path: "/about",
+    title: "About Us",
   },
   {
     path: "/#testimonials",

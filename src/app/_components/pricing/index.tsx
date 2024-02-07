@@ -38,7 +38,7 @@ export default function Pricing() {
     "Attain detailed report of personal security posturing",
     "Track breached passwords and accounts",
     "Remove your details as soon as they appear",
-    "Have a drink while Erazer secures your identity in real time",
+    "Watch Erazer secure your identity in real time",
   ];
 
   const handleBasicClick = () => {
