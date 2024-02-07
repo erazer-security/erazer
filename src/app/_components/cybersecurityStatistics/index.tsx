@@ -34,7 +34,7 @@ export default function CybersecurityStatistics() {
         </div>
         <div className="flex flex-col justify-center items-center">
           <p className="text-[56px] font-medium leading-10 tracking-tighter">
-            200<span className="text-[#7e30e1]">+</span>
+            830<span className="text-[#7e30e1]">+</span>
           </p>
           <p className="text-[26px] font-medium leading-10 tracking-tighter mt-5 mb-2">
             Breaches Detected
