@@ -32,6 +32,7 @@ export default function Dashboard() {
       }
     })();
   }
+
   const [openDialog, setOpenDialog] = useState<boolean>(
     user &&
       user.paidForMonthlyRemoval &&
@@ -198,7 +199,9 @@ export default function Dashboard() {
           />
           {/* tablet and mobile view */}
           <h1 className="lg:hidden text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
-            {user.firstName}&apos;s Dashboard
+            {user.firstName !== ""
+              ? `${user.firstName}'s Dashboard`
+              : "Your Dashboard"}
           </h1>
           <ExpandedProfileSearch className="lg:hidden" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:hidden">
@@ -231,7 +234,9 @@ export default function Dashboard() {
           <div className="hidden lg:flex flex-row gap-8">
             <div className="flex flex-col gap-8">
               <h1 className="text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
-                {user.firstName}&apos;s Dashboard
+                {user.firstName !== ""
+                  ? `${user.firstName}'s Dashboard`
+                  : "Your Dashboard"}
               </h1>
               <ExpandedProfileSearch />
               <div className="flex flex-row gap-8">
