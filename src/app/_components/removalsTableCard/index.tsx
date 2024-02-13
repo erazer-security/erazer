@@ -15,7 +15,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { whoisDatabrokers } from "@/app/types/Databrokers";
 import { Profile } from "@/app/types/Profile";
 
@@ -35,26 +40,26 @@ export default function RemovalsTableCard({
       <p className="text-base font-medium leading-[20.8px] tracking-[0.32px]">
         Overview
       </p>
-      <ScrollArea className="h-[415px] w-full">
-        {profiles.length === 0 ? (
-          <div className="h-full flex flex-col gap-4 items-center">
-            <Image
-              src="/removalsTableCard/noData.svg"
-              alt="No Data"
-              width={165}
-              height={105}
-            />
-            <p className="text-base font-medium leading-[20.8px] tracking-[0.32px]">
-              No Profiles Found
-            </p>
-            <p className="text-[#B0B0B0] text-[12px] font-medium leading-[15.6px] tracking-[0.24px]">
-              Please search for your profiles{" "}
-              <Link href="/" className="underline decoration-solid">
-                here
-              </Link>
-            </p>
-          </div>
-        ) : (
+      {profiles.length === 0 ? (
+        <div className="h-[350px] flex flex-col gap-4 justify-center items-center">
+          <Image
+            src="/removalsTableCard/noData.svg"
+            alt="No Data"
+            width={165}
+            height={105}
+          />
+          <p className="text-base font-medium leading-[20.8px] tracking-[0.32px]">
+            No Profiles Found
+          </p>
+          <p className="text-[#B0B0B0] text-[12px] font-medium leading-[15.6px] tracking-[0.24px]">
+            Please search for your profiles{" "}
+            <Link href="/" className="underline decoration-solid">
+              here
+            </Link>
+          </p>
+        </div>
+      ) : (
+        <ScrollArea className="h-[350px] w-full">
           <Table>
             <TableHeader>
               <TableRow className="border-[#FFFFFF33]">
@@ -97,49 +102,84 @@ export default function RemovalsTableCard({
                   <TableCell>
                     <div className="flex flex-row items-center gap-1">
                       {profile.website}{" "}
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
+                      <div className="hidden md:block">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Image
+                                src="/removalsTableCard/tooltip.svg"
+                                alt="Tooltip"
+                                width={16}
+                                height={16}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent className="w-[350px]">
+                              {whoisDatabrokers[profile.website]}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <div className="block md:hidden">
+                        <Popover>
+                          <PopoverTrigger>
                             <Image
                               src="/removalsTableCard/tooltip.svg"
                               alt="Tooltip"
                               width={16}
                               height={16}
                             />
-                          </TooltipTrigger>
-                          <TooltipContent className="w-[350px]">
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[350px]">
                             {whoisDatabrokers[profile.website]}
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="">
                       {profile.profile.slice(0, 75)}...{" "}
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
+                      <div className="hidden md:block">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Image
+                                src="/removalsTableCard/tooltip.svg"
+                                alt="Tooltip"
+                                width={16}
+                                height={16}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent className="w-[350px]">
+                              {profile.profile}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <div className="block md:hidden">
+                        <Popover>
+                          <PopoverTrigger>
                             <Image
                               src="/removalsTableCard/tooltip.svg"
                               alt="Tooltip"
                               width={16}
                               height={16}
                             />
-                          </TooltipTrigger>
-                          <TooltipContent className="w-[350px]">
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[350px]">
                             {profile.profile}
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </div>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        )}
-      </ScrollArea>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      )}
     </div>
   );
 }
