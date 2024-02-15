@@ -27,33 +27,37 @@ export default function Experience() {
       <h2 className="text-center text-[50px] md:text-[56px] font-medium leading-[55px] tracking-[-2.5px]">
         Our Experiences Come From
       </h2>
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        plugins={[
-          Autoplay({
-            delay: 1500,
-          }),
-        ]}
-      >
-        <CarouselContent>
-          {logos.map((logo: string) => (
-            <CarouselItem
-              className="basis-1/2 md:basis-1/4 lg:basis-1/6 flex items-center justify-center"
-              key={logo}
-            >
-              <Image
-                src={`/experience/${logo}.svg`}
-                alt={logo}
-                width={125}
-                height={28}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+      <div className="relative">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 1500,
+            }),
+          ]}
+        >
+          <CarouselContent>
+            {logos.map((logo: string) => (
+              <CarouselItem
+                className="basis-1/2 md:basis-1/4 lg:basis-1/6 flex items-center justify-center"
+                key={logo}
+              >
+                <Image
+                  src={`/experience/${logo}.svg`}
+                  alt={logo}
+                  width={125}
+                  height={28}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+        <div className="absolute inset-0 left-0 w-[50%] bg-gradient-to-r from-black to-transparent via-transparent"></div>
+        <div className="absolute inset-0 left-auto right-0 w-[50%] bg-gradient-to-l from-black to-transparent via-transparent"></div>
+      </div>
     </div>
   );
 }
