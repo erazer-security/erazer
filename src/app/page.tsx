@@ -9,7 +9,7 @@ import ProfileSearch from "@/app/_components/profileSearch";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col pb-10">
+    <div className="relative flex flex-col pb-10 lg:px-28">
       <h1 className="text-[50px] md:text-[77px] text-center font-medium mt-28 mb-5 leading-[55px] md:leading-[84.7px] tracking-[-2.5px] md:tracking-[-3.85px]">
         Discover and delete your <br />
         online footprint

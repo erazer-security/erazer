@@ -34,7 +34,7 @@ export default function Community() {
   }
 
   return (
-    <div className="lg:h-[530px] bg-[#ffffff0d] flex flex-col lg:flex-row lg:justify-around lg:items-center -mx-5 md:-mx-16 mt-48 py-14 lg:py-0">
+    <div className="lg:h-[530px] bg-[#ffffff0d] flex flex-col lg:flex-row lg:justify-around lg:items-center -mx-5 md:-mx-16 lg:-mx-44 mt-48 py-14 lg:py-0">
       <div className="bg-[#0a0a0a] lg:-translate-y-24">
         <div className="overflow-hidden top-0 left-0 right-0 bottom-0 rounded-t-3xl bg-gradient-to-br from-[#7e30e140] to-[#49108b40]">
           <Link
