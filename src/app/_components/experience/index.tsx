@@ -23,7 +23,7 @@ const logos = [
 
 export default function Experience() {
   return (
-    <div className="flex flex-col gap-12 items-center justify-center mt-36">
+    <div className="flex flex-col gap-12 items-center justify-center mt-32 lg:mt-36">
       <h2 className="text-center text-[50px] md:text-[56px] font-medium leading-[55px] tracking-[-2.5px]">
         Our Experiences Come From
       </h2>

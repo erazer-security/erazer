@@ -3,7 +3,7 @@ import React from "react";
 export default function CybersecurityStatistics() {
   return (
     <div>
-      <h2 className="text-[50px] md:text-[56px] text-center font-medium leading-[55px] tracking-tighter mt-[500px] mb-7">
+      <h2 className="text-[50px] md:text-[56px] text-center font-medium leading-[55px] tracking-tighter mt-32 lg:mt-36 mb-7">
         Cybersecurity by the numbers
       </h2>
       <h4 className="text-[#a7a7a7] text-[26px] text-center font-medium leading-10 tracking-tighter mb-14 lg:mb-24">
