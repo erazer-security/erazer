@@ -3,7 +3,7 @@ import TestimonialsCarousel from "@/app/_components/testimonialsCarousel";
 
 export default function Testimonials() {
   return (
-    <div className="mt-32 lg:mt-60 lg:ml-[188px]">
+    <div className="mt-32 lg:mt-60">
       <h2 className="text-[50px] md:text-[56px] font-medium leading-10 tracking-tighter">
         Testimonials
       </h2>

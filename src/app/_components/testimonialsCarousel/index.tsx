@@ -1,11 +1,11 @@
 import React from "react";
+import Image from "next/image";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
 } from "@/components/ui/carousel";
-import Image from "next/image";
 import { Testimonial } from "@/app/types/Testimonial";
 import testimonials from "./testimonials.json";
 
