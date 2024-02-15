@@ -1,3 +1,5 @@
+import WhyErazer from "@/app/_components/whyErazer";
+import Experience from "@/app/_components/experience";
 import CybersecurityStatistics from "@/app/_components/cybersecurityStatistics";
 import Process from "@/app/_components/process";
 import Testimonials from "@/app/_components/testimonials";
@@ -27,6 +29,8 @@ export default function Home() {
         alt="Rings"
         className="absolute w-[1434px] h-[1555px] aspect-square z-[-1] top-[164px] md:top-[62px] lg:top-[-19px] left-0 right-0 mx-auto shrink-0"
       ></img>
+      <WhyErazer />
+      <Experience />
       <CybersecurityStatistics />
       <section id="process">
         <Process />
@@ -40,7 +44,7 @@ export default function Home() {
       <img
         src="/home/capa.svg"
         alt="Rings"
-        className="absolute w-[1372px] h-[1372px] aspect-square z-[-1] top-[4400px] md:top-[3235px] lg:top-[3235px] left-0 right-0 mx-auto shrink-0"
+        className="absolute w-[1372px] h-[1372px] aspect-square z-[-1] top-[5450px] md:top-[4400px] lg:top-[4500px] left-0 right-0 mx-auto shrink-0"
       ></img>
       <section id="pricing">
         <Pricing />
