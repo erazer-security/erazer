@@ -12,8 +12,9 @@ export default function Pricing() {
   const { toast } = useToast();
   const { data: user } = useUser();
   const [standardButtonText, setStandardButtonText] =
-    useState<string>("Standard");
-  const [premiumButtonText, setPremiumButtonText] = useState<string>("Premium");
+    useState<string>("Get Started");
+  const [premiumButtonText, setPremiumButtonText] =
+    useState<string>("Get Started");
 
   const freeFeatures: string[] = [
     "Scan the internet for your digital footprint",
@@ -124,8 +125,8 @@ export default function Pricing() {
         Pricing for Your Peace of Mind
       </h2>
 
-      <div className="flex flex-col lg:flex-row justify-evenly gap-20 lg:gap-10 w-full bg-[#ffffff0d] rounded-2xl backdrop-blur-xl px-5 py-10 md:px-10 lg:py-14">
-        <div className="flex flex-col gap-10 lg:justify-between">
+      <div className="flex flex-col lg:flex-row gap-5">
+        <div className="flex flex-col gap-10 justify-between p-10 bg-[#ffffff0d] border rounded-2xl">
           <div>
             <h2 className="text-[56px] font-medium leading-10 tracking-tighter">
               Free
@@ -157,15 +158,7 @@ export default function Pricing() {
           </button>
         </div>
 
-        <Image
-          src="/pricing/line.svg"
-          alt="Line"
-          width={3}
-          height={1}
-          className="hidden lg:block h-full"
-        />
-
-        <div className="flex flex-col gap-10 lg:justify-between">
+        <div className="flex flex-col gap-10 justify-between p-10 bg-[#ffffff0d] border rounded-2xl">
           <div>
             <h2 className="text-[56px] font-medium leading-10 tracking-tighter">
               $14.99
@@ -197,41 +190,43 @@ export default function Pricing() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-10 lg:justify-between rounded-2xl backdrop-blur-xl bg-gradient-to-br from-[#7e30e140] to-[#49108b40] p-10 lg:-mb-32 lg:-translate-y-24">
-          <div className="flex flex-col gap-5">
-            <div className="w-fit bg-white text-[10px] text-[#49108B] font-extrabold rounded-full px-4 py-2 mb-2">
-              <span>MOST POPULAR</span>
-            </div>
-            <div>
+        <div className="flex flex-col gap-10 justify-between p-10 bg-[#ffffff0d] rounded-2xl border-2 border-[#7e30e1]">
+          <div>
+            <div className="flex flex-row gap-2">
               <h2 className="text-[56px] font-medium leading-10 tracking-tighter">
                 $9.99
-                <span className="text-[22px] font-normal tracking-[0.44px]">
-                  /month
-                </span>
               </h2>
+              <span className="text-[22px] font-normal tracking-[0.44px]">
+                /month
+              </span>
+            </div>
+            <div className="flex flex-row gap-4 items-center">
               <h3 className="text-[32px] font-medium leading-10 tracking-tighter my-5">
-                Premium
+                Pro
               </h3>
-              <div className="flex flex-col gap-4">
-                {premiumFeatures.map((feature: string, index: number) => (
-                  <div key={index} className="flex flex-row gap-2 items-start">
-                    <Image
-                      src="/pricing/whiteCheckCircle.svg"
-                      alt="Check Mark"
-                      width={20}
-                      height={20}
-                    />
-                    <p className="w-full text-base font-normal leading-5 tracking-wider">
-                      {feature}
-                    </p>
-                  </div>
-                ))}
+              <div className="w-fit h-fit bg-white text-[14px] text-[#49108B] font-extrabold rounded px-2 py-1">
+                Most Popular
               </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              {premiumFeatures.map((feature: string, index: number) => (
+                <div key={index} className="flex flex-row gap-2 items-start">
+                  <Image
+                    src="/pricing/purpleCheckCircle.svg"
+                    alt="Check Mark"
+                    width={20}
+                    height={20}
+                  />
+                  <p className="w-full text-[#a7a7a7a7] text-base font-normal leading-5 tracking-wider">
+                    {feature}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
           <button
             onClick={handlePremiumClick}
-            className="w-full rounded-3xl bg-white text-[#49108B] px-10 py-3 hover:bg-gray-200 active:bg-gray-300"
+            className="w-full rounded-3xl bg-[#7e30e1] px-10 py-3 hover:bg-[#3F0687] active:bg-[#100320]"
           >
             {premiumButtonText}
           </button>
