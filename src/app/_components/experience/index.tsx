@@ -42,7 +42,7 @@ export default function Experience() {
           <CarouselContent>
             {logos.map((logo: string) => (
               <CarouselItem
-                className="basis-1/2 md:basis-1/4 lg:basis-1/6 flex items-center justify-center"
+                className="basis-1/3 md:basis-1/4 lg:basis-1/6 flex items-center justify-center"
                 key={logo}
               >
                 <Image
