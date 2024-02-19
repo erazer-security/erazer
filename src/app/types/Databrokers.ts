@@ -121,11 +121,14 @@ export const allDatabrokers: string[] = [
 
 export const revealnameSites: string[] = [];
 export const spytoxSites: string[] = [];
+export const usphonebookSites: string[] = [];
 export const advancedDatabrokers: string[] = [
   "revealname.com",
   "spytox.com",
+  "usphonebook.com",
   ...revealnameSites,
   ...spytoxSites,
+  ...usphonebookSites,
 ];
 
 export const whoisDatabrokers: { [key: string]: string } = {
@@ -287,4 +290,6 @@ export const whoisDatabrokers: { [key: string]: string } = {
     "Revealname.com is an online data broker that allows anyone to conduct a reverse search of a phone number and receive owner information, including a free report with name, location, and carrier info.",
   "spytox.com":
     "Spytox.com is a people search data broker that lets you find full name, phone number, e-mail address, mailing address, photos and more on any person living across the world.",
+  "usphonebook.com":
+    "usphonebook.com is a data broker website that publishes personal information online, including current and past home addresses, phone numbers, email addresses, family members, and associates. It provides users with a free reverse phone number lookup service, allowing anyone to find this personal information using a phone number, name, or address.",
 };
