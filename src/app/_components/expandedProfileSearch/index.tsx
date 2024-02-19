@@ -116,7 +116,7 @@ export default function ExpandedProfileSearch({
         }
         await delay(delayTime);
         setProgress(((i + 1) / advancedDatabrokers.length) * 97); // set max progress to 97%
-        setCurrentDatabroker(`${advancedDatabrokers[i + 1]}`);
+        setCurrentDatabroker(`${advancedDatabrokers[i]}`);
       }
     })();
 
