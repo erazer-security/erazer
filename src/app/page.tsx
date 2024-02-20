@@ -17,7 +17,7 @@ export default function Home() {
         online footprint
       </h1>
       <p className="text-[22px] text-center font-normal mb-9 leading-[28.6px] tracking-[0.44px]">
-        Get started with 1 click, remove yourself from 76 databrokers
+        Get started with 1 click, remove yourself from 84 databrokers
       </p>
       <section id="profile-search">
         <div className="flex flex-row justify-center items-center">
