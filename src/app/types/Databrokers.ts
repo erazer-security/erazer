@@ -79,15 +79,14 @@ export const beenVerifiedSites: string[] = [
   "freephonetracer.com",
 ];
 
-// export const advancedBackgroundChecksSites: string[] = [
-//   "fastpeoplesearch.com",
-//   "familytreenow.com",
-//   "searchpeoplefree.com",
-//   "peoplesearchnow.com",
-//   "usphonebook.com",
-//   "usa-people-search.com",
-//   "truepeoplesearch.com",
-// ];
+export const advancedBackgroundChecksSites: string[] = [
+  "fastpeoplesearch.com",
+  "familytreenow.com",
+  "searchpeoplefree.com",
+  "peoplesearchnow.com",
+  "usa-people-search.com",
+  "truepeoplesearch.com",
+];
 
 export const telephonedirectoriesSites: string[] = [];
 export const checkpeopleSites: string[] = [];
@@ -102,6 +101,7 @@ export const allDatabrokers: string[] = [
   "floridaresidentsdirectory.com",
   "spokeo.com",
   "beenverified.com",
+  "advancedbackgroundchecks.com",
   "telephonedirectories.us",
   "checkpeople.com",
   "locatepeople.org",
@@ -113,6 +113,7 @@ export const allDatabrokers: string[] = [
   ...floridaResidentsDirectorySites,
   ...spokeoSites,
   ...beenVerifiedSites,
+  ...advancedBackgroundChecksSites,
   ...telephonedirectoriesSites,
   ...checkpeopleSites,
   ...locatepeopleSites,
@@ -276,6 +277,21 @@ export const whoisDatabrokers: { [key: string]: string } = {
     "personius.net is a public information search engine that offers services like people search, reverse phone lookups, email lookups, and address lookups. It provides users with access to billions of records, helping them find contact info, court records, and property details.",
   "freephonetracer.com":
     "freephonetracer.com is a reverse phone lookup service that allows users to trace any number. It provides an extensive directory of cellular and landline numbers, enabling users to find out more about the callers.",
+
+  "advancedbackgroundchecks.com":
+    "advancedbackgroundchecks.com is a people-search website that provides data from local, state, and federal sources. It offers information such as current and previous addresses, relatives, associates, and phone numbers.",
+  "fastpeoplesearch.com":
+    "fastpeoplesearch.com is a tool that allows you to search for people by name, address, email, or reverse phone lookup. It collects publicly available personal information.",
+  "familytreenow.com":
+    "familytreenow.com is a genealogy website that aggregates information about people from public records and other online sources. It allows registered users to start building a family tree on the website.",
+  "searchpeoplefree.com":
+    "searchpeoplefree.com is a service that offers unlimited searches and reports. It's a people search solution that can be used when other background check and people lookup services turn up dry.",
+  "peoplesearchnow.com":
+    "peoplesearchnow.com offers a simple search tool to help you find whoever you're looking for. It provides a free reverse phone lookup, free people search, or free address lookup and gives a free background check instantly.",
+  "usa-people-search.com":
+    "usa-people-search.com is a website that helps you find people in the USA by name, address, phone number, or license plate. It also provides unlimited reports on criminal records, public records, neighbors, social media profiles, and more.",
+  "truepeoplesearch.com":
+    "truepeoplesearch.com is a reverse phone lookup service that provides detailed reports on any phone number, including the name, address, and background information of the owner. It can be used to identify calls and authenticate companies or emergency calls.",
 
   "telephonedirectories.us":
     "This website allows users to search for individuals, businesses, and other entities using an extensive database. It provides information such as phone numbers, addresses, and emails, and it also includes a directory of various categories like health, education, government, and more.",
