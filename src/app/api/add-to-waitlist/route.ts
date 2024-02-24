@@ -3,19 +3,19 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
 
 export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json();
+  const { email } = await req.json();
 
   const msg = {
     to: "support@erazer.io",
     from: "support@erazer.io",
-    subject: `Message from ${email}`,
-    text: `${name} says ${message}`,
+    subject: `Add ${email} to the waitlist`,
+    text: `Please add ${email} to the waitlist`,
   };
 
   try {
     await sgMail.send(msg);
     return NextResponse.json(
-      { message: "Message has been sent" },
+      { message: "Added to the waitlist" },
       { status: 200 }
     );
   } catch (error) {

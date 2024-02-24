@@ -1,37 +1,47 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import emailjs from "@emailjs/browser";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+
+const formSchema = z.object({
+  email: z.string().email(),
+});
 
 export default function Community() {
   const { toast } = useToast();
-  const [email, setEmail] = useState<string>("");
 
-  function addToWaitlist(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (email.trim() === "") {
-      toast({
-        variant: "destructive",
-        description: "Please enter your email.",
-      });
-      return;
-    }
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-    emailjs.sendForm(
-      `${process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}`,
-      `${process.env.NEXT_PUBLIC_EMAILJS_WAITLIST_TEMPLATE_ID}`,
-      event.target as HTMLFormElement,
-      `${process.env.NEXT_PUBLIC_EMAILJS_API_KEY}`
-    );
-
-    setEmail("");
-    toast({
-      variant: "success",
-      description: "You have been added to the waitlist.",
+  const addToWaitlist = async (values: z.infer<typeof formSchema>) => {
+    await fetch("/api/add-to-waitlist", {
+      method: "POST",
+      body: JSON.stringify(values),
+    }).then((res) => {
+      if (res.ok) {
+        toast({
+          variant: "success",
+          description: "You have been added to the waitlist.",
+        });
+        form.reset();
+        return;
+      }
     });
-  }
+  };
 
   return (
     <div className="lg:h-[530px] bg-[#ffffff0d] flex flex-col lg:flex-row lg:justify-around lg:items-center -mx-5 md:-mx-16 lg:-mx-44 mt-48 py-14 lg:py-0">
@@ -76,26 +86,39 @@ export default function Community() {
           Subscribe for alerts on our upcoming Dark Web Removal and Image
           Takedown features.
         </p>
-        <form
-          onSubmit={addToWaitlist}
-          className="flex flex-row justify-between gap-5 p-4 rounded-[40px] border-[1px] border-solid border-[#31343D] backdrop-blur-xl"
-        >
-          <input
-            autoComplete="off"
-            type="email"
-            name="from_email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="Your Email Address"
-            className="text-white placeholder:text-white text-base font-normal bg-transparent outline-none"
-          />
-          <button
-            type="submit"
-            className="ml-auto flex justify-center items-center px-[18px] py-[10px] rounded-full bg-gradient-to-br from-[#7e30e1] to-[#49108b]"
-          >
-            Submit
-          </button>
-        </form>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(addToWaitlist)}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-row justify-between items-center gap-5 p-3 rounded-[40px] border-[1px] border-solid border-[#31343D] backdrop-blur-xl">
+                        <input
+                          {...field}
+                          autoComplete="off"
+                          type="email"
+                          placeholder="Your Email Address"
+                          className="text-white placeholder:text-white text-base font-normal bg-transparent outline-none"
+                        />
+                        <button
+                          type="submit"
+                          className="ml-auto flex justify-center items-center px-[18px] py-[10px] rounded-full bg-gradient-to-br from-[#7e30e1] to-[#49108b]"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            ></FormField>
+          </form>
+        </Form>
       </div>
     </div>
   );
