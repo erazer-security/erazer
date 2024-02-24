@@ -13,6 +13,10 @@ export const routes: Array<Route> = [
     title: "About Us",
   },
   {
+    path: "/contact-us",
+    title: "Contact Us",
+  },
+  {
     path: "/#testimonials",
     title: "Testimonials",
   },

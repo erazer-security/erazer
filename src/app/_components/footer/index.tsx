@@ -79,9 +79,12 @@ export default function Footer() {
                 width={17}
                 height={13}
               />
-              <p className="text-[#5F5F61] text-lg font-normal leading-[20px]">
+              <Link
+                href={"/contact-us"}
+                className="text-[#5F5F61] text-lg font-normal leading-[20px]"
+              >
                 support@erazer.io
-              </p>
+              </Link>
             </div>
             <div className="flex flex-row gap-2">
               <Image
