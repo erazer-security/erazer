@@ -34,8 +34,9 @@ export default function ExpandedProfileSearch({
   const [selectedProfiles, setSelectedProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+  const allDatabrokers = Object.values(advancedDatabrokers).flat(); // flatten the array of arrays
   const [currentDatabroker, setCurrentDatabroker] = useState<string>(
-    advancedDatabrokers[0]
+    allDatabrokers[0]
   );
 
   async function searchProfile() {
@@ -80,7 +81,7 @@ export default function ExpandedProfileSearch({
           });
           setLoading(false);
           setProgress(0); // reset progress bar
-          setCurrentDatabroker(advancedDatabrokers[0]);
+          setCurrentDatabroker(allDatabrokers[0]);
           return;
         }
         return response.json();
@@ -95,7 +96,7 @@ export default function ExpandedProfileSearch({
           });
           setLoading(false);
           setProgress(0); // reset progress bar
-          setCurrentDatabroker(advancedDatabrokers[0]);
+          setCurrentDatabroker(allDatabrokers[0]);
           return;
         } else {
           setFilteredProfiles(data.profiles);
@@ -109,21 +110,21 @@ export default function ExpandedProfileSearch({
 
     const updateProgressBarPromise = (async () => {
       const totalDelayTime = 10000; // 10 seconds
-      const delayTime = totalDelayTime / advancedDatabrokers.length;
-      for (let i = 0; i < advancedDatabrokers.length; i++) {
+      const delayTime = totalDelayTime / allDatabrokers.length;
+      for (let i = 0; i < allDatabrokers.length; i++) {
         if (isFetchCompleted) {
           break;
         }
         await delay(delayTime);
-        setProgress(((i + 1) / advancedDatabrokers.length) * 97); // set max progress to 97%
-        setCurrentDatabroker(`${advancedDatabrokers[i]}`);
+        setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
+        setCurrentDatabroker(`${allDatabrokers[i]}`);
       }
     })();
 
     await Promise.all([fetchProfilesPromise, updateProgressBarPromise]);
     setLoading(false);
     setProgress(0); // reset progress bar
-    setCurrentDatabroker(advancedDatabrokers[0]);
+    setCurrentDatabroker(allDatabrokers[0]);
   }
 
   function handleProfileAdd(profile: Profile) {
