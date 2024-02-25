@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Profile } from "@/app/types/Profile";
-import { allDatabrokers } from "@/app/types/Databrokers";
+import { databrokers } from "@/app/types/Databrokers";
 import ProfilesCarousel from "./profilesCarousel";
 import TooManyProfiles from "./tooManyProfiles";
 
@@ -35,6 +35,7 @@ export default function ProfileSearch() {
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+  const allDatabrokers = Object.values(databrokers).flat(); // flatten the array of arrays
   const [currentDatabroker, setCurrentDatabroker] = useState<string>(
     allDatabrokers[0]
   );
