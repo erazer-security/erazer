@@ -72,10 +72,10 @@ export default function Experimental() {
         Quickly determine if an image is AI or not
       </h4>
       <div className="flex flex-col justify-center items-center gap-10 mt-16">
-        <h4 className="text-[26px] font-medium leading-[28.6px] tracking-[-1.3px]">
+        <h4 className="text-center text-[26px] font-medium leading-[28.6px] tracking-[-1.3px]">
           {result}
         </h4>
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-col md:flex-row gap-5 md:gap-0 justify-center items-center">
           <input
             type="file"
             name="image"
