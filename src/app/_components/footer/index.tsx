@@ -104,8 +104,15 @@ export default function Footer() {
         <p className="text-[#5F5F61] text-lg font-normal leading-[30px]">
           Copyright © 2024 Erazer Corp.
         </p>
-        <p className="text-[#5F5F61] text-lg font-normal leading-[30px]">
-          Made with 💜 in NYC
+        <p className="text-[#5F5F61] text-lg font-normal leading-[30px] flex flex-row gap-1">
+          Made with{" "}
+          <Image
+            src="/footer/heart.svg"
+            alt="erazer heart"
+            width={20}
+            height={20}
+          />{" "}
+          in NYC
         </p>
         <p className="text-[#5F5F61] text-lg font-normal leading-[30px]">
           All Rights Reserved
