@@ -25,7 +25,7 @@ export default function Footer() {
           <p className="text-[#5F5F61] text-lg font-normal leading-[30px]">
             Because getting your data sold isn&apos;t cute
           </p>
-          <div className="flex flex-row items-center gap-5">
+          <div className="flex flex-row items-center gap-2">
             <Link
               href="https://www.facebook.com/groups/321264396948984/"
               target="_blank"
