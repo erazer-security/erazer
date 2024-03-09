@@ -56,12 +56,16 @@ export default function Dashboard() {
         user.syncedRemovals ? (
         "Congratulations! Your profiles have been removed."
       ) : (
-        <Link
-          href="/#pricing"
-          className="w-full text-center bg-[#EFE3FF] hover:bg-[#D6C9E6] active:bg-[#BDAFCD] text-black rounded-2xl px-5 py-3"
-        >
-          Remove all profiles
-        </Link>
+        <div className="relative">
+          <div className="absolute -inset-2 opacity-75 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur"></div>
+          <Link
+            href="/#pricing"
+            className="relative block text-center text-black bg-[#EFE3FF] hover:bg-[#D6C9E6] active:bg-[#BDAFCD] rounded-2xl px-5 py-3"
+          >
+            {/* The 'block' class on Link makes it take up entire width */}
+            Remove all profiles
+          </Link>
+        </div>
       )
     );
 
