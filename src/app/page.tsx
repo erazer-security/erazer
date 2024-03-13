@@ -8,6 +8,7 @@ import Pricing from "@/app/_components/pricing";
 import WallOfHorror from "@/app/_components/wallOfHorror";
 import Community from "@/app/_components/community";
 import ProfileSearch from "@/app/_components/profileSearch";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -24,11 +25,14 @@ export default function Home() {
           <ProfileSearch />
         </div>
       </section>
-      <img
-        src="/home/rings.svg"
-        alt="Rings"
-        className="absolute w-[1434px] h-[1555px] aspect-square z-[-1] top-[164px] md:top-[62px] lg:top-[-19px] left-0 right-0 mx-auto shrink-0"
-      ></img>
+      <div className="-mx-5 absolute z-[-1] top-[164px] md:top-[62px] lg:top-[-19px] left-0 right-0 shrink-0 h-[1555px]">
+        <Image
+          src="/home/rings.svg"
+          alt="Rings"
+          fill
+          sizes="100vw"
+        />
+      </div>
       <WhyErazer />
       <Experience />
       <CybersecurityStatistics />
@@ -43,9 +47,9 @@ export default function Home() {
       </section>
       <img
         src="/home/capa.svg"
-        alt="Rings"
+        alt="Roadmap"
         className="absolute w-[1372px] h-[1372px] aspect-square z-[-1] top-[5450px] md:top-[4400px] lg:top-[4500px] left-0 right-0 mx-auto shrink-0"
-      ></img>
+      />
       <section id="pricing">
         <Pricing />
       </section>
