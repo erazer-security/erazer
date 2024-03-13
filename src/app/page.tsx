@@ -25,7 +25,7 @@ export default function Home() {
           <ProfileSearch />
         </div>
       </section>
-      <div className="-mx-5 absolute z-[-1] top-[164px] md:top-[62px] lg:top-[-19px] left-0 right-0 shrink-0 h-[1555px]">
+      <div className="-mx-5 md:-mx-16 xl:mx-0 absolute z-[-1] top-[164px] md:top-[62px] lg:top-[-19px] left-0 right-0 shrink-0 h-[1555px]">
         <Image
           src="/home/rings.svg"
           alt="Rings"
