@@ -130,10 +130,10 @@ export default function Dashboard() {
             filteredProfiles: user.scannedProfiles,
           }),
         }
-      ).catch((error) => console.log(error));
+      ).catch(error => console.log(error));
       // update progress bar
       const delay = (ms: number) =>
-        new Promise((resolve) => setTimeout(resolve, ms));
+        new Promise(resolve => setTimeout(resolve, ms));
       const delayTime = 2000; // 2 seconds per profile
       for (let i = 0; i < numScannedProfiles; i++) {
         await delay(delayTime);
@@ -193,7 +193,7 @@ export default function Dashboard() {
   }, [user]);
 
   return (
-    <div className="flex flex-col gap-8 py-10">
+    <div className="flex flex-col gap-8 py-10 container">
       {user && (
         <>
           <MonthlyModal
@@ -228,14 +228,17 @@ export default function Dashboard() {
               percentage={percentage}
               removalProgressMessage={removalProgressMessage}
             />
-            <EmailBreachesCard breaches={user.breaches} className="" />
+            <EmailBreachesCard
+              breaches={user.breaches}
+              className=""
+            />
             <RemovalsTableCard
               profiles={[...user.scannedProfiles, ...user.removedProfiles]}
               className="md:col-span-2"
             />
           </div>
           {/* desktop view */}
-          <div className="hidden lg:flex flex-row gap-8">
+          <div className="hidden lg:grid grid-cols-[2fr,1fr] gap-8">
             <div className="flex flex-col gap-8">
               <h1 className="text-[50px] font-medium leading-[55px] tracking-[-2.5px]">
                 {user.firstName !== ""
@@ -243,9 +246,8 @@ export default function Dashboard() {
                   : "Your Dashboard"}
               </h1>
               <ExpandedProfileSearch />
-              <div className="flex flex-row gap-8">
+              <div className="grid grid-cols-2 gap-8">
                 <StatisticsCard
-                  className="w-[50%]"
                   heading="This month"
                   value={
                     user.scannedProfiles.length + user.removedProfiles.length
@@ -272,7 +274,10 @@ export default function Dashboard() {
                 percentage={percentage}
                 removalProgressMessage={removalProgressMessage}
               />
-              <EmailBreachesCard breaches={user.breaches} className="" />
+              <EmailBreachesCard
+                breaches={user.breaches}
+                className=""
+              />
             </div>
           </div>
         </>
