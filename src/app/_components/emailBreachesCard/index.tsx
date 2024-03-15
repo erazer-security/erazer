@@ -59,7 +59,7 @@ export default function EmailBreachesCard({
             Please make sure you are following these best cybersecurity
             practices.
           </p>
-          <ScrollArea className="h-[315px]">
+          <ScrollArea className="h-[315px] md:h-[200px] lg:h-[315px]">
             <Accordion type="single" collapsible>
               <AccordionItem
                 value="1"
