@@ -6,10 +6,12 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
 
 interface ProfilesCarouselProps {
+  setCarouselApi: (api: CarouselApi) => void;
   filteredProfiles: Profile[];
   selectedProfiles: Profile[];
   handleProfileAdd: (profile: Profile) => void;
@@ -17,6 +19,7 @@ interface ProfilesCarouselProps {
 }
 
 export default function ProfilesCarousel({
+  setCarouselApi,
   filteredProfiles,
   selectedProfiles,
   handleProfileAdd,
@@ -24,7 +27,10 @@ export default function ProfilesCarousel({
 }: ProfilesCarouselProps) {
   return (
     <>
-      <Carousel className="h-[400px] lg:h-[250px] gap-4 border border-[#31343D] rounded-3xl backdrop-blur-xl p-5 md:px-10 md:py-7 min-w-0">
+      <Carousel
+        setApi={setCarouselApi}
+        className="h-[400px] lg:h-[250px] gap-4 border border-[#31343D] rounded-3xl backdrop-blur-xl p-5 md:px-10 md:py-7 min-w-0"
+      >
         <CarouselContent>
           {filteredProfiles.map((profile: Profile, index: number) => (
             <CarouselItem key={index}>
