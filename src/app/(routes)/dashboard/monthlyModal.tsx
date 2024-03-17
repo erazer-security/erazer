@@ -6,6 +6,7 @@ import ProfilesCarousel from "@/app/_components/profileSearch/profilesCarousel";
 import TooManyProfiles from "@/app/_components/profileSearch/tooManyProfiles";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { type CarouselApi } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
 import { User } from "@/app/types/User";
 import getAllProfiles from "./getAllProfiles";
@@ -24,6 +25,7 @@ export default function MonthlyModal({
   const { toast } = useToast();
   const supabase = supabaseBrowser();
   const queryClient = useQueryClient();
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
   const [heading, setHeading] = useState<string>(
     "Here are your monthly scanned profiles"
   );
@@ -85,9 +87,9 @@ export default function MonthlyModal({
       return;
     } else {
       setHeading("These are the profiles that match your city.");
-      // if (profilesFiltered.length === 1) {
-      //   setRemovalReady(true); // since this is the only profile available, enable removal button
-      // }
+      carouselApi?.scrollTo(0); // reset the index of the carousel to 0 (so we don't start on the current slide with the updated profiles)
+      setFilteredProfiles(profilesFiltered);
+      updateLocations(profilesFiltered);
     }
   }
 
@@ -187,6 +189,7 @@ export default function MonthlyModal({
             </div>
           </DialogHeader>
           <ProfilesCarousel
+            setCarouselApi={setCarouselApi}
             filteredProfiles={filteredProfiles}
             selectedProfiles={selectedProfiles}
             handleProfileAdd={handleProfileAdd}
