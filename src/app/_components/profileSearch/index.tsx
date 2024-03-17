@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { type CarouselApi } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
 import { databrokers } from "@/app/types/Databrokers";
 import ProfilesCarousel from "./profilesCarousel";
@@ -21,6 +22,7 @@ export default function ProfileSearch() {
   const supabase = supabaseBrowser();
   const { toast } = useToast();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
   const [heading, setHeading] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -39,7 +41,6 @@ export default function ProfileSearch() {
   const [currentDatabroker, setCurrentDatabroker] = useState<string>(
     allDatabrokers[0]
   );
-  const [removalReady, setRemovalReady] = useState<boolean>(false);
 
   async function searchProfile() {
     // ensure first and last name and age are not empty
@@ -71,7 +72,6 @@ export default function ProfileSearch() {
     setFilteredProfiles([]);
     setSelectedProfiles([]);
     setLoading(true);
-    setRemovalReady(false);
     setOpenDialog(true);
     setHeading(
       `Hi ${firstName}, we’re currently searching for your profile across the web...`
@@ -132,7 +132,6 @@ export default function ProfileSearch() {
 
           if (profilesFiltered.length === 1) {
             setHeading("We found 1 profile.");
-            setRemovalReady(true); // since this is the only profile available, enable removal button
           } else {
             setHeading(`We found ${profilesFiltered.length} profiles.`);
             if (profilesFiltered.length > 10) {
@@ -214,17 +213,14 @@ export default function ProfileSearch() {
           )
     );
 
-    setFilteredProfiles(profilesFiltered);
-    updateLocations(profilesFiltered);
-
     if (profilesFiltered.length === 0) {
       setHeading("It looks like your city doesn't match any of the profiles.");
       return;
     } else {
       setHeading("These are the profiles that match your city.");
-      if (profilesFiltered.length === 1) {
-        setRemovalReady(true); // since this is the only profile available, enable removal button
-      }
+      carouselApi?.scrollTo(0); // reset the index of the carousel to 0 (so we don't start on the current slide with the updated profiles)
+      setFilteredProfiles(profilesFiltered);
+      updateLocations(profilesFiltered);
     }
   }
 
@@ -256,8 +252,6 @@ export default function ProfileSearch() {
         status: "Pending",
       })
     );
-
-    setRemovalReady(false); // disable removal button
 
     // set necessary removal information in session and navigate to sign in page
     sessionStorage.setItem("firstName", firstName);
@@ -332,6 +326,7 @@ export default function ProfileSearch() {
               </div>
             </DialogHeader>
             <ProfilesCarousel
+              setCarouselApi={setCarouselApi}
               filteredProfiles={filteredProfiles}
               selectedProfiles={selectedProfiles}
               handleProfileAdd={handleProfileAdd}
