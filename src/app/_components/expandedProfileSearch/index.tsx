@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { type CarouselApi } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
 import { advancedDatabrokers } from "@/app/types/Databrokers";
 
@@ -27,6 +28,7 @@ export default function ExpandedProfileSearch({
   const supabase = supabaseBrowser();
   const queryClient = useQueryClient();
   const { data: user } = useUser();
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [heading, setHeading] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -228,6 +230,7 @@ export default function ExpandedProfileSearch({
               </div>
             </DialogHeader>
             <ProfilesCarousel
+              setCarouselApi={setCarouselApi}
               filteredProfiles={filteredProfiles}
               selectedProfiles={selectedProfiles}
               handleProfileAdd={handleProfileAdd}
