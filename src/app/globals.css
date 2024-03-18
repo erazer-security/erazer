@@ -73,6 +73,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  input {
+    @apply w-full;
+  }
 }
 
 html {
