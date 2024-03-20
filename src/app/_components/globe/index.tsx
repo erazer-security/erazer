@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import createGlobe from "cobe";
-import { useEffect, useRef } from "react";
 
 const maxWidth = 600;
 
