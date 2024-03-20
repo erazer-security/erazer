@@ -202,9 +202,11 @@ export default function ExpandedProfileSearch({
       />
       <Dialog open={openDialog}>
         {loading ? (
-          <DialogContent className="justify-center px-20 py-14 outline-none">
+          <DialogContent className="justify-center px-10 py-14 outline-none">
             <DialogHeader className="gap-5">
-              <DialogTitle className="text-center">{heading}</DialogTitle>
+              <DialogTitle className="text-center text-pretty">
+                {heading}
+              </DialogTitle>
               <Progress value={progress} className="h-[3px]" />
             </DialogHeader>
             <Globe />

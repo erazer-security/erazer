@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 
+const maxWidth = 600;
+
 export default function Globe() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<any>();
+  const [size, setSize] = useState(maxWidth);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentBoxSize) {
+          setSize(Math.min(entry.contentBoxSize[0].inlineSize, maxWidth));
+        }
+      }
+    });
+
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     let phi = 0;
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
-      width: 600 * 2,
-      height: 600 * 2,
+      width: size * 2,
+      height: size * 2,
       phi: 0,
       theta: 0,
       dark: 1,
@@ -22,6 +43,7 @@ export default function Globe() {
         0.49411764705882355, 0.18823529411764706, 0.8823529411764706,
       ],
       glowColor: [1, 1, 1],
+      offset: [0, 0],
       markers: [
         // longitude latitude
         { location: [37.7595, -122.4367], size: 0.05 },
@@ -48,14 +70,21 @@ export default function Globe() {
     return () => {
       globe.destroy();
     };
-  }, []);
+  }, [size]);
 
   return (
-    <>
+    <div
+      ref={containerRef}
+      style={{
+        maxWidth: `${maxWidth}px`,
+      }}
+    >
       <canvas
         ref={canvasRef}
-        className="w-[600px] h-[600px] max-w-full aspect-square"
+        width={size * 2}
+        height={size * 2}
+        className="w-full aspect-square"
       />
-    </>
+    </div>
   );
 }
