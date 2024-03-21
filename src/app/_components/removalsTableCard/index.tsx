@@ -168,9 +168,9 @@ const ProfileCell = ({ profile, ...tableCellProps }: ProfileCellProps) => {
 const WebsiteCell = ({ profile }: ProfileCellProps) => {
   return (
     <TableCell>
-      <div className="flex flex-row items-center gap-1">
+      <div className="flex items-center gap-1">
         {profile.website}{" "}
-        <div className="hidden md:block">
+        <div className="hidden md:block shrink-0">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -187,7 +187,7 @@ const WebsiteCell = ({ profile }: ProfileCellProps) => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="block md:hidden">
+        <div className="block md:hidden shrink-0">
           <Popover>
             <PopoverTrigger>
               <Image
