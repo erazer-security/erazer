@@ -9,6 +9,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
+import { databrokers } from "@/app/types/Databrokers";
 
 interface ProfilesCarouselProps {
   setCarouselApi: (api: CarouselApi) => void;
@@ -36,9 +37,15 @@ export default function ProfilesCarousel({
             <CarouselItem key={index}>
               <div className="flex flex-col gap-5 ">
                 <div className="h-64 lg:h-28 overflow-y-scroll border-b">
-                  <p className="text-[#75778B] text-base font-normal leading-[22.4px]">
+                  <p className="text-white text-base font-normal leading-[22.4px]">
                     {profile.profile}
                   </p>
+                  {databrokers[profile.website].length > 1 && (
+                    <p className="text-[#75778B] text-base font-normal leading-[22.4px]">
+                      • This exact profile was found across{" "}
+                      {databrokers[profile.website].length} websites •
+                    </p>
+                  )}
                 </div>
                 <div className="flex flex-row justify-center gap-5">
                   <CarouselNext
