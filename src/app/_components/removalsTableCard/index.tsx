@@ -103,7 +103,7 @@ export default function RemovalsTableCard({
                       className="hidden md:table-cell"
                     />
                   </TableRow>
-                  <TableRow className="border-none md:hidden">
+                  <TableRow className="border-none md:hidden transition-colors hover:bg-[#23242A]">
                     <ProfileCell
                       profile={profile}
                       colSpan={2}
