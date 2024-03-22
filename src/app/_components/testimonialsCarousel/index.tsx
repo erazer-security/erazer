@@ -12,11 +12,16 @@ import testimonials from "./testimonials.json";
 export default function TestimonialsCarousel() {
   return (
     <div className="overflow-x-hidden">
-      <Carousel>
-        <CarouselContent className="w-[525px] h-[360px]">
+      <Carousel
+        opts={{
+          loop: true,
+          align: "start",
+        }}
+      >
+        <CarouselContent>
           {testimonials.testimonials.map(
             (testimonial: Testimonial, index: number) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="basis-[525px] h-[360px]">
                 <div className="bg-[#ffffff0d] h-full flex flex-col gap-4 rounded-3xl p-12">
                   <Image
                     src={
