@@ -118,7 +118,6 @@ export default function ProfileSearch() {
         // Poll the server every 5 seconds to check the status of the profile scraping
         const pollingStatus = new Promise<void>((resolve, reject) => {
           const interval = setInterval(async () => {
-            console.log("polling now");
             await fetch(
               process.env.NODE_ENV === "development"
                 ? `http://localhost:5002/script-status?scriptId=${scriptId}`
@@ -159,7 +158,6 @@ export default function ProfileSearch() {
                     setLoading(false);
                     setProgress(0); // reset progress bar
                     setCurrentDatabroker(allDatabrokers[0]);
-                    return;
                   } else {
                     setFilteredProfiles(profilesFiltered);
                     updateLocations(profilesFiltered);
