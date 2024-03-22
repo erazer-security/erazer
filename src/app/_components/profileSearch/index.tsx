@@ -77,10 +77,11 @@ export default function ProfileSearch() {
       `Hi ${firstName}, we’re currently searching for your profile across the web...`
     );
 
-    // Track when fetch request is completed to update progress bar
-    let isFetchCompleted: boolean = false;
+    let isFetchCompleted: boolean = false; // Track when fetch request is completed to update progress bar
+    let scriptId: string = ""; // Track the scriptId to check the status of the profile scraping
+
     // Fetch the profile, if it exists, from the server
-    const fetchProfilesPromise = fetch(
+    await fetch(
       process.env.NODE_ENV === "development"
         ? "http://localhost:5002/profiles"
         : "https://api.erazer.io/profiles",
@@ -102,7 +103,7 @@ export default function ProfileSearch() {
           setOpenDialog(false);
           toast({
             variant: "destructive",
-            description: `${firstName}, there was an error while scraping your profile. Please try again.`,
+            description: `${firstName}, there was an error while searching for your profile. Please try again.`,
           });
           setLoading(false);
           setProgress(0); // reset progress bar
@@ -111,41 +112,103 @@ export default function ProfileSearch() {
         }
         return response.json();
       })
-      .then((data) => {
-        isFetchCompleted = true; // all fetch requests are completed
-        const profilesFiltered = data.profiles.filter(
-          (profile: Profile) => profile.age == age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
-        );
-        if (profilesFiltered.length === 0) {
-          setOpenDialog(false);
-          toast({
-            variant: "success",
-            description: `${firstName}, it looks like your profile doesn't exist on these databrokers.`,
-          });
-          setLoading(false);
-          setProgress(0); // reset progress bar
-          setCurrentDatabroker(allDatabrokers[0]);
-          return;
-        } else {
-          setFilteredProfiles(profilesFiltered);
-          updateLocations(profilesFiltered);
+      .then(async (data) => {
+        scriptId = data.scriptId; // the previous fetch request returns the scriptId
 
-          if (profilesFiltered.length === 1) {
-            setHeading("We found 1 profile.");
-          } else {
-            setHeading(`We found ${profilesFiltered.length} profiles.`);
-            if (profilesFiltered.length > 10) {
-              setTooManyProfiles(true);
+        // Poll the server every 5 seconds to check the status of the profile scraping
+        const pollingStatus = new Promise<void>((resolve, reject) => {
+          const interval = setInterval(async () => {
+            console.log("polling now");
+            await fetch(
+              process.env.NODE_ENV === "development"
+                ? `http://localhost:5002/script-status?scriptId=${scriptId}`
+                : `https://api.erazer.io/script-status?scriptId=${scriptId}`,
+              {
+                method: "GET",
+              }
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  setOpenDialog(false);
+                  toast({
+                    variant: "destructive",
+                    description: `${firstName}, there was an error while searching for your profile. Please try again.`,
+                  });
+                  setLoading(false);
+                  setProgress(0); // reset progress bar
+                  setCurrentDatabroker(allDatabrokers[0]);
+                  clearInterval(interval);
+                  reject(new Error("Error message"));
+                  return;
+                }
+                return response.json();
+              })
+              .then((data) => {
+                // if the scraping of the profile is completed
+                if (data.status.completed === true) {
+                  isFetchCompleted = true; // all fetch requests are completed
+                  const profilesFiltered = data.status.profiles.filter(
+                    (profile: Profile) => profile.age == age || profile.age == 0 // get profiles with matching ages or no ages shown (could be user)
+                  );
+                  if (profilesFiltered.length === 0) {
+                    setOpenDialog(false);
+                    toast({
+                      variant: "success",
+                      description: `${firstName}, it looks like your profile doesn't exist on these databrokers.`,
+                    });
+                    setLoading(false);
+                    setProgress(0); // reset progress bar
+                    setCurrentDatabroker(allDatabrokers[0]);
+                    return;
+                  } else {
+                    setFilteredProfiles(profilesFiltered);
+                    updateLocations(profilesFiltered);
+
+                    if (profilesFiltered.length === 1) {
+                      setHeading("We found 1 profile.");
+                    } else {
+                      setHeading(
+                        `We found ${profilesFiltered.length} profiles.`
+                      );
+                      if (profilesFiltered.length > 10) {
+                        setTooManyProfiles(true);
+                      }
+                    }
+                  }
+                  // stop polling and resolve the promise
+                  clearInterval(interval);
+                  resolve();
+                }
+              });
+          }, 5000);
+        });
+
+        // update progress bar
+        const delay = (ms: number) =>
+          new Promise((resolve) => setTimeout(resolve, ms));
+
+        const updateProgressBarPromise = (async () => {
+          const totalDelayTime = 40000; // 40 seconds
+          const delayTime = totalDelayTime / allDatabrokers.length;
+          for (let i = 0; i < allDatabrokers.length; i++) {
+            if (isFetchCompleted) {
+              break;
             }
+            await delay(delayTime);
+            setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
+            setCurrentDatabroker(`${allDatabrokers[i]}`);
           }
-        }
+        })();
+
+        // wait for pollingStatus to complete and updateProgressBarPromise
+        await Promise.all([pollingStatus, updateProgressBarPromise]);
       })
       .catch((error) => {
         console.error(error);
         setOpenDialog(false);
         toast({
           variant: "destructive",
-          description: `${firstName}, there was an error while scraping your profile. Please try again.`,
+          description: `${firstName}, there was an error while searching for your profile. Please try again.`,
         });
         setLoading(false);
         setProgress(0); // reset progress bar
@@ -153,24 +216,6 @@ export default function ProfileSearch() {
         return;
       });
 
-    // update progress bar
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    const updateProgressBarPromise = (async () => {
-      const totalDelayTime = 40000; // 40 seconds
-      const delayTime = totalDelayTime / allDatabrokers.length;
-      for (let i = 0; i < allDatabrokers.length; i++) {
-        if (isFetchCompleted) {
-          break;
-        }
-        await delay(delayTime);
-        setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
-        setCurrentDatabroker(`${allDatabrokers[i]}`);
-      }
-    })();
-
-    await Promise.all([fetchProfilesPromise, updateProgressBarPromise]);
     setLoading(false);
     setProgress(0); // reset progress bar
     setCurrentDatabroker(allDatabrokers[0]);
