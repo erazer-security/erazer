@@ -67,113 +67,50 @@ export default function RemovalsTableCard({
                   Removal Status
                 </TableHead>
                 <TableHead className="text-[#FFFFFF66]">Source</TableHead>
-                <TableHead className="text-[#FFFFFF66]">
+                <TableHead className="text-[#FFFFFF66] hidden md:table-cell">
                   Personal Information
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {profiles.map((profile: Profile, index: number) => (
-                <TableRow
-                  key={index}
-                  className="border-none transition-colors hover:bg-[#23242A]"
-                >
-                  <TableCell>
-                    <div
-                      className={`flex flex-row items-center ${
-                        profile.status === "Pending"
-                          ? "text-[#EFE3FF]"
-                          : "text-[#43BEBE]"
-                      }`}
-                    >
-                      <Image
-                        src={
+                <React.Fragment key={index}>
+                  <TableRow className="border-none transition-colors hover:bg-[#23242A]">
+                    <TableCell>
+                      <div
+                        className={`flex flex-row items-center ${
                           profile.status === "Pending"
-                            ? "/removalsTableCard/pendingDot.svg"
-                            : "/removalsTableCard/removedDot.svg"
-                        }
-                        alt="dot"
-                        width={16}
-                        height={16}
-                      />
-                      {profile.status}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-row items-center gap-1">
-                      {profile.website}{" "}
-                      <div className="hidden md:block">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Image
-                                src="/removalsTableCard/tooltip.svg"
-                                alt="Tooltip"
-                                width={16}
-                                height={16}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent className="w-[350px]">
-                              {whoisDatabrokers[profile.website]}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
+                            ? "text-[#EFE3FF]"
+                            : "text-[#43BEBE]"
+                        }`}
+                      >
+                        <Image
+                          src={
+                            profile.status === "Pending"
+                              ? "/removalsTableCard/pendingDot.svg"
+                              : "/removalsTableCard/removedDot.svg"
+                          }
+                          alt="dot"
+                          width={16}
+                          height={16}
+                        />
+                        {profile.status}
                       </div>
-                      <div className="block md:hidden">
-                        <Popover>
-                          <PopoverTrigger>
-                            <Image
-                              src="/removalsTableCard/tooltip.svg"
-                              alt="Tooltip"
-                              width={16}
-                              height={16}
-                            />
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[350px]">
-                            {whoisDatabrokers[profile.website]}
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="">
-                      {profile.profile.slice(0, 75)}...{" "}
-                      <div className="hidden md:block">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Image
-                                src="/removalsTableCard/tooltip.svg"
-                                alt="Tooltip"
-                                width={16}
-                                height={16}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent className="w-[350px]">
-                              {profile.profile}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                      <div className="block md:hidden">
-                        <Popover>
-                          <PopoverTrigger>
-                            <Image
-                              src="/removalsTableCard/tooltip.svg"
-                              alt="Tooltip"
-                              width={16}
-                              height={16}
-                            />
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[350px]">
-                            {profile.profile}
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
+                    </TableCell>
+                    <WebsiteCell profile={profile} />
+                    <ProfileCell
+                      profile={profile}
+                      className="hidden md:table-cell"
+                    />
+                  </TableRow>
+                  <TableRow className="border-none md:hidden transition-colors hover:bg-[#23242A]">
+                    <ProfileCell
+                      profile={profile}
+                      colSpan={2}
+                      className="pt-0"
+                    />
+                  </TableRow>
+                </React.Fragment>
               ))}
             </TableBody>
           </Table>
@@ -183,3 +120,89 @@ export default function RemovalsTableCard({
     </div>
   );
 }
+
+type ProfileCellProps = React.TdHTMLAttributes<HTMLTableCellElement> & {
+  profile: Profile;
+};
+
+const ProfileCell = ({ profile, ...tableCellProps }: ProfileCellProps) => {
+  return (
+    <TableCell {...tableCellProps}>
+      {profile.profile.slice(0, 75)}...{" "}
+      <div className="hidden md:block">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Image
+                src="/removalsTableCard/tooltip.svg"
+                alt="Tooltip"
+                width={16}
+                height={16}
+              />
+            </TooltipTrigger>
+            <TooltipContent className="w-[350px]">
+              {profile.profile}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="block md:hidden">
+        <Popover>
+          <PopoverTrigger>
+            <Image
+              src="/removalsTableCard/tooltip.svg"
+              alt="Tooltip"
+              width={16}
+              height={16}
+            />
+          </PopoverTrigger>
+          <PopoverContent className="w-[350px]">
+            {profile.profile}
+          </PopoverContent>
+        </Popover>
+      </div>
+    </TableCell>
+  );
+};
+
+const WebsiteCell = ({ profile }: ProfileCellProps) => {
+  return (
+    <TableCell>
+      <div className="flex items-center gap-1">
+        {profile.website}{" "}
+        <div className="hidden md:block shrink-0">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Image
+                  src="/removalsTableCard/tooltip.svg"
+                  alt="Tooltip"
+                  width={16}
+                  height={16}
+                />
+              </TooltipTrigger>
+              <TooltipContent className="w-[350px]">
+                {whoisDatabrokers[profile.website]}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <div className="block md:hidden shrink-0">
+          <Popover>
+            <PopoverTrigger>
+              <Image
+                src="/removalsTableCard/tooltip.svg"
+                alt="Tooltip"
+                width={16}
+                height={16}
+              />
+            </PopoverTrigger>
+            <PopoverContent className="w-[350px]">
+              {whoisDatabrokers[profile.website]}
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+    </TableCell>
+  );
+};
