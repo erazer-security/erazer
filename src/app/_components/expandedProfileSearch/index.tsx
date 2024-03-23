@@ -55,10 +55,11 @@ export default function ExpandedProfileSearch({
     setOpenDialog(true);
     setHeading(`Hi ${user.firstName}, we are searching for your phone number.`);
 
-    // Track when fetch request is completed to update progress bar
-    let isFetchCompleted: boolean = false;
+    let isFetchCompleted: boolean = false; // Track when fetch request is completed to update progress bar
+    let scriptId: string = ""; // Track the scriptId to check the status of the profile scraping
+
     // Fetch the profile, if it exists, from the server
-    const fetchProfilesPromise = fetch(
+    await fetch(
       process.env.NODE_ENV === "development"
         ? "http://localhost:5002/expanded-profiles"
         : "https://api.erazer.io/expanded-profiles",
@@ -79,7 +80,7 @@ export default function ExpandedProfileSearch({
           setOpenDialog(false);
           toast({
             variant: "destructive",
-            description: `${user.firstName}, there was an error while scraping your number. Please try again.`,
+            description: `${user.firstName}, there was an error while searching for your number. Please try again.`,
           });
           setLoading(false);
           setProgress(0); // reset progress bar
@@ -88,42 +89,95 @@ export default function ExpandedProfileSearch({
         }
         return response.json();
       })
-      .then((data) => {
-        isFetchCompleted = true; // all fetch requests are completed
-        if (data.profiles.length === 0) {
-          setOpenDialog(false);
-          toast({
-            variant: "success",
-            description: `${user.firstName}, it looks like your number doesn't exist on these databrokers.`,
-          });
-          setLoading(false);
-          setProgress(0); // reset progress bar
-          setCurrentDatabroker(allDatabrokers[0]);
-          return;
-        } else {
-          setFilteredProfiles(data.profiles);
-          setHeading(`We found ${data.profiles.length} phone numbers.`);
-        }
+      .then(async (data) => {
+        scriptId = data.scriptId; // the previous fetch request returns the scriptId
+
+        // Poll the server every 5 seconds to check the status of the profile scraping
+        const pollingStatus = new Promise<void>((resolve, reject) => {
+          const interval = setInterval(async () => {
+            await fetch(
+              process.env.NODE_ENV === "development"
+                ? `http://localhost:5002/script-status?scriptId=${scriptId}`
+                : `https://api.erazer.io/script-status?scriptId=${scriptId}`,
+              {
+                method: "GET",
+              }
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  setOpenDialog(false);
+                  toast({
+                    variant: "destructive",
+                    description: `${user.firstName}, there was an error while searching for your profile. Please try again.`,
+                  });
+                  setLoading(false);
+                  setProgress(0); // reset progress bar
+                  setCurrentDatabroker(allDatabrokers[0]);
+                  clearInterval(interval);
+                  reject(new Error("Error message"));
+                  return;
+                }
+                return response.json();
+              })
+              .then((data) => {
+                // if the scraping of the profile is completed
+                if (data.status.completed === true) {
+                  isFetchCompleted = true; // all fetch requests are completed
+                  if (data.status.profiles.length === 0) {
+                    setOpenDialog(false);
+                    toast({
+                      variant: "success",
+                      description: `${user.firstName}, it looks like your number doesn't exist on these databrokers.`,
+                    });
+                    setLoading(false);
+                    setProgress(0); // reset progress bar
+                    setCurrentDatabroker(allDatabrokers[0]);
+                  } else {
+                    setFilteredProfiles(data.status.profiles);
+                    setHeading(
+                      `We found ${data.status.profiles.length} phone number(s).`
+                    );
+                  }
+                  // stop polling and resolve the promise
+                  clearInterval(interval);
+                  resolve();
+                }
+              });
+          }, 5000);
+        });
+
+        // update progress bar
+        const delay = (ms: number) =>
+          new Promise((resolve) => setTimeout(resolve, ms));
+
+        const updateProgressBarPromise = (async () => {
+          const totalDelayTime = 10000; // 10 seconds
+          const delayTime = totalDelayTime / allDatabrokers.length;
+          for (let i = 0; i < allDatabrokers.length; i++) {
+            if (isFetchCompleted) {
+              break;
+            }
+            await delay(delayTime);
+            setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
+            setCurrentDatabroker(`${allDatabrokers[i]}`);
+          }
+        })();
+
+        await Promise.all([pollingStatus, updateProgressBarPromise]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setOpenDialog(false);
+        toast({
+          variant: "destructive",
+          description: `${user.firstName}, there was an error while searching for your number. Please try again.`,
+        });
+        setLoading(false);
+        setProgress(0); // reset progress bar
+        setCurrentDatabroker(allDatabrokers[0]);
+        return;
       });
 
-    // update progress bar
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    const updateProgressBarPromise = (async () => {
-      const totalDelayTime = 10000; // 10 seconds
-      const delayTime = totalDelayTime / allDatabrokers.length;
-      for (let i = 0; i < allDatabrokers.length; i++) {
-        if (isFetchCompleted) {
-          break;
-        }
-        await delay(delayTime);
-        setProgress(((i + 1) / allDatabrokers.length) * 97); // set max progress to 97%
-        setCurrentDatabroker(`${allDatabrokers[i]}`);
-      }
-    })();
-
-    await Promise.all([fetchProfilesPromise, updateProgressBarPromise]);
     setLoading(false);
     setProgress(0); // reset progress bar
     setCurrentDatabroker(allDatabrokers[0]);
@@ -237,6 +291,7 @@ export default function ExpandedProfileSearch({
               selectedProfiles={selectedProfiles}
               handleProfileAdd={handleProfileAdd}
               handleProfileRemove={handleProfileRemove}
+              databrokers={advancedDatabrokers}
             />
             <button
               onClick={() => updateDBProfilesMutation.mutateAsync()}

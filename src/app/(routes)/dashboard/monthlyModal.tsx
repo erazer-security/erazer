@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { type CarouselApi } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
 import { User } from "@/app/types/User";
+import { databrokers } from "@/app/types/Databrokers";
 import getAllProfiles from "./getAllProfiles";
 
 interface MonthlyModalProps {
@@ -194,6 +195,7 @@ export default function MonthlyModal({
             selectedProfiles={selectedProfiles}
             handleProfileAdd={handleProfileAdd}
             handleProfileRemove={handleProfileRemove}
+            databrokers={databrokers}
           />
           <button
             onClick={() => updateDBProfilesMutation.mutateAsync()}

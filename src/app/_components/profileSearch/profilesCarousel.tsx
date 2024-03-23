@@ -9,7 +9,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Profile } from "@/app/types/Profile";
-import { databrokers } from "@/app/types/Databrokers";
 
 interface ProfilesCarouselProps {
   setCarouselApi: (api: CarouselApi) => void;
@@ -17,6 +16,7 @@ interface ProfilesCarouselProps {
   selectedProfiles: Profile[];
   handleProfileAdd: (profile: Profile) => void;
   handleProfileRemove: (profile: Profile) => void;
+  databrokers: { [key: string]: string[] };
 }
 
 export default function ProfilesCarousel({
@@ -25,6 +25,7 @@ export default function ProfilesCarousel({
   selectedProfiles,
   handleProfileAdd,
   handleProfileRemove,
+  databrokers,
 }: ProfilesCarouselProps) {
   return (
     <>

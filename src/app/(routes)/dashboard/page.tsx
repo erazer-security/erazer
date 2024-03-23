@@ -75,7 +75,8 @@ export default function Dashboard() {
     if (
       user &&
       user.scannedProfiles.length === 0 &&
-      user.removedProfiles.length === 0
+      user.removedProfiles.length === 0 &&
+      sessionStorage.getItem("selectedProfiles")
     ) {
       let allProfiles = getAllProfiles(
         JSON.parse(sessionStorage.getItem("selectedProfiles")!)
@@ -130,10 +131,10 @@ export default function Dashboard() {
             filteredProfiles: user.scannedProfiles,
           }),
         }
-      ).catch(error => console.log(error));
+      ).catch((error) => console.log(error));
       // update progress bar
       const delay = (ms: number) =>
-        new Promise(resolve => setTimeout(resolve, ms));
+        new Promise((resolve) => setTimeout(resolve, ms));
       const delayTime = 2000; // 2 seconds per profile
       for (let i = 0; i < numScannedProfiles; i++) {
         await delay(delayTime);
@@ -228,10 +229,7 @@ export default function Dashboard() {
               percentage={percentage}
               removalProgressMessage={removalProgressMessage}
             />
-            <EmailBreachesCard
-              breaches={user.breaches}
-              className=""
-            />
+            <EmailBreachesCard breaches={user.breaches} className="" />
             <RemovalsTableCard
               profiles={[...user.scannedProfiles, ...user.removedProfiles]}
               className="md:col-span-2"
@@ -274,10 +272,7 @@ export default function Dashboard() {
                 percentage={percentage}
                 removalProgressMessage={removalProgressMessage}
               />
-              <EmailBreachesCard
-                breaches={user.breaches}
-                className=""
-              />
+              <EmailBreachesCard breaches={user.breaches} className="" />
             </div>
           </div>
         </>
