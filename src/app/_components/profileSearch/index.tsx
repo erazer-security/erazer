@@ -376,6 +376,7 @@ export default function ProfileSearch() {
               selectedProfiles={selectedProfiles}
               handleProfileAdd={handleProfileAdd}
               handleProfileRemove={handleProfileRemove}
+              databrokers={databrokers}
             />
             <button
               onClick={navigateResults}
