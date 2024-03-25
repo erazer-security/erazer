@@ -18,12 +18,12 @@ export default function TooManyProfiles({
 }: TooManyProfilesProps) {
   return (
     <div className="flex flex-col gap-5">
-      <p className="w-[275px] md:w-[350px] lg:w-[896px] text-[#a7a7a7] text-base text-left font-normal leading-[20.8px] tracking-[0.32px]">
+      <p className="w-[275px] md:w-[350px] lg:w-auto text-[#a7a7a7] text-base text-left font-normal leading-[20.8px] tracking-[0.32px]">
         This may be a lot of profiles to go through. If you&apos;d like, you can
         provide your city to narrow down the results. Or you can simply just go
         through all of them.
       </p>
-      <div className="relative z-50 w-fit flex flex-row justify-between gap-5 p-2 rounded-[40px] border-[1px] border-solid border-[#31343D] backdrop-blur-xl">
+      <div className="relative z-50 w-full md:max-w-80 flex flex-row justify-between gap-5 p-2 rounded-[40px] border-[1px] border-solid border-[#31343D] backdrop-blur-xl">
         <input
           autoComplete="off"
           type="text"

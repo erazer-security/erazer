@@ -331,7 +331,7 @@ export default function ProfileSearch() {
       />
       <Dialog open={openDialog}>
         {loading ? (
-          <DialogContent className="justify-center px-10 py-14 outline-none">
+          <DialogContent className="justify-center px-4 sm:px-6 md:px-10 py-14 outline-none">
             <DialogHeader className="gap-5">
               <DialogTitle className="text-center text-pretty">
                 {heading}
@@ -344,7 +344,7 @@ export default function ProfileSearch() {
             </p>
           </DialogContent>
         ) : (
-          <DialogContent className="p-10 lg:px-20 lg:py-14">
+          <DialogContent className="p-4 sm:px-6 md:px-10 lg:px-20 lg:py-14">
             <DialogHeader>
               <div className="w-full flex flex-col gap-4 lg:gap-5">
                 <div className="w-full flex flex-row">
