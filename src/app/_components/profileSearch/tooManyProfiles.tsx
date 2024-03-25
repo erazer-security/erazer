@@ -47,38 +47,37 @@ export default function TooManyProfiles({
             Search
           </button>
         </Popover.Anchor>
-        <Popover.Portal>
-          <Popover.Content
-            className="z-[51]"
-            align="start"
-            sideOffset={8}
-            onOpenAutoFocus={(event) => {
-              // Prevent the input from losing focus when the popover opens
-              // @see https://www.radix-ui.com/primitives/docs/components/popover#content
-              event.preventDefault();
-            }}
-          >
-            {showSuggestedLocations && (
-              <ul className="w-fit border border-[#31343D] rounded-3xl bg-[#16171F] p-5 top-16 left-0 empty:hidden">
-                {locations
-                  .filter((location: string) => location.includes(userCity))
-                  .slice(0, 10)
-                  .map((location: string, index: number) => (
-                    <li
-                      key={index}
-                      className="text-left rounded-[4px] hover:bg-slate-400 hover:cursor-pointer"
-                      onClick={() => {
-                        setUserCity(location);
-                        setShowSuggestedLocations(false);
-                      }}
-                    >
-                      {location}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </Popover.Content>
-        </Popover.Portal>
+
+        <Popover.Content
+          className="z-[1]"
+          align="start"
+          sideOffset={8}
+          onOpenAutoFocus={(event) => {
+            // Prevent the input from losing focus when the popover opens
+            // @see https://www.radix-ui.com/primitives/docs/components/popover#content
+            event.preventDefault();
+          }}
+        >
+          {showSuggestedLocations && (
+            <ul className="w-fit border border-[#31343D] rounded-3xl bg-[#16171F] p-5 top-16 left-0 empty:hidden">
+              {locations
+                .filter((location: string) => location.includes(userCity))
+                .slice(0, 10)
+                .map((location: string, index: number) => (
+                  <li
+                    key={index}
+                    className="text-left rounded-[4px] hover:bg-slate-400 hover:cursor-pointer"
+                    onClick={() => {
+                      setUserCity(location);
+                      setShowSuggestedLocations(false);
+                    }}
+                  >
+                    {location}
+                  </li>
+                ))}
+            </ul>
+          )}
+        </Popover.Content>
       </Popover.Root>
     </div>
   );
