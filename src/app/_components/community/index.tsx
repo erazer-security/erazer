@@ -39,6 +39,12 @@ export default function Community() {
         });
         form.reset();
         return;
+      } else {
+        toast({
+          variant: "destructive",
+          description: "There was an error adding you to the waitlist.",
+        });
+        return;
       }
     });
   };
