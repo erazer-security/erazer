@@ -1,25 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
+import { supabaseServer } from "@/lib/supabase/server";
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
+  const supabase = supabaseServer();
 
-  const msg = {
-    to: "support@erazer.io",
-    from: "support@erazer.io",
-    subject: `Add ${email} to the waitlist`,
-    text: `Please add ${email} to the waitlist`,
-  };
+  const { data, error } = await supabase
+    .from("waitlist")
+    .insert([{ email: email }]);
 
-  try {
-    await sgMail.send(msg);
+  if (error) {
+    console.error(error);
+    return NextResponse.error();
+  } else {
     return NextResponse.json(
       { message: "Added to the waitlist" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error(error);
-    return NextResponse.error();
   }
 }
