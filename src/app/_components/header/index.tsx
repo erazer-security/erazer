@@ -52,17 +52,20 @@ export default function Header({ className }: HeaderProps) {
 
   // Check if page user scrolled 75px (roughly the height of header) to update the background color of the header
   useEffect(() => {
-    if (typeof window != "undefined") {
-      const changeColor = () => {
-        if (window.scrollY >= 75) {
-          setTransparent(true);
-        } else {
-          setTransparent(false);
-        }
-      };
-      window.addEventListener("scroll", changeColor);
-    }
-  });
+    const changeColor = () => {
+      if (window.scrollY >= 75) {
+        setTransparent(true);
+      } else {
+        setTransparent(false);
+      }
+    };
+
+    window.addEventListener("scroll", changeColor);
+
+    return () => {
+      window.removeEventListener("scroll", changeColor);
+    };
+  }, []);
 
   const HeaderRoutes: string[] = ["The Process", "About Us", "Pricing"];
   return (

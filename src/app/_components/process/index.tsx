@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Process() {
   return (
-    <div className="mt-32 lg:mt-56">
+    <div className="pt-16 lg:pt-28">
       <h1 className="text-center text-[50px] md:text-[77px] font-medium leading-10 tracking-tighter">
         The Process
       </h1>

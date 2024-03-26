@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-pt-20">
       <GoogleAnalytics gaId="G-GHPRYNE6WR" />
       <Script id="hotjar">
         {`(function (h, o, t, j, a, r) {
