@@ -23,8 +23,9 @@ export default function About() {
               Nayeemur Rahman
             </h4>
             <p className="text-[#A7A7A7] text-base font-normal leading-[20.8px] tracking-[0.32px]">
-              MIT | Engineering Lead | Previously Software Engineering at Angi |
-              Previously Cybersecurity at IAC | ML Research at MIT CSAIL
+              Education at MIT | Engineering Lead | Previously Software
+              Engineering at Angi | Previously Cybersecurity at IAC | ML
+              Research at MIT CSAIL
             </p>
           </div>
         </div>
@@ -41,9 +42,9 @@ export default function About() {
               Gazi Rahman
             </h4>
             <p className="text-[#A7A7A7] text-base font-normal leading-[20.8px] tracking-[0.32px]">
-              Wesleyan University | Al/ML Lead | Audiovisual ML at Wesleyan |
-              Previously ML at Dotdash Meredith | Previously Product Development
-              at Apollo Global Management
+              Education at Wesleyan University | Al/ML Lead | Audiovisual ML at
+              Wesleyan | Previously ML at Dotdash Meredith | Previously Product
+              Development at Apollo Global Management
             </p>
           </div>
         </div>
@@ -54,10 +55,10 @@ export default function About() {
               Sadaf Khan
             </h4>
             <p className="text-[#A7A7A7] text-base font-normal leading-[20.8px] tracking-[0.32px]">
-              Harvard University | Operations Lead | Previously Product
-              Development at Oar Health | Previously Governmental Relations at
-              IAC | Developed online privacy policy strategies with US State
-              Department and EU
+              Education at Harvard University | Operations Lead | Previously
+              Product Development at Oar Health | Previously Governmental
+              Relations at IAC | Developed online privacy policy strategies with
+              US State Department and EU
             </p>
           </div>
         </div>
